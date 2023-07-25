@@ -99,10 +99,10 @@ export default{
             reporting_manager: this.reporting_manager
         }
         let result = await this.$axios.post(url,edata);
-        let furl = "http://127.0.0.1:8000/uploadexppdf"
+        let furl = "http://127.0.0.1:8000/uploadfile/S3"
         let formdata= new FormData()
             formdata.append('email',this.email)
-            formdata.append('empid',this.empid)
+            formdata.append('regno',this.empid)
             formdata.append('file',this.file)
             let res = await this.$axios.post(furl,formdata,{ headers : {'Content-Type': 'application/json',}});
             if (result.data === res.data){

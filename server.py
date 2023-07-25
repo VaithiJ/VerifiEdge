@@ -12,11 +12,24 @@ import pandas as pd
 import os
 import configparser
 from graph import Graph
+import key_config as keys
+import boto3
+#import key_config as keys
+
 
 client = MongoClient('mongodb://localhost:27017/')
 
+##############################S3 bucket #############################
+s3 = boto3.client('s3',
+                    aws_access_key_id = keys.ACCESS_KEY_ID,
+                    aws_secret_access_key = keys.ACCESS_SECRET_KEY,
+                    )
 
+BUCKET_NAME = 'verifiedge'
 
+origins = [
+    "http://localhost:3000",
+]
 
 
 ##############################################################################################
@@ -29,6 +42,94 @@ app.add_middleware(
     allow_methods=['*'],
     allow_headers=['*']
     )
+
+######################## Upload Files to S3 Bucket #########################
+
+def upload_file_to_s3(file, email, regno):
+
+
+    file_key = f"{email}/{regno}/{file.filename}"
+
+    # Upload the file to S3 bucket
+    s3.upload_fileobj(file.file, BUCKET_NAME, file_key)
+
+@app.post("/uploadfile/S3")
+async def upload(email : str = Form(), regno : str = Form(), file: UploadFile = File(...)):
+    
+    try:
+        # Create the user folder if it doesn't exist
+        user_folder = f"{email}/{regno}"
+        if not os.path.exists(user_folder):
+            os.makedirs(user_folder)
+
+        upload_file_to_s3(file, email, regno)
+
+        return True
+    except Exception as e:
+        print(str(e))
+        return False
+
+############################# Get Files from s3 #########################
+def read_s3_document(email, regno):
+
+
+    file_key = f"{email}/{regno}"
+
+    try:
+        response = s3.get_object(Bucket=BUCKET_NAME, Key=file_key)
+        content = response['Body'].read().decode("utf-8")
+        return content
+    except Exception as e:
+        return False
+
+
+@app.get("/show-s3-document/")
+async def show_s3_document(email: str, regno: str):
+    try:
+        document_content = read_s3_document(email, regno)
+        return {
+            "user_email": email,
+            "sslc_regno": regno,
+            "document_content": document_content
+        }
+    except HTTPException as e:
+        raise e
+    except Exception as e:
+        raise False
+
+
+
+########################### Check Whether file exist on S3 Bucket ##############################
+def check_s3_file_exists(email, regno):
+
+
+    file_key = f"{email}/{regno}"
+
+    try:
+        # Check if the file exists
+        s3.head_object(Bucket=BUCKET_NAME, Key=file_key)
+        return True  # File exists
+    except s3.exceptions.ClientError as e:
+        if e.response['Error']['Code'] == "404":
+            return False  # File doesn't exist
+        else:
+            raise HTTPException(status_code=500, detail="Error checking S3 file.")
+
+@app.get("/check-s3-file/")
+async def check_s3_file(email: str, regno: str):
+    try:
+        file_exists = check_s3_file_exists(email, regno)
+        return {
+            "user_folder": email,
+            "file_exists": file_exists
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+
+
+
 ######################## Test API #############################################################
 @app.get('/')
 async def get():
@@ -2135,3 +2236,7 @@ def get_subscription_by_email(email: str):
     else:
         return {"message": "No subscriptions found for the provided email"}
     
+
+
+
+#################################################################################
