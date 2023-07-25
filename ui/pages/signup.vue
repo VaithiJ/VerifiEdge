@@ -8,17 +8,17 @@
             <v-col>
                 <v-row>
                     <v-col>
-                        <v-text-field required v-model="user.name" label="Full Name" :rules="[rules.required, rules.name]"></v-text-field>
+                        <v-text-field required v-model="user.name" prepend-icon="mdi-account" label="Full Name" :rules="[rules.required, rules.name]"></v-text-field>
                     </v-col>
                 </v-row>
                 <v-row>
                     <v-col>
-                        <v-text-field v-model="user.email" label="Personal Email" :rules="[rules.required,rules.email]"></v-text-field>
+                        <v-text-field v-model="user.email" prepend-icon="mdi-email" label="Personal Email" :rules="[rules.required,rules.email]"></v-text-field>
                     </v-col>
                 </v-row>
                 <v-row>
                     <v-col>
-                        <v-text-field v-model="user.password" label="Password" type="password" :rules="[rules.required,rules.min]"></v-text-field>
+                        <v-text-field v-model="user.password" prepend-icon="mdi-lock" label="Password" type="password" :rules="[rules.required,rules.min]"></v-text-field>
                     </v-col>
                 </v-row>
             </v-col>
@@ -38,7 +38,7 @@
                             <v-text-field label ="Enter OTP Here" v-model="utop"></v-text-field>
                         </v-row>
                         <v-row>
-                            <v-btn large block color="indigo darken-3" style="color:white; width:30%" @click="signup()" class="button">signup</v-btn>
+                            <v-btn large block color="indigo darken-3" @click="signup()" class="button">signup</v-btn>
                         </v-row>
                     </v-col>
                 </v-form>

@@ -12,15 +12,15 @@
                     <br/>
                     <v-col>
                         <v-row>
-                            <v-text-field v-model="signindata.email"  :rules="[rules.email,rules.required]" label=" Personal Email "></v-text-field>
+                            <v-text-field v-model="signindata.email" prepend-icon="mdi-email"  :rules="[rules.email,rules.required]" label=" Personal Email "></v-text-field>
                         </v-row>
                         <v-row>
-                            <v-text-field v-model="signindata.password"  type="password" :rules="[rules.required,rules.min]" label="Password"></v-text-field>
+                            <v-text-field v-model="signindata.password" prepend-icon="mdi-lock"  type="password" :rules="[rules.required,rules.min]" label="Password"></v-text-field>
                         </v-row>
                         <br>
                         <v-row>
                             <v-container class="text-center">
-                                <v-btn color="indigo darken-3" style="color:white; width:30%" @click="signin()"> Sign In</v-btn>
+                                <v-btn text  color="indigo lighten-1" @click="signin()"> Sign In</v-btn>
                             </v-container>
                         </v-row>
                     </v-col>

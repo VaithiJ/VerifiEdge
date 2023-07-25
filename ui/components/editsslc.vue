@@ -5,10 +5,10 @@
       <h3 class="text-center"> SSLC Details</h3>
       <v-alert border="top" color="red lighten-1" dismissible  v-if="fail"> Data insertion failed</v-alert>
       <v-alert class="success" dismissible v-if="success"> Data insertion succeeded</v-alert>
-      <v-text-field label="Registration Number" v-model="sslc_regno" :rules="[rules.required,rules.sslc_regno]"></v-text-field>
-      <v-text-field label="Marks in %" v-model="sslc_marks" :rules="[rules.required,rules.percents]"></v-text-field>
-      <v-text-field label="School" v-model="sslc_school" :rules="[rules.required,rules.sslc_school]"></v-text-field>
-     <v-text-field label="Board" v-model="sslc_board" :rules="[rules.required,rules.sslc_board]"></v-text-field>
+      <v-text-field label="Registration Number" v-model="sslc_regno" prepend-icon="mdi-notebook" :rules="[rules.required,rules.sslc_regno]"></v-text-field>
+      <v-text-field label="Marks in %" v-model="sslc_marks" prepend-icon="mdi-brightness-percent" :rules="[rules.required,rules.percents]"></v-text-field>
+      <v-text-field label="School" v-model="sslc_school" prepend-icon="mdi-town-hall" :rules="[rules.required,rules.sslc_school]"></v-text-field>
+     <v-text-field label="Board" v-model="sslc_board" prepend-icon="mdi-school" :rules="[rules.required,rules.sslc_board]"></v-text-field>
      <v-select
      v-model="sslc_passout"
      :items="sslc_passout"
@@ -41,7 +41,6 @@ export default{
       email : '',
       sslc_marks : '',
       sslc_school : '',
-      sslc_passout: '',
       success: null,
       name : '',
       fail : null,

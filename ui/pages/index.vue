@@ -21,18 +21,28 @@
           data-aos="slide-up"
              data-aos-duration="800"
             data-aos-delay='100'>
-                <h1> A Platform  <br> to store your </h1>
+                <h1> What is  <br> VERIFI EDGE ? </h1>
              <div>
+              A Platform to store your
+              <br>
               Identity,
                <br>
+              
               Educational Qualification, 
+
               <br>
               and Work Experience,
               <br>
               on a private permissioned blockchain networked named VerifiChain.
+
+       
              </div>
           </div>
+          
+  
       </section>
+  
+
     <!--<v-row>
         <v-col>
           <v-container class="text-center">
@@ -53,6 +63,9 @@
                 :aspect-ratio="4/3" src="https://studentidentify.com/img/illustration-1.png"/>
             </v-col>
     </v-row>-->
+
+      
+
           <section class='guide3'>
             <div class='guide2Description'
             data-aos="slide-down"
@@ -82,6 +95,8 @@
               data-aos-delay='100'
               />
           </section>
+   
+
       <section id="download">
         <v-container class="text-center">
           <br>
@@ -178,7 +193,7 @@ export default {
 </script>
 <style>
 #download {
-  background-image: url("https://i.ibb.co/CmWvbDH/asdas.png");
+  background-image: url("https://i.ibb.co/DYnMj7j/kwjdlk.png");
   background-attachment: fixed;
   background-repeat: no-repeat;
   background-size: cover;

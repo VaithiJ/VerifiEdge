@@ -3,11 +3,11 @@
       <v-form>
           <h4 class="text-center"> PG Details</h4>
           <v-alert border="top" color="red lighten-1" dismissible  v-if="fail"> Data insertion failed</v-alert>
-          <v-text-field label="Registration Number" v-model="pg_regno" :rules="[rules.required,rules.pg_regno]"></v-text-field>
-          <v-text-field label="Specialization" v-model="pg_specialization" :rules="[rules.required,rules.pg_specialization]"></v-text-field>
-          <v-text-field label="College" v-model="pg_college" :rules="[rules.required,rules.pg_college]"></v-text-field>
-          <v-text-field label="Marks in percent (e.g. 80)" v-model="pg_marks" :rules="[rules.required,rules.percents]"></v-text-field>
-          <v-text-field label="University" v-model="pg_university" :rules="[rules.required,rules.pg_university]"></v-text-field>
+          <v-text-field label="Registration Number" v-model="pg_regno" prepend-icon="mdi-notebook" :rules="[rules.required,rules.pg_regno]"></v-text-field>
+          <v-text-field label="Marks in %" v-model="pg_marks" prepend-icon="mdi-brightness-percent" :rules="[rules.required,rules.percents]"></v-text-field>
+          <v-text-field label="Specialization" v-model="pg_specialization" prepend-icon="mdi-school" :rules="[rules.required,rules.pg_specialization]"></v-text-field>
+          <v-text-field label="College" v-model="pg_college" prepend-icon="mdi-town-hall" :rules="[rules.required,rules.pg_college]"></v-text-field>
+          <v-text-field label="University" v-model="pg_university" prepend-icon="mdi-school" :rules="[rules.required,rules.pg_university]"></v-text-field>
           <v-select
           v-model="pg_passout"
           :items="pg_passout"
@@ -43,7 +43,6 @@ export default{
       pg_specialization : '',
       pg_college:'',
       pg_marks:'',
-      pg_passout: '',
       pg_university:'',
       rules : {
         required: (v) => !!v || "Required",

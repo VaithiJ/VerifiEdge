@@ -8,18 +8,18 @@
             <v-row>
             </v-row>
             <v-row>
-              <v-text-field  v-model="company_mail" :rules="[rules.required,rules.email]" label ="Company Email"></v-text-field>
+              <v-text-field  v-model="company_mail" prepend-icon="mdi-email" :rules="[rules.required,rules.email]" label ="Company Email"></v-text-field>
             </v-row>
             <v-row>
             </v-row>
             <v-row>
-              <v-text-field v-model="password" type="password" :rules="[rules.required,rules.min]" label="Password"></v-text-field>
+              <v-text-field v-model="password" type="password" prepend-icon="mdi-lock" :rules="[rules.required,rules.min]" label="Password"></v-text-field>
             </v-row>
             <br>
 
 
             <v-container class="text-center">
-                <v-btn size="30%" @click="hrlogin()" color="indigo darken-3" style="color:white; width:30%">Signin</v-btn>
+                <v-btn text @click="hrlogin()" color="indigo darken-2" width="200px">Signin</v-btn>
             </v-container>
         </v-form>
     </v-container>
