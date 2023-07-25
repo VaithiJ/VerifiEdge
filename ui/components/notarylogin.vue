@@ -6,14 +6,14 @@
             <br><br>
             <v-alert border="top" color="red lighten-1" dismissible  v-if="fail"> Data insertion failed</v-alert>
             <v-row>
-              <v-text-field v-model="email" :rules="[rules.required,rules.email]" label ="Admin Email "></v-text-field>
+              <v-text-field v-model="email" prepend-icon="mdi-email" :rules="[rules.required,rules.email]" label ="Admin Email "></v-text-field>
             </v-row>
             <v-row>
-              <v-text-field  v-model="password" type="password" :rules="[rules.required,rules.min]" label="Password"></v-text-field>
+              <v-text-field  v-model="password" prepend-icon="mdi-lock" type="password" :rules="[rules.required,rules.min]" label="Password"></v-text-field>
             </v-row>
             <br>
             <v-container class="text-center">
-                <v-btn size="30%" @click="login()" color="indigo darken-3" style="color:white; width:30%">Signin</v-btn>
+                <v-btn text @click="login()" color="indigo darken-2" width="200px">Signin</v-btn>
             </v-container>
         </v-form>
     </v-container>

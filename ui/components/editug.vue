@@ -3,11 +3,11 @@
       <v-form>
           <h4 class="text-center"> UG Details</h4>
           <v-alert border="top" color="red lighten-1" dismissible  v-if="fail"> Data insertion failed</v-alert>
-          <v-text-field label="Registration Number" v-model="ug_regno" :rules="[rules.required,rules.ug_regno]"></v-text-field>
-          <v-text-field label="Specialization" v-model="ug_specialization" :rules="[rules.required,rules.ug_specialization]"></v-text-field>
-          <v-text-field label="College" v-model="ug_college" :rules="[rules.required,ug_college]"></v-text-field>
-          <v-text-field label="Marks in percent (e.g. 80)" v-model="ug_marks" :rules="[rules.required,rules.percents]"></v-text-field>
-          <v-text-field label="University" v-model="ug_university" :rules="[rules.required,rules.ug_university]"></v-text-field>
+          <v-text-field label="Registration Number" v-model="ug_regno" prepend-icon="mdi-notebook" :rules="[rules.required,rules.ug_regno]"></v-text-field>
+          <v-text-field label="Marks in percent (e.g. 80)" v-model="ug_marks" prepend-icon="mdi-brightness-percent" :rules="[rules.required,rules.percents]"></v-text-field>
+          <v-text-field label="Specialization" v-model="ug_specialization" prepend-icon="mdi-school" :rules="[rules.required,rules.ug_specialization]"></v-text-field>
+          <v-text-field label="College" v-model="ug_college" prepend-icon="mdi-town-hall" :rules="[rules.required,rules.ug_college]"></v-text-field>
+          <v-text-field label="University" v-model="ug_university" prepend-icon="mdi-school" :rules="[rules.required,rules.ug_university]"></v-text-field>
           <v-select
           v-model="ug_passout"
           :items="ug_passout"
@@ -42,7 +42,6 @@ export default{
       ug_specialization : '',
       ug_college:'',
       ug_marks:'',
-      ug_passout: '',
       ug_university:'',
       rules : {
         required: (v) => !!v || "Required",

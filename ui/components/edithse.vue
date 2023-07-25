@@ -3,10 +3,10 @@
       <v-form >
           <h4 class="text-center"> HSE Details</h4>
           <v-alert border="top" color="red lighten-1" dismissible  v-if="fail"> Data insertion failed</v-alert>
-          <v-text-field label="Registration Number" v-model="hse_regno" :rules="[rules.required,rules.hse_regno]"></v-text-field>
-          <v-text-field label="Marks in Percents" v-model="hse_marks" :rules="[rules.required,rules.percents]"></v-text-field>
-          <v-text-field label="School" v-model="hse_school" :rules="[rules.required,rules.hse_school]"></v-text-field>
-          <v-text-field label="Board" v-model="hse_board" :rules="[rules.required,rules.hse_board]"></v-text-field>
+          <v-text-field label="Registration Number" v-model="hse_regno" prepend-icon="mdi-notebook" :rules="[rules.required,rules.hse_regno]"></v-text-field>
+          <v-text-field label="Marks in Percents" v-model="hse_marks" prepend-icon="mdi-brightness-percent" :rules="[rules.required,rules.percents]"></v-text-field>
+          <v-text-field label="School" v-model="hse_school" prepend-icon="mdi-town-hall" :rules="[rules.required,rules.hse_school]"></v-text-field>
+          <v-text-field label="Board" v-model="hse_board" prepend-icon="mdi-school" :rules="[rules.required,rules.hse_board]"></v-text-field>
           <v-select
           v-model="hse_passout"
           :items="hse_passout"
@@ -37,7 +37,6 @@ export default{
       hse_regno : "",
       hse_marks : "",
       email: "",
-      hse_passout: '',
       hse_school : '',
       fail: null,
       hse_board : '',

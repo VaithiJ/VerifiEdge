@@ -5,11 +5,11 @@
         <h3 class="text-center"> SSLC Details</h3>
         <v-alert border="top" color="red lighten-1" dismissible  v-if="fail"> Data insertion failed</v-alert>
         <v-alert class="success" dismissible v-if="success"> Data insertion succeeded</v-alert>
-        <v-text-field label="Registration Number" v-model="sslc_regno" :rules="[rules.required,rules.sslc_regno]"></v-text-field>
-        <v-text-field label="Marks in %" v-model="sslc_marks" :rules="[rules.required,rules.percents]"></v-text-field>
-        <v-text-field label="School" v-model="sslc_school" :rules="[rules.required,rules.sslc_school]"></v-text-field>
-        <v-text-field label="Board" v-model="sslc_board" :rules="[rules.required,rules.sslc_board]"></v-text-field>
-        <v-select
+        <v-text-field label="Registration Number" v-model="sslc_regno" prepend-icon="mdi-notebook" :rules="[rules.required,rules.sslc_regno]"></v-text-field>
+        <v-text-field label="Marks in %" v-model="sslc_marks" prepend-icon="mdi-brightness-percent" :rules="[rules.required,rules.percents]"></v-text-field>
+        <v-text-field label="School" v-model="sslc_school" prepend-icon="mdi-town-hall" :rules="[rules.required,rules.sslc_school]"></v-text-field>
+        <v-text-field label="Board" v-model="sslc_board" prepend-icon="mdi-school" :rules="[rules.required,rules.sslc_board]"></v-text-field>
+       <v-select
         v-model="sslc_passout"
         :items="sslc_passout"
         label="Year of Completion"
@@ -28,7 +28,7 @@ export default{
     name: "sslc",
     async mounted(){
         var url ='http://127.0.0.1:8000/user'
-        this.generateYearRange();
+        this.generatesslc_passout();
         this.email= await this.$storage.getUniversal('Email');
         await this.$axios.get(url,{params:{email : this.email}}).then(res=>{
             this.name = res.data.name
@@ -42,7 +42,6 @@ export default{
         sslc_marks : "",
         sslc_school : "",
         success: null,
-        sslc_passout : "",
         name : "",
         fail : null,
         sslc_board : "",
@@ -57,6 +56,9 @@ export default{
         },
         sslc_passout: [],
     }),
+    created() {
+  this.sslc_passout = this.generatesslc_passout();
+    },
     methods:{
         async fileselect(event){
       this.file=event
@@ -86,14 +88,18 @@ export default{
                 this.fail= true
             }
         },
-        generateYearRange() {
-      const currentYear = new Date().getFullYear();
-      const startYear = currentYear - 50;
+generatesslc_passout() {
+  const currentYear = new Date().getFullYear();
+  const startYear = currentYear - 50;
+  const sslc_passout = [];
 
-      for (let year = currentYear; year >= startYear; year--) {
-        this.sslc_passout.push(year);
-      }
-    },
+  for (let year = currentYear; year >= startYear; year--) {
+    sslc_passout.push(year);
+  }
+
+  return sslc_passout;
+}
+
     }
 
 }

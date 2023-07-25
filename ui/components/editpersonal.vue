@@ -5,7 +5,7 @@
       <br />
       <h3 class="text-center">Personal Data</h3>
       <br />
-      <v-text-field label="Employee ID" v-model="empid" :rules="[rules.required, rules.alphnum]"></v-text-field>
+      <v-text-field label="Employee ID" v-model="empid" prepend-icon="mdi-notebook" :rules="[rules.required, rules.alphnum]"></v-text-field>
       <v-menu v-model="menu" :close-on-content-click="false" :nudge-right="40" :return-value.sync="doj" transition="scale-transition" offset-y min-width="auto">
         <template v-slot:activator="{ on }">
           <v-text-field v-model="Doj" prepend-icon="mdi-calendar" label="Date of Join (Current Company)"  readonly v-on="on"></v-text-field>
@@ -16,13 +16,13 @@
           <v-btn text color="primary" @click="saveDate()">OK</v-btn>
         </v-date-picker>
       </v-menu>
-      <v-text-field label="Company Name" v-model="company" :rules="[rules.required,rules.company]"></v-text-field>
-      <v-text-field label="Designation" v-model="designation" :rules="[rules.required, rules.designation]"></v-text-field>
-      <v-text-field label="Company Email" v-model="company_email" :rules="[rules.required, rules.email]"></v-text-field>
-      <v-text-field label="Mobile Number" v-model="mob" :rules="[rules.required, rules.mob]"></v-text-field>
-      <v-text-field label="Aadhaar" v-model="aadhaar" :rules="[rules.required, rules.aadhaar]"></v-text-field>
-      <v-text-field label="PAN" v-model="pan" :rules="[rules.required, rules.pan]"></v-text-field>
-      <v-text-field label="Passport" v-model="passport" :rules="[rules.required,rules.passport]"></v-text-field>
+      <v-text-field label="Company Name" v-model="company" prepend-icon="mdi-domain" :rules="[rules.required,rules.company]"></v-text-field>
+      <v-text-field label="Designation" v-model="designation" prepend-icon="mdi-certificate" :rules="[rules.required, rules.designation]"></v-text-field>
+      <v-text-field label="Company Email" v-model="company_email" prepend-icon="mdi-email" :rules="[rules.required, rules.email]"></v-text-field>
+      <v-text-field label="Mobile Number" v-model="mob" prepend-icon="mdi-phone" :rules="[rules.required, rules.mob]"></v-text-field>
+      <v-text-field label="Aadhaar" v-model="aadhaar" prepend-icon="mdi-text-box" :rules="[rules.required, rules.aadhaar]"></v-text-field>
+      <v-text-field label="PAN" v-model="pan" prepend-icon="mdi-text-box" :rules="[rules.required, rules.pan]"></v-text-field>
+      <v-text-field label="Passport" v-model="passport" prepend-icon="mdi-text-box" :rules="[rules.required,rules.passport]"></v-text-field>
       <v-container class="text-center">
         <v-btn text color="indigo lighten-2" @click="submit()" :disabled="!isFormValid" class="button">Submit</v-btn>
       </v-container>
