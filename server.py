@@ -1,4 +1,4 @@
-from fastapi import FastAPI,File , UploadFile,Form
+from fastapi import FastAPI,File , UploadFile,Form, Query
 from pydantic import BaseModel
 from typing import Dict, Optional
 from random import choice
@@ -8,21 +8,27 @@ from pymongo import MongoClient
 from datetime import datetime
 from typing import Dict , Optional
 from io import StringIO
+from fastapi.exceptions import HTTPException
 import pandas as pd
 import os
 import configparser
 from graph import Graph
 import key_config as keys
 import boto3
+import botocore
 #import key_config as keys
 
 
 client = MongoClient('mongodb://localhost:27017/')
 
 ##############################S3 bucket #############################
+AWS_REGION = "ap-south-1"
+
 s3 = boto3.client('s3',
                     aws_access_key_id = keys.ACCESS_KEY_ID,
                     aws_secret_access_key = keys.ACCESS_SECRET_KEY,
+                    region_name=AWS_REGION,
+                    config=botocore.client.Config(signature_version='s3v4')
                     )
 
 BUCKET_NAME = 'verifiedge'
@@ -46,10 +52,7 @@ app.add_middleware(
 ######################## Upload Files to S3 Bucket #########################
 
 def upload_file_to_s3(file, email, regno):
-
-
     file_key = f"{email}/{regno}/{file.filename}"
-
     # Upload the file to S3 bucket
     s3.upload_fileobj(file.file, BUCKET_NAME, file_key)
 
@@ -70,59 +73,52 @@ async def upload(email : str = Form(), regno : str = Form(), file: UploadFile = 
         return False
 
 ############################# Get Files from s3 #########################
-def read_s3_document(email, regno):
-
-
-    file_key = f"{email}/{regno}"
-
+def download_file_from_s3(folder_name, regno):
+    s3 = boto3.client(
+        "s3",
+        aws_access_key_id=AWS_ACCESS_KEY,
+        aws_secret_access_key=AWS_SECRET_KEY,
+        region_name=S3_REGION_NAME
+    )
+    
+    # Path to the file in S3
+    s3_file_path = f"{folder_name}/{regno}"
+    
+    # Local file path to save the downloaded file
+    local_file_path = f"/path/to/save/{regno}"
+    
     try:
-        response = s3.get_object(Bucket=BUCKET_NAME, Key=file_key)
-        content = response['Body'].read().decode("utf-8")
-        return content
+        s3.download_file(S3_BUCKET_NAME, s3_file_path, local_file_path)
+        return True, local_file_path
     except Exception as e:
-        return False
+        return False, str(e)
 
+@app.get("/download_file/{email}/{regno}")
+async def download_s3_file(email: str, regno: str):
+    folder_name = email
+    success, file_path = download_file_from_s3(folder_name, file_name)
+    
+    if success:
+        return {"status": "success", "file_path": file_path}
+    else:
+        return {"status": "error", "message": file_path}
 
-@app.get("/show-s3-document/")
-async def show_s3_document(email: str, regno: str):
-    try:
-        document_content = read_s3_document(email, regno)
-        return {
-            "user_email": email,
-            "sslc_regno": regno,
-            "document_content": document_content
-        }
-    except HTTPException as e:
-        raise e
-    except Exception as e:
-        raise False
 
 
 
 ########################### Check Whether file exist on S3 Bucket ##############################
-def check_s3_file_exists(email, regno):
-
-
-    file_key = f"{email}/{regno}"
-
+@app.get("/check-s3-folder/")
+async def check_s3_folder(email: str = Query(...), regno: str = Query(...)):
+    folder_key = f"{email}/{regno}/"
     try:
-        # Check if the file exists
-        s3.head_object(Bucket=BUCKET_NAME, Key=file_key)
-        return True  # File exists
-    except s3.exceptions.ClientError as e:
-        if e.response['Error']['Code'] == "404":
-            return False  # File doesn't exist
+        # Check if any objects exist in the specified folder in S3
+        response = s3.list_objects_v2(Bucket=BUCKET_NAME, Prefix=folder_key)
+        # If any files are present in the folder, return "file_present": true
+        if 'Contents' in response:
+            file_names = [obj['Key'].split('/')[-1] for obj in response['Contents']]
+            return {"file_present": True, "file_names": file_names}
         else:
-            raise HTTPException(status_code=500, detail="Error checking S3 file.")
-
-@app.get("/check-s3-file/")
-async def check_s3_file(email: str, regno: str):
-    try:
-        file_exists = check_s3_file_exists(email, regno)
-        return {
-            "user_folder": email,
-            "file_exists": file_exists
-        }
+            return {"file_present": False}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
