@@ -13,7 +13,7 @@ import pandas as pd
 import os
 import configparser
 from graph import Graph
-import key_config as keys
+#import key_config as keys
 import boto3
 import botocore
 #import key_config as keys
@@ -22,7 +22,7 @@ import botocore
 client = MongoClient('mongodb://localhost:27017/')
 
 ##############################S3 bucket #############################
-AWS_REGION = "ap-south-1"
+"""AWS_REGION = "ap-south-1"
 
 s3 = boto3.client('s3',
                     aws_access_key_id = keys.ACCESS_KEY_ID,
@@ -35,7 +35,7 @@ BUCKET_NAME = 'verifiedge'
 
 origins = [
     "http://localhost:3000",
-]
+]"""
 
 
 ##############################################################################################
@@ -51,7 +51,7 @@ app.add_middleware(
 
 ######################## Upload Files to S3 Bucket #########################
 
-def upload_file_to_s3(file, email, regno):
+"""def upload_file_to_s3(file, email, regno):
     file_key = f"{email}/{regno}/{file.filename}"
     # Upload the file to S3 bucket
     s3.upload_fileobj(file.file, BUCKET_NAME, file_key)
@@ -120,7 +120,7 @@ async def check_s3_folder(email: str = Query(...), regno: str = Query(...)):
         else:
             return {"file_present": False}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=str(e))"""
 
 
 
