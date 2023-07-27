@@ -1,9 +1,11 @@
-from fastapi import FastAPI,File , UploadFile,Form, Query
+from fastapi import FastAPI,File , UploadFile,Form, Query, HTTPException
 from pydantic import BaseModel
 from typing import Dict, Optional
 from random import choice
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
+from starlette.responses import RedirectResponse
+from starlette.responses import RedirectResponse
 from pymongo import MongoClient
 from datetime import datetime
 from typing import Dict , Optional
@@ -13,8 +15,10 @@ import pandas as pd
 import os
 import configparser
 from graph import Graph
-#import key_config as keys
+import key_config as keys
 import boto3
+import hashlib
+
 import botocore
 #import key_config as keys
 
@@ -22,7 +26,7 @@ import botocore
 client = MongoClient('mongodb://localhost:27017/')
 
 ##############################S3 bucket #############################
-"""AWS_REGION = "ap-south-1"
+AWS_REGION = "ap-south-1"
 
 s3 = boto3.client('s3',
                     aws_access_key_id = keys.ACCESS_KEY_ID,
@@ -35,7 +39,7 @@ BUCKET_NAME = 'verifiedge'
 
 origins = [
     "http://localhost:3000",
-]"""
+]
 
 
 ##############################################################################################
@@ -51,58 +55,46 @@ app.add_middleware(
 
 ######################## Upload Files to S3 Bucket #########################
 
-"""def upload_file_to_s3(file, email, regno):
+def upload_file_to_s3(file, email, regno):
     file_key = f"{email}/{regno}/{file.filename}"
     # Upload the file to S3 bucket
     s3.upload_fileobj(file.file, BUCKET_NAME, file_key)
 
 @app.post("/uploadfile/S3")
 async def upload(email : str = Form(), regno : str = Form(), file: UploadFile = File(...)):
-    
+    file_content = await file.read()
+    sha256_hash = hashlib.sha256(file_content)
+    file_hash = sha256_hash.hexdigest()
     try:
         # Create the user folder if it doesn't exist
         user_folder = f"{email}/{regno}"
         if not os.path.exists(user_folder):
             os.makedirs(user_folder)
-
         upload_file_to_s3(file, email, regno)
-
-        return True
+        return {'file': file_hash}
     except Exception as e:
         print(str(e))
         return False
 
+
 ############################# Get Files from s3 #########################
-def download_file_from_s3(folder_name, regno):
-    s3 = boto3.client(
-        "s3",
-        aws_access_key_id=AWS_ACCESS_KEY,
-        aws_secret_access_key=AWS_SECRET_KEY,
-        region_name=S3_REGION_NAME
-    )
-    
-    # Path to the file in S3
-    s3_file_path = f"{folder_name}/{regno}"
-    
-    # Local file path to save the downloaded file
-    local_file_path = f"/path/to/save/{regno}"
-    
+@app.get("/download/")
+def download_file(regno: str, email: str):
+    s3_key = f"{email}/{regno}"
+
     try:
-        s3.download_file(S3_BUCKET_NAME, s3_file_path, local_file_path)
-        return True, local_file_path
+        # Generate a pre-signed URL for the S3 object
+        url = s3_client.generate_presigned_url(
+            "get_object",
+            Params={"Bucket": BUCKET_NAME, "Key": s3_key},
+            ExpiresIn=3600  # URL expiration time in seconds (adjust as needed)
+        )
+
+        # Redirect the client to the pre-signed URL for file download
+        return RedirectResponse(url=url)
+
     except Exception as e:
-        return False, str(e)
-
-@app.get("/download_file/{email}/{regno}")
-async def download_s3_file(email: str, regno: str):
-    folder_name = email
-    success, file_path = download_file_from_s3(folder_name, file_name)
-    
-    if success:
-        return {"status": "success", "file_path": file_path}
-    else:
-        return {"status": "error", "message": file_path}
-
+        raise HTTPException(status_code=404, detail="File not found")
 
 
 
@@ -120,7 +112,7 @@ async def check_s3_folder(email: str = Query(...), regno: str = Query(...)):
         else:
             return {"file_present": False}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))"""
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 
