@@ -99,7 +99,7 @@ def download_file(regno: str, email: str):
 
 
 ########################### Check Whether file exist on S3 Bucket ##############################
-@app.get("/check-s3-folder/")
+@app.get("/check-s3-folder")
 async def check_s3_folder(email: str = Query(...), regno: str = Query(...)):
     folder_key = f"{email}/{regno}/"
     try:

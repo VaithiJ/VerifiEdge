@@ -106,9 +106,12 @@ export default{
         this.data_s = true,
         this.data_ = false
       }
-      let nurl = "http://127.0.0.1:8000/checkpdf"
+      let nurl = "http://127.0.0.1:8000/check-s3-folder"
       let nres = await this.$axios.get(nurl,{params:{email: this.email, regno: this.regno}})
-      this.datapdf = nres.data
+      this.datapdf = nres.data.file_present
+      if(this.datapdf == true){
+        this.show = true
+      }
 
   },
   data: () =>({
