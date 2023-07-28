@@ -99,25 +99,7 @@ export default{
 
   }),
   methods:{
-    async doc(email, empid){
-      this.$axios.get("http://127.0.0.1:8000/getpdf",{
-        params:{
-          email: email,
-          regno: empid
-        },
-        responseType: 'arraybuffer'
-      })
-      .then(response => {
-        console.log(response)
-
-        let blob = new Blob([response.data], { type: 'application/pdf'}),
-        url = window.URL.createObjectURL(blob)
-
-        window.open(url)
-      })
-      console.log(regno)
-
-    },
+   
     async approve(email, empid, name){
       let nurl = "http://127.0.0.1:8000/exp/inprogress"
       let data={
@@ -138,6 +120,26 @@ export default{
       let res = await this.$axios.post(url, verify)
       window.location.reload()
 
+
+    },
+    async doc(email, empid){
+      console.log(empid)
+      this.$axios.get("http://127.0.0.1:8000/download/S3files",{
+        params:{
+          email: email,
+          regno: empid
+        },
+        
+        responseType: 'arraybuffer'
+      })
+      .then(response => {
+        console.log(response)
+
+        let blob = new Blob([response.data], { type: 'application/pdf'}),
+        url = window.URL.createObjectURL(blob)
+
+        window.open(url)
+      })
 
     },
     async deny(email, empid, name){

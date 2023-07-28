@@ -83,8 +83,10 @@ export default{
 
     }),
     methods:{
-    async doc(email, sslc_regno){
-      this.$axios.get("http://127.0.0.1:8000/getpdf",{
+      async doc(email, sslc_regno){
+      let url = "http://127.0.0.1:8000/download/S3files"
+
+      this.$axios.get(url,{
         params:{
           email: email,
           regno: sslc_regno
@@ -93,15 +95,19 @@ export default{
       })
       .then(response => {
         console.log(response)
-
-        let blob = new Blob([response.data], { type: 'application/pdf'}),
+        if(response.data == false){
+          this.error == true
+        }
+        else{
+          this.error = false
+          let blob = new Blob([response.data], { type: 'application/pdf'}),
         url = window.URL.createObjectURL(blob)
 
         window.open(url)
+        }
       })
       console.log(sslc_regno)
-
-    }
+    },
    }
 }
 </script>

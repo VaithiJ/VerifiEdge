@@ -18,6 +18,7 @@ from graph import Graph
 import key_config as keys
 import boto3
 import hashlib
+import tempfile
 
 import botocore
 #import key_config as keys
@@ -62,45 +63,49 @@ def upload_file_to_s3(file, email, regno):
 
 @app.post("/uploadfile/S3")
 async def upload(email : str = Form(), regno : str = Form(), file: UploadFile = File(...)):
-    file_content = await file.read()
-    sha256_hash = hashlib.sha256(file_content)
-    file_hash = sha256_hash.hexdigest()
+    
     try:
         # Create the user folder if it doesn't exist
         user_folder = f"{email}/{regno}"
         if not os.path.exists(user_folder):
             os.makedirs(user_folder)
         upload_file_to_s3(file, email, regno)
-        return {'file': file_hash}
+        return True
     except Exception as e:
         print(str(e))
         return False
 
 
 ############################# Get Files from s3 #########################
-@app.get("/download/")
-def download_file(regno: str, email: str):
-    s3_key = f"{email}/{regno}"
-
+@app.get("/download/S3files")
+async def download_file(email: Optional[str] = None, regno: Optional[str] = None):
+    s3_key = f"{email}/{regno}/"
     try:
-        # Generate a pre-signed URL for the S3 object
-        url = s3_client.generate_presigned_url(
-            "get_object",
-            Params={"Bucket": BUCKET_NAME, "Key": s3_key},
-            ExpiresIn=3600  # URL expiration time in seconds (adjust as needed)
-        )
-
-        # Redirect the client to the pre-signed URL for file download
-        return RedirectResponse(url=url)
-
-    except Exception as e:
+        # Check if any objects exist in the specified folder in S3
+        response = s3.list_objects_v2(Bucket=BUCKET_NAME, Prefix=s3_key)
+        if 'Contents' in response:
+            # Get the first file in the folder (assuming only one file exists)
+            filename = response['Contents'][0]['Key'].split('/')[-1]
+            # Create a temporary file to download the S3 file
+            with tempfile.NamedTemporaryFile(delete=False) as tmp_file:
+                # Download the S3 object to the temporary file
+                s3.download_fileobj(BUCKET_NAME, s3_key + filename, tmp_file)
+            # Return the temporary file as a downloadable response with the correct content headers
+            return FileResponse(tmp_file.name, filename=filename)
+        # If no files are present in the folder, raise an HTTP 404 error
         raise HTTPException(status_code=404, detail="File not found")
+    except botocore.exceptions.ClientError as e:
+        if e.response['Error']['Code'] == '404':
+            # If the object is not found (404 error), raise an HTTP 404 error
+            raise HTTPException(status_code=404, detail="File not found")
+        # For other exceptions, raise an HTTP 500 error
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 
 ########################### Check Whether file exist on S3 Bucket ##############################
 @app.get("/check-s3-folder")
-async def check_s3_folder(email: str = Query(...), regno: str = Query(...)):
+async def check_s3_folder(email: Optional[str] = None, regno: Optional[str] = None):
     folder_key = f"{email}/{regno}/"
     try:
         # Check if any objects exist in the specified folder in S3

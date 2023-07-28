@@ -86,8 +86,8 @@ export default{
 
     }),
     methods:{
-    async doc(email, ug_regno){
-      this.$axios.get("http://127.0.0.1:8000/getpdf",{
+      async doc(email, ug_regno){
+      this.$axios.get("http://127.0.0.1:8000/download/S3files",{
         params:{
           email: email,
           regno: ug_regno
@@ -104,7 +104,7 @@ export default{
       })
       console.log(ug_regno)
 
-    }
+    },
    }
 }
 </script>

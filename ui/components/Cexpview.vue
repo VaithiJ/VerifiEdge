@@ -105,12 +105,14 @@ export default{
 
   }),
   methods:{
-    async doc(email, regno){
-      this.$axios.get("http://127.0.0.1:8000/getpdf",{
+    async doc(email, empid){
+      console.log(empid)
+      this.$axios.get("http://127.0.0.1:8000/download/S3files",{
         params:{
           email: email,
-          regno: regno
+          regno: empid
         },
+        
         responseType: 'arraybuffer'
       })
       .then(response => {
@@ -121,7 +123,6 @@ export default{
 
         window.open(url)
       })
-      console.log(regno)
 
     },
    }

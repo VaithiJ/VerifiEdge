@@ -104,7 +104,7 @@ export default{
    }),
    methods:{
     async doc(email, sslc_regno){
-      let url = "http://127.0.0.1:8000/getpdf"
+      let url = "http://127.0.0.1:8000/download/S3files"
 
       this.$axios.get(url,{
         params:{

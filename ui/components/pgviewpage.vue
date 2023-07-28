@@ -47,7 +47,7 @@
 
           </v-row>
           <v-row>
-            <v-container v-if="this.datapdf == 'True' || show">
+            <v-container v-if="this.datapdf == true || show">
               &emsp;&emsp;
     
               <v-btn size="30%" text outlined color="indigo darken-4" style="color: white;" @click="doc(data.email, data.pg_regno)">Document</v-btn>
@@ -55,13 +55,13 @@
             </v-container>
           </v-row>
           <v-row>
-            <v-col v-if="this.datapdf == 'False' &&!isLoading">
+            <v-col v-if="this.datapdf == false &&!isLoading">
            
                 <v-file-input  style="width:60%;" @change="fileselect"  label = "Upload PG doc" ></v-file-input>
       
             </v-col>
             <v-col>
-              <v-container v-if="this.datapdf == 'False' &&!isLoading">
+              <v-container v-if="this.datapdf == false &&!isLoading">
                 <v-btn size="30%" v-on:click="show = true"  :loading="isLoading" :disabled="isLoading"  text outlined color="indigo darken-4" style="color: white;" @click="upload()">Upload</v-btn>
               </v-container>
             </v-col>
@@ -145,9 +145,9 @@ export default{
 
             let formdata= new FormData()
             formdata.append('email',this.email)
-            formdata.append('sslc_regno',this.regno)
+            formdata.append('regno',this.regno)
             formdata.append('file',this.file)
-            let furl = "http://127.0.0.1:8000/uploadsslcpdf"
+            let furl = "http://127.0.0.1:8000/uploadfile/S3"
             let res = await this.$axios.post(furl,formdata,{ headers : {'Content-Type': 'application/json',}});
             
             this.isLoading = true;
@@ -155,10 +155,10 @@ export default{
    
    },
     async doc(email, pg_regno){
-      this.$axios.get("http://127.0.0.1:8000/getpdf",{
+      this.$axios.get("http://127.0.0.1:8000/download/S3files",{
         params:{
           email: email,
-          regno: this.regno
+          regno: pg_regno
         },
         responseType: 'arraybuffer'
       })

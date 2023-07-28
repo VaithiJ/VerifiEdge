@@ -45,19 +45,17 @@
             </v-col>
           </v-row>
           <v-row>
-            <v-container v-if="datapdf == 'True' || show">
+            <v-container v-if="datapdf == true || show">
               &emsp;&emsp;
               <v-btn text outlined color="indigo darken-4" style="color: white;" @click="doc(data.email, data.empid)">Document</v-btn>
             </v-container>
           </v-row>
           <v-row>
-            <v-col v-if="datapdf == 'False' &&!isLoading">
-           
+            <v-col v-if="datapdf == false">
                 <v-file-input  style="width:60%;" @change="fileselect"  label = "Upload Exp doc" ></v-file-input>
-      
             </v-col>
             <v-col>
-              <v-container v-if="datapdf == 'False' &&!isLoading">
+              <v-container v-if="datapdf == false">
                 <v-btn size="30%" v-on:click="show = true"  :loading="isLoading" :disabled="isLoading"  text outlined color="indigo darken-4" style="color: white;" @click="upload(data.email, data.empid)">Upload</v-btn>
               </v-container>
             </v-col>
@@ -101,7 +99,6 @@ export default{
       else{
         this.data_s = true,
         this.value = res.data[0].empid
-        
         this.data_ = false
       }
 
@@ -145,18 +142,19 @@ export default{
 
             let formdata= new FormData()
             formdata.append('email', email)
-            formdata.append('empid', empid)
+            formdata.append('regno', empid)
             formdata.append('file',this.file)
-            let furl = "http://127.0.0.1:8000/uploadexppdf"
+            let furl = "http://127.0.0.1:8000/uploadfile/S3"
             let res = await this.$axios.post(furl,formdata,{ headers : {'Content-Type': 'application/json',}});
             
             this.isLoading = true;
+            window.location.reload();
             // Simulate an asynchronous operation, such as an API call
             
    },
     async doc(email, empid){
       console.log(empid)
-      this.$axios.get("http://127.0.0.1:8000/getpdf",{
+      this.$axios.get("http://127.0.0.1:8000/download/S3files",{
         params:{
           email: email,
           regno: empid

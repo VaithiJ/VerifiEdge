@@ -40,19 +40,19 @@
             </v-col>
           </v-row>
           <v-row>
-            <v-container v-if="this.datapdf == 'True' || show">
+            <v-container v-if="this.datapdf == true || show">
               &emsp;&emsp;
               <v-btn size="30%" text outlined color="indigo darken-4" style="color: white;" @click="doc(data.email, data.sslc_regno)">Document</v-btn>
             </v-container>
           </v-row>
           <v-row>
-            <v-col v-if="this.datapdf == 'False' &&!isLoading">
+            <v-col v-if="this.datapdf == false && !isLoading">
            
                 <v-file-input  style="width:60%;" @change="fileselect"  label = "Upload sslc doc" ></v-file-input>
       
             </v-col>
             <v-col>
-              <v-container v-if="this.datapdf == 'False' &&!isLoading">
+              <v-container v-if="this.datapdf == false && !isLoading">
                 <v-btn size="30%" v-on:click="show = true"  :loading="isLoading" :disabled="isLoading"  text outlined color="indigo darken-4" style="color: white;" @click="upload()">Upload</v-btn>
               </v-container>
             </v-col>
@@ -97,10 +97,12 @@ export default{
       let nurl = "http://127.0.0.1:8000/check-s3-folder"
       let nres = await this.$axios.get(nurl,{params:{email: this.email, regno: this.regno}})
       this.datapdf = nres.data.file_present
-      console.log(this.datapdf)
+      console.log(nres.data)
       if(this.datapdf == true){
         this.show = true
+ 
       }
+
  
 
    },
@@ -133,9 +135,9 @@ export default{
 
             let formdata= new FormData()
             formdata.append('email',this.email)
-            formdata.append('sslc_regno',this.regno)
+            formdata.append('regno',this.regno)
             formdata.append('file',this.file)
-            let furl = "http://127.0.0.1:8000/uploadsslcpdf"
+            let furl = "http://127.0.0.1:8000/uploadfile/S3"
             let res = await this.$axios.post(furl,formdata,{ headers : {'Content-Type': 'application/json',}});
             
             this.isLoading = true;
@@ -143,10 +145,10 @@ export default{
             
    },
     async doc(email, sslc_regno){
-      this.$axios.get("http://127.0.0.1:8000/getpdf",{
+      this.$axios.get("http://127.0.0.1:8000/download/S3files",{
         params:{
           email: email,
-          regno: this.regno,
+          regno: sslc_regno,
         },
         responseType: 'arraybuffer'
       })
