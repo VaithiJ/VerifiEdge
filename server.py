@@ -16,11 +16,7 @@ from graph import Graph
 import key_config as keys
 import boto3
 import hashlib
-<<<<<<< HEAD
 import tempfile
-
-=======
->>>>>>> 93c8d6a04e582431743d1a01985b1a5782db3cf8
 import botocore
 from typing import List,Dict , Optional
 from fastapi.responses import JSONResponse
