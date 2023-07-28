@@ -5,10 +5,8 @@ from random import choice
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from starlette.responses import RedirectResponse
-from starlette.responses import RedirectResponse
 from pymongo import MongoClient
 from datetime import datetime
-from typing import Dict , Optional
 from io import StringIO
 from fastapi.exceptions import HTTPException
 import pandas as pd
@@ -18,9 +16,20 @@ from graph import Graph
 import key_config as keys
 import boto3
 import hashlib
+<<<<<<< HEAD
 import tempfile
 
+=======
+>>>>>>> 93c8d6a04e582431743d1a01985b1a5782db3cf8
 import botocore
+from typing import List,Dict , Optional
+from fastapi.responses import JSONResponse
+from bson import ObjectId
+import uvicorn
+import io
+import string
+import random
+import json
 #import key_config as keys
 
 
@@ -2230,6 +2239,151 @@ def get_subscription_by_email(email: str):
         return {"message": "No subscriptions found for the provided email"}
     
 
+################################################################################################################
+def convert_to_json_compliant(data):
+    if isinstance(data, ObjectId):
+        return str(data)
+    elif isinstance(data, (int, float, str)):
+        return str(data)
+    elif isinstance(data, list):
+        return [convert_to_json_compliant(item) for item in data]
+    elif isinstance(data, dict):
+        return {key: convert_to_json_compliant(value) for key, value in data.items()}
+    return data
 
 
-#################################################################################
+def generate_id():
+    characters = string.ascii_letters + string.digits + string.punctuation
+    random_string = ''.join(random.choice(characters) for _ in range(50))
+    return random_string
+
+
+@app.post("/upload/")
+async def upload_excel_file(file: UploadFile = File(...), bgv: str = "bgv"):
+    try:
+        with open(file.filename, "wb") as f:
+            f.write(await file.read())
+
+        db = client[bgv]
+
+        xls = pd.ExcelFile(file.filename)
+        sheet_names = xls.sheet_names
+
+        collection_names = {
+            "personal": "personal",
+            "sslc": "sslc",
+            "hse": "hse",
+            "ug": "ug",
+            "pg": "pg",
+            "exp": "exp"
+        }
+
+        sheet_data = dict()
+        to_mongo = dict()
+        emails_exists = []
+
+        missing_data = list()
+        rejected_data = list()
+        total_count = 0
+
+        for sheet_name in sheet_names:
+            df = xls.parse(sheet_name)
+            collection_name = collection_names.get(sheet_name, sheet_name.lower().replace(" ", "_"))
+            collection = db[collection_name]
+
+            if df.isnull().values.any():
+                rejected_data.append(json.loads(df[df.isnull().any(axis=1)].to_json(orient='records')))
+                # rejected_data += df[df.isnull().any(axis=1)].to_dict()
+                df = df.dropna()
+                # df = df.dropna(how='all', subset=df.columns)
+
+            if collection_name == "personal":
+                columns_to_convert = ["aadhaar", "passport", "mob"]
+                df[columns_to_convert] = df[columns_to_convert].astype(int)
+                emails_exists += df["email"].to_list()
+
+            if collection_name == "sslc":
+                columns_to_convert = ["sslc_passout", "sslc_regno"]
+                df[columns_to_convert] = df[columns_to_convert].astype(int)
+                emails_exists += df["email"].to_list()
+
+            if sheet_name == "hse":
+                columns_to_convert = ["hse_regno", "hse_passout"]
+                df[columns_to_convert] = df[columns_to_convert].astype(int)
+                emails_exists += df["email"].to_list()
+
+            if sheet_name == "ug":
+                columns_to_convert = ["ug_regno", "ug_passout"]
+                df[columns_to_convert] = df[columns_to_convert].astype(int)
+                emails_exists += df["email"].to_list()
+
+            if sheet_name == "pg":
+                columns_to_convert = ["pg_regno", "pg_passout"]
+                df[columns_to_convert] = df[columns_to_convert].astype(int)
+
+            total_count += len(df.index)
+            print(sheet_name)
+
+            df_merge = pd.DataFrame(convert_to_json_compliant(list(collection.find())))
+            df_merge = pd.concat([df_merge, df])
+            df_merge = df_merge.drop_duplicates(keep=False)
+
+            missing_data += json.loads(df_merge.to_json(orient='records'))
+            # missing_data = pd.concat([missing_data, df_merge])
+
+            sheet_data[collection_name] = df.to_dict(orient="records")
+
+        os.remove(file.filename)
+
+        for db_collection in list(sheet_data):
+            for user in sheet_data[db_collection]:
+                count = emails_exists.count(user["email"])
+                if count == 4:
+                    try:
+                        user["_id"] = generate_id()
+                        to_mongo[db_collection].append(user)
+                    except KeyError:
+                        to_mongo[db_collection] = list()
+                else:
+                    rejected_data.append(user)
+                    # pd.concat([rejected_data, pd.DataFrame([user])], ignore_index=True)
+            collection = db[db_collection]
+            collection.insert_many(to_mongo[db_collection])
+            print(f"{db_collection}: {len(to_mongo[db_collection])}")
+
+        return_data = {
+            'total_count': total_count,
+            'available_count': len(to_mongo["personal"]),
+            'rejected_count': len(rejected_data) + len(rejected_data[0]),
+            'rejected_list': rejected_data,
+        }
+        return return_data
+        # return [emails_exists, sheet_data, len(to_mongo), total_count]
+
+    except HTTPException as http_exc:
+        print(str(http_exc))
+        raise http_exc
+
+    except Exception as e:
+        e.with_traceback()
+        return JSONResponse(content={"message": f"Error: {str(e)}"}, status_code=500)
+################################################################################################################    
+@app.get("/download_excel/{template}/")
+async def download_excel(template: str) -> FileResponse:
+    excel_file_path = os.path.join("excel", template)
+
+    if not os.path.exists(excel_file_path):
+        return {"error": f"File '{template}' not found."}
+
+    return FileResponse(
+        path=excel_file_path,
+        headers={"Content-Disposition": f'attachment; filename="{template}"'},
+        media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    )
+
+"""@app.post("/upload_excel/")
+async def upload_excel_file(file: UploadFile = File(...)) -> dict:
+    file_save_path = os.path.join("excel", file.filename)
+    with open(file_save_path, "wb") as f:
+        f.write(await file.read())
+    return {"message": "File uploaded and saved successfully"}"""

@@ -5,16 +5,12 @@
                 <br/>
                 <h3 class="text-center"> Personal Data</h3> <br />
                 <v-text-field label="Employee ID " v-model="empid" prepend-icon="mdi-notebook" :rules="[rules.required,rules.alphnum]"></v-text-field>
-                <v-menu v-model="menu" :close-on-content-click="false" :nudge-right="40" :return-value.sync="doj" transition="scale-transition" offset-y min-width="auto">
-                    <template v-slot:activator="{ on }">
-                      <v-text-field v-model="formattedDoj" prepend-icon="mdi-calendar" label="Date of Join (Current Company)"  readonly v-on="on"></v-text-field>
-                    </template>
-                    <v-date-picker v-model="doj" :max="today" no-title scrollable>
-                      <v-spacer></v-spacer>
-                      <v-btn text color="primary" @click="cancelDate()">Cancel</v-btn>
-                      <v-btn text color="primary" @click="saveDate()">OK</v-btn>
-                    </v-date-picker>
-                  </v-menu>
+                <v-menu v-model="DatePicker" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
+                  <template v-slot:activator="{ on }">
+                    <v-text-field v-model="doj" prepend-icon="mdi-calendar" label="Date of Joining" readonly v-on="on"></v-text-field>
+                  </template>
+                  <v-date-picker v-model="doj" :max="today" no-title scrollable @input="saveDatePicker"></v-date-picker>
+                </v-menu>
                 <v-text-field label="Company Name " v-model="company" prepend-icon="mdi-domain" :rules="[rules.required,rules.company]"></v-text-field>
                 <v-text-field label="Designation" v-model="designation" prepend-icon="mdi-certificate" :rules="[rules.required,rules.designation]"></v-text-field>
                 <v-text-field label="Company Email" v-model="company_email" prepend-icon="mdi-email" :rules="[rules.required,rules.email]"></v-text-field>
@@ -66,7 +62,7 @@ export default {
         },
       menu: false,
       today: new Date().toISOString().substring(0, 10),
-      formattedDoj:''
+      DatePicker: false,
     }),
     methods:{
         async submit(){
@@ -91,22 +87,18 @@ export default {
             }
 
         },
-        cancelDate() {
-      this.menu = false;
-    },
-    saveDate() {
-      this.formattedDoj = this.getFormattedDate(this.doj);
-      this.menu = false;
+        saveDatePicker() {
+      this.DatePicker = false;
     },
     getFormattedDate(date) {
       if (date) {
         const dateObj = new Date(date);
-        const day = String(dateObj.getDate()).padStart(2, '0');
-        const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+        const day = String(dateObj.getDate()).padStart(2, "0");
+        const month = String(dateObj.getMonth() + 1).padStart(2, "0");
         const year = dateObj.getFullYear();
         return `${day}/${month}/${year}`;
       }
-      return '';
+      return null;
     },
     },
 
