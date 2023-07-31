@@ -18,7 +18,7 @@
    ></v-select>
       <v-file-input @change="fileselect"  label = "Upload Files" :rules="[rules.required]" ></v-file-input>
       <v-container class="text-center">
-          <v-btn text  @click="submit()" color="indigo lighten-2"> Submit </v-btn>
+          <v-btn text  @click="submit()" :disabled="!formValid" class="button" color="indigo lighten-2"> Submit </v-btn>
       </v-container>
   </v-form>
 </v-container>
@@ -45,6 +45,7 @@ export default{
       name : '',
       fail : null,
       sslc_board : '',
+      formValid : null,
       rules : {
         required: (v) => !!v || "Required",
             percents : (v) => (v>=0 && v<=100) || "Value must be between 0 and 100",
