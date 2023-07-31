@@ -1,6 +1,6 @@
 <template>
   <v-container class="personalform">
-      <v-form>
+      <v-form v-model="formValid">
           <h4 class="text-center"> PG Details</h4>
           <v-alert border="top" color="red lighten-1" dismissible  v-if="fail"> Data insertion failed</v-alert>
           <v-text-field label="Registration Number" v-model="pg_regno" prepend-icon="mdi-notebook" :rules="[rules.required,rules.pg_regno]"></v-text-field>
@@ -17,7 +17,7 @@
         ></v-select>
           <v-file-input @change="fileselect" label="Upload File" :rules="[rules.required]"></v-file-input>
           <v-container class="text-center">
-              <v-btn text  @click="submit()" color="indigo lighten-2"> Submit </v-btn>
+              <v-btn text  @click="submit()" :disabled="!formValid" color="indigo lighten-2"> Submit </v-btn>
           </v-container>
       </v-form>
   </v-container>
@@ -44,6 +44,7 @@ export default{
       pg_college:'',
       pg_marks:'',
       pg_university:'',
+      formValid:null,
       rules : {
         required: (v) => !!v || "Required",
           percents : (v) => (v>=0 && v<=100) || "Value must be between 0 and 100",
