@@ -1,6 +1,6 @@
 <template>
   <v-container class="personalform">
-      <v-form>
+      <v-form v-model="formValid">
           <h3 class="text-center"> Last Experience Details</h3>
           <v-alert border="top" color="red lighten-1" dismissible  v-if="fail"> Data insertion failed</v-alert>
           <v-text-field label="Employee ID"
@@ -25,7 +25,7 @@
           <v-text-field label="Reporting Manager" v-model="reporting_manager" :rules="[rules.required,rules.reporting_manager]"></v-text-field>
           <v-file-input @change="fileselect" label="Experience Letter" :rules="[rules.required]"></v-file-input>
           <v-container class="text-center">
-              <v-btn text  @click="submit()" color="indigo lighten-2"> Submit </v-btn>
+              <v-btn text  @click="submit()" :disabled="!formValid" class="button" color="indigo lighten-2"> Submit </v-btn>
           </v-container>
           <v-container class="text-center">
               <v-btn text  @click="skip()" color="indigo lighten-2"> I'm a fresher </v-btn>
@@ -56,6 +56,7 @@ export default{
       designation: '',
       lpa:'',
       reporting_manager:'',
+      formValid:null,
       rules : {
         required: (v) => !!v || "Required",
             percents : (v) => (v>=0 && v<=100) || "Value must be between 0 and 100",
