@@ -3,27 +3,48 @@
       <v-form v-model="formValid">
           <h3 class="text-center"> Last Experience Details</h3>
           <v-alert border="top" color="red lighten-1" dismissible  v-if="fail"> Data insertion failed</v-alert>
-          <v-text-field label="Employee ID"
+
+          <v-text-field label="Employee ID" prepend-icon="mdi-account-card" outlined
           v-model="empid"
           :rules="[rules.required]"></v-text-field>
-          <v-text-field label="Company Name" v-model="company" :rules="[rules.required,rules.company_name]"></v-text-field>
-          <v-text-field label="HR Email" v-model="hr_mail" :rules="[,rules.email,rules.required]"></v-text-field>
+          <v-row>
+            <v-col>
+          <v-text-field label="Company Name" prepend-icon="mdi-domain" outlined v-model="company" :rules="[rules.required,rules.company_name]"></v-text-field>
+        </v-col><v-col>
+          <v-text-field label="HR Email" prepend-icon="mdi-account-filter" outlined v-model="hr_mail" :rules="[,rules.email,rules.required]"></v-text-field>
+        </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
           <v-menu v-model="startDatePicker" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
             <template v-slot:activator="{ on }">
-              <v-text-field v-model="start_date" label="Start Date" readonly v-on="on"></v-text-field>
+              <v-text-field v-model="start_date" label="Start Date" prepend-icon="mdi-calendar" outlined readonly v-on="on"></v-text-field>
             </template>
             <v-date-picker v-model="start_date" :max="today" no-title scrollable @input="saveStartDatePicker"></v-date-picker>
           </v-menu>
+        </v-col><v-col>
           <v-menu v-model="endDatePicker" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
             <template v-slot:activator="{ on }">
-              <v-text-field v-model="end_date" prepend-icon="mdi-calendar" label="End Date" readonly v-on="on"></v-text-field>
+              <v-text-field v-model="end_date" prepend-icon="mdi-calendar" label="End Date" outlined readonly v-on="on"></v-text-field>
             </template>
-            <v-date-picker v-model="end_date" prepend-icon="mdi-calendar" :max="today" no-title scrollable @input="saveEndDatePicker"></v-date-picker>
+            <v-date-picker v-model="end_date" :max="today" no-title scrollable @input="saveEndDatePicker"></v-date-picker>
           </v-menu>
-          <v-text-field label="Designation" v-model="designation" :rules="[rules.required,rules.designation]"></v-text-field>
-          <v-text-field label="CTC (Cost To Company)" v-model="lpa" :rules="[rules.required,rules.lpa]"></v-text-field>
-          <v-text-field label="Reporting Manager" v-model="reporting_manager" :rules="[rules.required,rules.reporting_manager]"></v-text-field>
-          <v-file-input @change="fileselect" label="Experience Letter" :rules="[rules.required]"></v-file-input>
+        </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+          <v-text-field label="Designation" prepend-icon="mdi-certificate" outlined v-model="designation" :rules="[rules.required,rules.designation]"></v-text-field>
+        </v-col><v-col>
+          <v-text-field label="CTC (Cost To Company)" prepend-icon="mdi-cash" outlined v-model="lpa" :rules="[rules.required,rules.lpa]"></v-text-field>
+        </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+          <v-text-field label="Reporting Manager" prepend-icon="mdi-account-tie" outlined v-model="reporting_manager" :rules="[rules.required,rules.reporting_manager]"></v-text-field>
+        </v-col><v-col>
+          <v-file-input @change="fileselect" label="Experience Letter" outlined :rules="[rules.required]"></v-file-input>
+        </v-col>
+        </v-row>
           <v-container class="text-center">
               <v-btn text  @click="submit()" :disabled="!formValid" class="button" color="indigo lighten-2"> Submit </v-btn>
           </v-container>
