@@ -2,6 +2,7 @@
   <v-container  class="personalform">
       <v-form v-model="formValid">
           <h4 class="text-center"> HSE Details</h4>
+          <br/><br/><br/>
           <v-alert border="top" color="red lighten-1" dismissible  v-if="fail"> Data insertion failed</v-alert>
           <v-text-field label="Registration Number" outlined v-model="hse_regno" prepend-icon="mdi-notebook" :rules="[rules.required,rules.hse_regno]"></v-text-field>
           <v-text-field label="Marks in Percents" outlined v-model="hse_marks" prepend-icon="mdi-brightness-percent" :rules="[rules.required,rules.percents]"></v-text-field>

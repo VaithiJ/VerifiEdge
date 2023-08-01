@@ -4,7 +4,7 @@
     <v-form v-model="isFormValid">
       <br />
       <h3 class="text-center">Personal Data</h3>
-      <br />
+      <br/><br/><br/>
       <v-text-field label="Employee ID" v-model="empid" outlined prepend-icon="mdi-notebook" :rules="[rules.required, rules.alphnum]"></v-text-field>
       <v-menu v-model="DatePicker" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
         <template v-slot:activator="{ on }">

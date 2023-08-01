@@ -2,6 +2,7 @@
   <v-container class="personalform">
       <v-form v-model="formValid">
           <h3 class="text-center"> Last Experience Details</h3>
+          <br/><br/><br/>
           <v-alert border="top" color="red lighten-1" dismissible  v-if="fail"> Data insertion failed</v-alert>
 
           <v-text-field label="Employee ID" prepend-icon="mdi-account-card" outlined

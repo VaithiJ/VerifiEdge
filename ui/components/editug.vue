@@ -2,6 +2,7 @@
   <v-container class="personalform">
       <v-form v-model="formValid">
           <h4 class="text-center"> UG Details</h4>
+          <br/><br/><br/>
           <v-alert border="top" color="red lighten-1" dismissible  v-if="fail"> Data insertion failed</v-alert>
           <v-text-field label="Registration Number" outlined v-model="ug_regno" prepend-icon="mdi-notebook" :rules="[rules.required,rules.ug_regno]"></v-text-field>
           <v-text-field label="Marks in percent (e.g. 80)" outlined v-model="ug_marks" prepend-icon="mdi-brightness-percent" :rules="[rules.required,rules.percents]"></v-text-field>
