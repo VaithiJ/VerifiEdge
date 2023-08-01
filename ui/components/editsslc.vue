@@ -5,18 +5,19 @@
       <h3 class="text-center"> SSLC Details</h3>
       <v-alert border="top" color="red lighten-1" dismissible  v-if="fail"> Data insertion failed</v-alert>
       <v-alert class="success" dismissible v-if="success"> Data insertion succeeded</v-alert>
-      <v-text-field label="Registration Number" v-model="sslc_regno" prepend-icon="mdi-notebook" :rules="[rules.required,rules.sslc_regno]"></v-text-field>
-      <v-text-field label="Marks in %" v-model="sslc_marks" prepend-icon="mdi-brightness-percent" :rules="[rules.required,rules.percents]"></v-text-field>
-      <v-text-field label="School" v-model="sslc_school" prepend-icon="mdi-town-hall" :rules="[rules.required,rules.sslc_school]"></v-text-field>
-     <v-text-field label="Board" v-model="sslc_board" prepend-icon="mdi-school" :rules="[rules.required,rules.sslc_board]"></v-text-field>
+      <v-text-field label="Registration Number" outlined v-model="sslc_regno" prepend-icon="mdi-notebook" :rules="[rules.required,rules.sslc_regno]"></v-text-field>
+      <v-text-field label="Marks in %" outlined v-model="sslc_marks" prepend-icon="mdi-brightness-percent" :rules="[rules.required,rules.percents]"></v-text-field>
+      <v-text-field label="School" outlined v-model="sslc_school" prepend-icon="mdi-town-hall" :rules="[rules.required,rules.sslc_school]"></v-text-field>
+     <v-text-field label="Board" outlined v-model="sslc_board" prepend-icon="mdi-school" :rules="[rules.required,rules.sslc_board]"></v-text-field>
      <v-select
      v-model="sslc_passout"
      :items="sslc_passout"
      label="Year of Completion"
+     outlined
      :rules="[rules.required]"
      prepend-icon="mdi-calendar"
    ></v-select>
-      <v-file-input @change="fileselect"  label = "Upload Files" :rules="[rules.required]" ></v-file-input>
+      <v-file-input @change="fileselect"  label = "Upload Files" outlined :rules="[rules.required]" ></v-file-input>
       <v-container class="text-center">
           <v-btn text  @click="submit()" :disabled="!formValid" class="button" color="indigo lighten-2"> Submit </v-btn>
       </v-container>
