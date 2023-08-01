@@ -5,7 +5,7 @@
       <br />
       <h3 class="text-center">Personal Data</h3>
       <br/><br/><br/>
-      <v-text-field label="Employee ID" v-model="empid" outlined prepend-icon="mdi-notebook" :rules="[rules.required, rules.alphnum]"></v-text-field>
+      <v-text-field label="Employee ID" v-model="empid" outlined prepend-icon="mdi-account-card" :rules="[rules.required, rules.alphnum]"></v-text-field>
       <v-row>
         <v-col>
       <v-menu v-model="DatePicker" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
