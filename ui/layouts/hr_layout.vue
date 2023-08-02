@@ -1,7 +1,7 @@
 <template>
     <v-app hr>
 
-        <v-app-bar app color="indigo darken-3">
+        <v-app-bar app color="blue lighten-1">
           <v-btn icon @click="home()" color="white"><v-icon size="32">mdi-home</v-icon></v-btn>
 
           <v-spacer></v-spacer>
@@ -16,7 +16,7 @@
                 <v-icon color="white">mdi-account-circle</v-icon>
               </v-btn>
             </template>
-            <v-list color="indigo darken-3">
+            <v-list color="blue lighten-1">
 
 
           <v-list-item @click="profile()">

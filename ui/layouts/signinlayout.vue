@@ -1,13 +1,13 @@
 <template>
      <v-app signin>
-        <v-app-bar app color="indigo darken-3">
+        <v-app-bar app color="blue lighten-1">
             <v-btn icon @click="home()"><v-icon size="32" color="white">mdi-home</v-icon></v-btn>
         </v-app-bar>
         <v-main>
             <Nuxt/>
         </v-main>
         <v-footer
-      color="indigo darken-1"
+      color="blue lighten-1"
       dark
     >
       <v-row

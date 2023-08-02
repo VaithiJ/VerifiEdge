@@ -3,20 +3,37 @@
     <v-form v-model="formvalid" >
         <br/>
         <h3 class="text-center"> SSLC Details</h3>
+        <br/><br/><br/>
         <v-alert border="top" color="red lighten-1" dismissible  v-if="fail"> Data insertion failed</v-alert>
         <v-alert class="success" dismissible v-if="success"> Data insertion succeeded</v-alert>
-        <v-text-field label="Registration Number" v-model="sslc_regno" prepend-icon="mdi-notebook" :rules="[rules.required,rules.sslc_regno]"></v-text-field>
-        <v-text-field label="Marks in %" v-model="sslc_marks" prepend-icon="mdi-brightness-percent" :rules="[rules.required,rules.percents]"></v-text-field>
-        <v-text-field label="School" v-model="sslc_school" prepend-icon="mdi-town-hall" :rules="[rules.required,rules.sslc_school]"></v-text-field>
-        <v-text-field label="Board" v-model="sslc_board" prepend-icon="mdi-school" :rules="[rules.required,rules.sslc_board]"></v-text-field>
-       <v-select
-        v-model="sslc_passout"
-        :items="sslc_passout"
-        label="Year of Completion"
-        :rules="[rules.required]"
-        prepend-icon="mdi-calendar"
-      ></v-select>
-        <v-file-input @change="fileselect"  label = "Upload Files" :rules="[rules.required]" ></v-file-input>
+        <v-row>
+            <v-col>
+          <v-text-field label="Registration Number" outlined v-model="sslc_regno" prepend-icon="mdi-notebook" :rules="[rules.required,rules.sslc_regno]"></v-text-field>
+          </v-col><v-col>
+          <v-text-field label="Marks in %" outlined v-model="sslc_marks" prepend-icon="mdi-brightness-percent" :rules="[rules.required,rules.percents]"></v-text-field>
+        </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+          <v-text-field label="School" outlined v-model="sslc_school" prepend-icon="mdi-town-hall" :rules="[rules.required,rules.sslc_school]"></v-text-field>
+        </v-col><v-col>
+         <v-text-field label="Board" outlined v-model="sslc_board" prepend-icon="mdi-school" :rules="[rules.required,rules.sslc_board]"></v-text-field>
+        </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+         <v-select
+         v-model="sslc_passout"
+         :items="sslc_passout"
+         label="Year of Completion"
+         outlined
+         :rules="[rules.required]"
+         prepend-icon="mdi-calendar"
+       ></v-select>
+      </v-col><v-col>
+          <v-file-input @change="fileselect"  label = "Upload Files" outlined :rules="[rules.required]" ></v-file-input>
+        </v-col>
+        </v-row>
         <v-container class="text-center">
             <v-btn text  @click="submit()" :disabled="!formvalid" color="indigo lighten-2" class="button"> Submit </v-btn>
         </v-container>

@@ -2,20 +2,36 @@
   <v-container class="personalform">
       <v-form v-model="formValid">
           <h4 class="text-center"> UG Details</h4>
+          <br/><br/><br/>
           <v-alert border="top" color="red lighten-1" dismissible  v-if="fail"> Data insertion failed</v-alert>
-          <v-text-field label="Registration Number" v-model="ug_regno" prepend-icon="mdi-notebook" :rules="[rules.required,rules.ug_regno]"></v-text-field>
-          <v-text-field label="Marks in percent (e.g. 80)" v-model="ug_marks" prepend-icon="mdi-brightness-percent" :rules="[rules.required,rules.percents]"></v-text-field>
-          <v-text-field label="Specialization" v-model="ug_specialization" prepend-icon="mdi-school" :rules="[rules.required,rules.ug_specialization]"></v-text-field>
-          <v-text-field label="College" v-model="ug_college" prepend-icon="mdi-town-hall" :rules="[rules.required,rules.ug_college]"></v-text-field>
-          <v-text-field label="University" v-model="ug_university" prepend-icon="mdi-school" :rules="[rules.required,rules.ug_university]"></v-text-field>
+          <v-text-field label="Registration Number" outlined v-model="ug_regno" prepend-icon="mdi-notebook" :rules="[rules.required,rules.ug_regno]"></v-text-field>
+          <v-row>
+            <v-col>
+          <v-text-field label="Marks in %" outlined v-model="ug_marks" prepend-icon="mdi-brightness-percent" :rules="[rules.required,rules.percents]"></v-text-field>
+          </v-col><v-col>
+          <v-text-field label="Specialization" outlined v-model="ug_specialization" prepend-icon="mdi-school" :rules="[rules.required,rules.ug_specialization]"></v-text-field>
+          </v-col>
+        </v-row>
+        <v-row><v-col>
+          <v-text-field label="College" outlined v-model="ug_college" prepend-icon="mdi-town-hall" :rules="[rules.required,rules.ug_college]"></v-text-field>
+        </v-col><v-col>
+          <v-text-field label="University" outlined v-model="ug_university" prepend-icon="mdi-school" :rules="[rules.required,rules.ug_university]"></v-text-field>
+        </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
           <v-select
           v-model="ug_passout"
           :items="ug_passout"
           label="Year of Completion"
+          outlined
           :rules="[rules.required]"
           prepend-icon="mdi-calendar"
         ></v-select>
-          <v-file-input @change="fileselect" label="Upload File" :rules="[rules.required]"></v-file-input>
+      </v-col><v-col>
+          <v-file-input @change="fileselect" label="Upload File" outlined :rules="[rules.required]"></v-file-input>
+        </v-col>
+        </v-row>
           <v-container class="text-center">
               <v-btn text  @click="submit()" :disabled="!formValid" class="button" color="indigo lighten-2"> Submit </v-btn>
           </v-container>
