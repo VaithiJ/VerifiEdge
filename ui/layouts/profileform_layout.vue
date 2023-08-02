@@ -1,6 +1,6 @@
 <template>
   <v-app userprofile>
-      <v-app-bar app  color="indigo darken-4">
+      <v-app-bar app  color="blue lighten-1">
           <v-app-bar-title style="color: ghostwhite;">User Profile</v-app-bar-title>
           <v-spacer></v-spacer>
           <v-btn text style="color: ghostwhite;width: 100px;" @click="logout()">Close</v-btn>
@@ -9,7 +9,7 @@
           <Nuxt/>
       </v-main>
       <v-footer
-    color="indigo darken-1"
+    color="blue lighten-1"
     dark
   >
     <v-row

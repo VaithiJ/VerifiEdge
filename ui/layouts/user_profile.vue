@@ -1,7 +1,7 @@
 <template>
 
     <v-app>
-    <v-app-bar app color="indigo darken-4" :clipped-left="clipped" fixed>
+    <v-app-bar app color="blue lighten-1" :clipped-left="clipped" fixed>
       &ensp; &ensp; &ensp;
       <v-toolbar-title style="color: white;">User Profile</v-toolbar-title>
       <v-spacer></v-spacer>
@@ -13,7 +13,7 @@
       <Nuxt/>
     </v-main>
     <v-footer
-      color="indigo darken-1"
+      color="blue lighten-1"
       dark
     >
       <v-row
