@@ -50,6 +50,10 @@
       </v-container>
 </template>
 <script>
+import { ethers } from 'ethers';
+import abi from "../app/src/artifacts/contracts/FIlestorage.sol/FileStorage.json"
+const contractAddress = '0x51094cD8d5CA57c751328CFDC8b2791D42DB3663'; 
+import Web3 from "xdc3"
 export default{
   name: 'hse',
   async mounted (){
@@ -100,12 +104,43 @@ export default{
       verified: false,
       rejected: false,
       data_: false,
-      data_s: false
+      data_s: false,
+      contract: null
+
 
 
   }),
   methods:{
     async doc(email, empid){
+      let hurl = "http://127.0.0.1:8000/Hash/S3files"
+      let hres = await this.$axios.get(hurl,{params:{email: email, regno: empid}})
+      this.hash = hres.data
+      console.log(this.hash)
+
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const web3 = window.web3;
+      const signer = provider.getSigner();
+
+      this.contract = new ethers.Contract(contractAddress, abi.abi, signer);
+      console.log(this.contract)
+      try {
+      if (!this.contract) {
+        console.error('Contract not initialized yet. Please connect with MetaMask first.');
+        return;
+      }
+
+      const regNo = empid // Replace with the registration number
+      const userEmail = this.email
+
+      // Call the storeFile function in the contract
+      this.get = await this.contract.getFile(regNo, userEmail);
+      this.blockhash = this.get[2]
+      console.log(this.blockhash);
+    } catch (error) {
+      console.error('Error getting file:', error);
+    }
+
+    if(this.blockhash == this.hash){
       console.log(empid)
       this.$axios.get("http://127.0.0.1:8000/download/S3files",{
         params:{
@@ -123,6 +158,10 @@ export default{
 
         window.open(url)
       })
+    }
+    else{
+      console.log('error')
+    }
 
     },
    }

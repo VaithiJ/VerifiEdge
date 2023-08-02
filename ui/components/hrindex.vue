@@ -49,6 +49,9 @@
     </v-list>
     </v-card>
     </v-container>
+    <v-container v-if="user_no" >
+      <h2 class="text-center" style="color: darkblue;">No Profiles</h2><br /><br/>
+    </v-container>
     
 
   </v-container>
@@ -81,15 +84,21 @@ export default {
         this.file=event
       },
       async search(){
-        let url = "http://127.0.0.1:8000/user"
+        let url = "http://127.0.0.1:8000/company/verified_user"
         let user_data =  {params : {'email': this.email}}
         let res = await this.$axios.get(url, user_data)
-        this.users = res.data
+        this.users = res.data.list
         console.log(res.data)
 
-        if(res.data = true){
+        if(res.data.result == true){
           this.user_yes = true
+          this.user_no = false
         }
+        else{
+          this.user_no = true
+          this.user_yes = false
+        }
+       
 
       },
 

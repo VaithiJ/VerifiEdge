@@ -63,6 +63,12 @@
 <script>
 export default{
     name: 'hse',
+    props: {
+    contract: {
+      type: Object,
+      required: true,
+    },
+  },
     async mounted (){
         this.$vuetify.theme.dark =false;
         this.email = this.$storage.getUniversal('user_email')
@@ -74,6 +80,9 @@ export default{
         let nurl = "http://127.0.0.1:8000/notary"
         let nres = await this.$axios.get(nurl,{params:{email: this.notary}})
         this.ndata = nres.data
+
+
+
 
         if (this.data.status == false){
           this.pending = true
@@ -102,6 +111,7 @@ export default{
         verified: false,
         rejected: false,
         isLoading:false,
+        pushed: false,
 
     }),
     methods:{
@@ -132,9 +142,33 @@ export default{
       }
       let nres= await this.$axios.post(nurl,data)
 
-      
-       
-     let url = "http://127.0.0.1:8000/verify/ug"
+      //Hash conversion
+
+      let hurl = "http://127.0.0.1:8000/Hash/S3files"
+      let hres = await this.$axios.get(hurl,{params:{email: email, regno: ug_regno}})
+      this.hash = hres.data
+      console.log(this.hash)
+
+      // Blockchain Code
+      try {
+      if (!this.contract) {
+        console.error('Contract not initialized yet. Please connect with MetaMask first.');
+        return;
+      }
+     
+      const regNo = ug_regno // Replace with the registration number
+      const fileHash = this.hash// Replace with the file hash
+      const userEmail = this.email
+
+      // Call the storeFile function in the contract
+      await this.contract.storeFile(regNo, userEmail, fileHash);
+
+      const status = 'File stored successfully!'
+      console.log('File stored successfully!');
+      this.render = false;
+
+      if (status == 'File stored successfully!'){
+        let url = "http://127.0.0.1:8000/verify/ug"
      let verify={
       user_email: email,
       ug_regno: ug_regno,
@@ -143,6 +177,13 @@ export default{
      }
      let res = await this.$axios.post(url, verify)
      this.isLoading = true;
+      }
+    } catch (error) {
+      console.error('Error storing file:', error);
+    }
+       
+     
+
 
     },
     async deny(email, ug_regno, name){

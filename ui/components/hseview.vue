@@ -21,7 +21,7 @@
                 <v-container v-if="pending" class="text-center">
                   <v-icon size="150px" color="yellow" ></v-icon>
                 </v-container>
-                <v-container v-if="verified" class="text-center">
+                <v-container v-if="verified " class="text-center">
                   <v-icon size="150px" color="green">mdi-check-decagram</v-icon>
                 </v-container>
                 <v-container v-if="rejected" class="text-center">
@@ -51,8 +51,16 @@
         </v-container>
 </template>
 <script>
+import { ethers } from 'ethers';
+import abi from "../app/src/artifacts/contracts/FIlestorage.sol/FileStorage.json"
 export default{
     name: 'hse',
+    props: {
+    contract: {
+      type: Object,
+      required: true,
+    },
+  },
     async mounted (){
         this.$vuetify.theme.dark =false;
         this.email = this.$storage.getUniversal('user_email')
@@ -64,6 +72,8 @@ export default{
         let nurl = "http://127.0.0.1:8000/notary"
         let nres = await this.$axios.get(nurl,{params:{email: this.notary}})
         this.ndata = nres.data
+        console.log(this.contract)
+
 
         if (this.data.status == false){
           this.pending = true
@@ -91,6 +101,7 @@ export default{
         verified: false,
         rejected: false,
         isLoading:false,
+        pushed: false
 
     }),
     methods:{
@@ -120,9 +131,32 @@ export default{
       }
       let nres=await this.$axios.post(nurl,ndata)
 
+      //Hash conversion
+
+      let hurl = "http://127.0.0.1:8000/Hash/S3files"
+      let hres = await this.$axios.get(hurl,{params:{email: this.email, regno: hse_regno}})
+      this.hash = hres.data
+      console.log(this.hash)
       
-       
+      // Blockchain Code
+      try {
+      if (!this.contract) {
+        console.error('Contract not initialized yet. Please connect with MetaMask first.');
+        return;
+      }
+     
+      const regNo = hse_regno // Replace with the registration number
+      const fileHash = this.hash// Replace with the file hash
+      const userEmail = this.email
+
+      // Call the storeFile function in the contract
+      await this.contract.storeFile(regNo, userEmail, fileHash);
+
+      const status = 'File stored successfully!'
+      console.log('File stored successfully!');
       
+      this.render = false;
+      if (status == 'File stored successfully!'){
       let url= "http://127.0.0.1:8000/verify/hse"
       let verify = {
         user_email: email,
@@ -132,6 +166,14 @@ export default{
       }
       let res = this.$axios.post(url, verify)
       this.isLoading = true;
+    }
+    } catch (error) {
+      console.error('Error storing file:', error);
+    }
+      
+
+
+
 
     },
     async deny(email, hse_regno, name){

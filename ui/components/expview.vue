@@ -57,6 +57,12 @@
 <script>
 export default{
   name: 'hse',
+  props: {
+    contract: {
+      type: Object,
+      required: true,
+    },
+  },
   async mounted (){
       this.$vuetify.theme.dark =false;
       this.email = this.$storage.getUniversal('user_email')
@@ -108,10 +114,34 @@ export default{
       let nres= await this.$axios.post(nurl,data)
       console.log(this.datas.status)
       
-       
+      //Hash conversion
+
+      let hurl = "http://127.0.0.1:8000/Hash/S3files"
+      let hres = await this.$axios.get(hurl,{params:{email: email, regno: empid}})
+      this.hash = hres.data
+      console.log(this.hash)
+
+      // Blockchain Code
+      try {
+      if (!this.contract) {
+        console.error('Contract not initialized yet. Please connect with MetaMask first.');
+        return;
+      }
+     
+      const regNo = empid // Replace with the registration number
+      const fileHash = this.hash// Replace with the file hash
+      const userEmail = this.email
+
+      // Call the storeFile function in the contract
+      await this.contract.storeFile(regNo, userEmail, fileHash);
+
+      const status = 'File stored successfully!'
+      console.log('File stored successfully!');
       
-      let url = "http://127.0.0.1:8000/verify/exp"
-      let verify={
+      this.render = false;
+      if (status == 'File stored successfully!'){
+        let url = "http://127.0.0.1:8000/verify/exp"
+        let verify={
         user_email: email,
         empid: empid,
         notary_email: this.ndata.email,
@@ -119,6 +149,13 @@ export default{
       }
       let res = await this.$axios.post(url, verify)
       window.location.reload()
+      }
+    } catch (error) {
+      console.error('Error storing file:', error);
+    }
+
+      
+      
 
 
     },

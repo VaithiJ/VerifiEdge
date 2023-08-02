@@ -58,6 +58,32 @@ app.add_middleware(
     allow_methods=['*'],
     allow_headers=['*']
     )
+########################Converting into Hash##############################
+@app.get("/Hash/S3files")
+async def Hash_S3files(email: Optional[str] = None, regno: Optional[str] = None):
+    s3_key = f"{email}/{regno}/"
+    try:
+        # Check if any objects exist in the specified folder in S3
+        response = s3.list_objects_v2(Bucket=BUCKET_NAME, Prefix=s3_key)
+        if 'Contents' in response:
+            # Get the first file in the folder (assuming only one file exists)
+            filename = response['Contents'][0]['Key'].split('/')[-1]
+            # Create a temporary file to download the S3 file
+            with tempfile.NamedTemporaryFile(delete=False) as tmp_file:
+                # Download the S3 object to the temporary file
+                s3.download_fileobj(BUCKET_NAME, s3_key + filename, tmp_file)
+                hash_value = hashlib.sha256(tmp_file.read()).hexdigest()
+
+            # Return the temporary file as a downloadable response with the correct content headers
+            return hash_value
+        # If no files are present in the folder, raise an HTTP 404 error
+        raise HTTPException(status_code=404, detail="File not found")
+    except botocore.exceptions.ClientError as e:
+        if e.response['Error']['Code'] == '404':
+            # If the object is not found (404 error), raise an HTTP 404 error
+            raise HTTPException(status_code=404, detail="File not found")
+        # For other exceptions, raise an HTTP 500 error
+        raise HTTPException(status_code=500, detail=str(e))
 
 ######################## Upload Files to S3 Bucket #########################
 
@@ -95,6 +121,8 @@ async def download_file(email: Optional[str] = None, regno: Optional[str] = None
             with tempfile.NamedTemporaryFile(delete=False) as tmp_file:
                 # Download the S3 object to the temporary file
                 s3.download_fileobj(BUCKET_NAME, s3_key + filename, tmp_file)
+                hash_value = hashlib.sha256(tmp_file.read()).hexdigest()
+
             # Return the temporary file as a downloadable response with the correct content headers
             return FileResponse(tmp_file.name, filename=filename)
         # If no files are present in the folder, raise an HTTP 404 error
@@ -189,6 +217,20 @@ async def add_user(user: UserModel):
         return False
 
 #### getting user information from database
+
+@app.get('/company/verified_user')
+async def verified_user(email: str):
+    filter = {
+        'email': email,
+        'status': 'verified'
+    }
+    project = {
+        '_id': 0,
+    }
+    if client.bgv.user.count_documents(filter) == 1:
+        return {'list': dict(client.bgv.user.find_one(filter,project)), 'result': True}
+    else : 
+        return False
 
 @app.get('/user')
 async def get_user(email : str):

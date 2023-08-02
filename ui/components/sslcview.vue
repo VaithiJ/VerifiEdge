@@ -15,8 +15,6 @@
           <h6 class="text-subtitle-3"> Submitted on : {{ data.submitted_on }}</h6>
               <h6 v-if="data.edited_on" class="text-subtitle-3"> Edited on : {{ data.edited_on }}</h6>
               <h6 v-if="data.approved_on, verified" class="text-subtitle-3"> Approved on : {{ data.approved_on }}</h6>
-
-
             </v-col>
             <v-col >
               <v-container v-if="pending" class="text-center">
@@ -58,8 +56,19 @@
        </v-container>
 </template>
 <script>
+import Web3 from "xdc3"
+import { ethers } from 'ethers';
+import abi from "../app/src/artifacts/contracts/FIlestorage.sol/FileStorage.json"
+const contractAddress = '0x51094cD8d5CA57c751328CFDC8b2791D42DB3663';
+
 export default{
    name: 'userprofile',
+   props: {
+    contract: {
+      type: Object,
+      required: true,
+    },
+  },
    async mounted (){
        this.$vuetify.theme.dark =false;
        this.email = this.$storage.getUniversal('user_email')
@@ -136,10 +145,29 @@ export default{
       }
       let nres= await this.$axios.post(nurl,data)
 
-     
-       
+      let hurl = "http://127.0.0.1:8000/Hash/S3files"
 
+      let hres = await this.$axios.get(hurl,{params:{email: email, regno: this.regno}})
+      this.hash = hres.data
+      console.log(this.hash)
+
+      try {
+      if (!this.contract) {
+        console.error('Contract not initialized yet. Please connect with MetaMask first.');
+        return;
+      }
+
+      const regNo = this.regno // Replace with the registration number
+      const fileHash = this.hash// Replace with the file hash
+      const userEmail = this.email
+
+      // Call the storeFile function in the contract
+      await this.contract.storeFile(regNo, userEmail, fileHash);
+      const status = 'File stored successfully!'
+      console.log('File stored successfully!');
+      
       this.render = false;
+      if (status == 'File stored successfully!'){
       let url = "http://127.0.0.1:8000/verify/sslc"
       let vdata={
         user_email: email,
@@ -151,8 +179,14 @@ export default{
       console.log(res.data)
       this.isLoading = true;
 
+    } 
 
-    },
+    } catch (error) {
+      console.error('Error storing file:', error);
+    }
+  
+
+     },
     async deny(email, sslc_regno){
         console.log(email)
         let url = "http://127.0.0.1:8000/verify/sslc"
