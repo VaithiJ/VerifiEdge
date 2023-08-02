@@ -2278,14 +2278,12 @@ async def upload_excel_file(file: UploadFile = File(...), bgv: str = "bgv"):
         to_mongo = dict()
         emails_exists = []
 
-        missing_data = list()
         rejected_data = list()
         total_count = 0
 
         for sheet_name in sheet_names:
             df = xls.parse(sheet_name)
             collection_name = collection_names.get(sheet_name, sheet_name.lower().replace(" ", "_"))
-            collection = db[collection_name]
 
             if df.isnull().values.any():
                 rejected_data.append(json.loads(df[df.isnull().any(axis=1)].to_json(orient='records')))
@@ -2320,31 +2318,37 @@ async def upload_excel_file(file: UploadFile = File(...), bgv: str = "bgv"):
             total_count += len(df.index)
             print(sheet_name)
 
-            df_merge = pd.DataFrame(convert_to_json_compliant(list(collection.find())))
-            df_merge = pd.concat([df_merge, df])
-            df_merge = df_merge.drop_duplicates(keep=False)
-
-            missing_data += json.loads(df_merge.to_json(orient='records'))
-            # missing_data = pd.concat([missing_data, df_merge])
-
             sheet_data[collection_name] = df.to_dict(orient="records")
 
         os.remove(file.filename)
 
         for db_collection in list(sheet_data):
+            collection = db[db_collection]
+
+            emails_in_db_list = list(collection.find({}, {"email": 1, "_id": 0}))
+            email_in_db = list()
+            for email_obj in emails_in_db_list:
+                email_in_db.append(email_obj["email"])
+
             for user in sheet_data[db_collection]:
-                count = emails_exists.count(user["email"])
-                if count == 4:
-                    try:
-                        user["_id"] = generate_id()
-                        to_mongo[db_collection].append(user)
-                    except KeyError:
-                        to_mongo[db_collection] = list()
+                email = user["email"]
+                count = emails_exists.count(email)
+
+                if email_in_db.count(email) < 1:
+                    if count == 4:
+                        try:
+                            user["_id"] = generate_id()
+                            to_mongo[db_collection].append(user)
+                        except KeyError:
+                            to_mongo[db_collection] = list()
+                    else:
+                        rejected_data.append(user)
+                        # pd.concat([rejected_data, pd.DataFrame([user])], ignore_index=True)
                 else:
                     rejected_data.append(user)
-                    # pd.concat([rejected_data, pd.DataFrame([user])], ignore_index=True)
-            collection = db[db_collection]
-            collection.insert_many(to_mongo[db_collection])
+
+            if len(to_mongo[db_collection]) > 0:
+                collection.insert_many(to_mongo[db_collection])
             print(f"{db_collection}: {len(to_mongo[db_collection])}")
 
         return_data = {
@@ -2354,8 +2358,6 @@ async def upload_excel_file(file: UploadFile = File(...), bgv: str = "bgv"):
             'rejected_list': rejected_data,
         }
         return return_data
-        # return [emails_exists, sheet_data, len(to_mongo), total_count]
-
     except HTTPException as http_exc:
         print(str(http_exc))
         raise http_exc
