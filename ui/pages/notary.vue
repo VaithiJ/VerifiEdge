@@ -158,6 +158,7 @@ export default {
         let res = await this.$axios.get(url)
         this.profiles = res.data.list
         this.count = res.data.count
+        console.log(res.data)
 
         let rurl = "http://127.0.0.1:8000/inprogressuser"
     let rres = await this.$axios.get(rurl)
@@ -179,8 +180,8 @@ export default {
     let nurl = "http://127.0.0.1:8000/notary"
     let nres = await this.$axios.get(nurl,{params:{ email :this.email}});
     this.pdata = nres.data
-    console.log(this.pdata)
-
+    // console.log(this.hres)
+    // console.log(this.pdata)
   },
   data: () => ({
       reveal: false,

@@ -4,13 +4,28 @@
         <v-form  v-model="formValid" >
                 <br/>
                 <h3 class="text-center"> Notary Registration Data</h3> <br />
-                <v-text-field label="Name " v-model="name" :rules="[rules.required,rules.name]"></v-text-field>
-                <v-text-field label="Email" v-model="email" :rules="[rules.required,rules.email]"></v-text-field>
-                <v-text-field label="Enter the password" v-model="password" type="password" :rules="[rules.required,rules.password]"></v-text-field>
-                <v-text-field label="Mobile Number" v-model="mob" :rules="[rules.required,rules.mob]"></v-text-field>
-                <v-text-field label="Aadhaar" v-model="aadhaar" :rules="[rules.required,rules.aadhaar]"></v-text-field>
-                <v-text-field label="PAN" v-model="pan" :rules="[rules.required,rules.pan]"></v-text-field>
-
+                <br/><br/><br/>
+                  <v-row>
+                    <v-col>
+                <v-text-field label="Name " prepend-icon="mdi-account" outlined v-model="name" :rules="[rules.required,rules.name]"></v-text-field>
+            </v-col><v-col>
+                <v-text-field label="Email" prepend-icon="mdi-email" outlined v-model="email" :rules="[rules.required,rules.email]"></v-text-field>
+            </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col>
+                <v-text-field label="Enter the password" prepend-icon="mdi-lock" outlined v-model="password" type="password" :rules="[rules.required,rules.password]"></v-text-field>
+            </v-col><v-col>
+                <v-text-field label="Mobile Number" prepend-icon="mdi-phone" outlined v-model="mob" :rules="[rules.required,rules.mob]"></v-text-field>
+            </v-col>
+            </v-row>
+            <v-row>
+                <v-col>
+                <v-text-field label="Aadhaar" prepend-icon="mdi-text-box" outlined v-model="aadhaar" :rules="[rules.required,rules.aadhaar]"></v-text-field>
+            </v-col><v-col>
+                <v-text-field label="PAN" prepend-icon="mdi-text-box" outlined v-model="pan" :rules="[rules.required,rules.pan]"></v-text-field>
+            </v-col>
+            </v-row>
                 <v-container class="text-center">
                     <v-btn text color="indigo  lighten-2"  @click="submit()" :disabled="!formValid">submit</v-btn>
                 </v-container>

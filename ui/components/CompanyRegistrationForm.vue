@@ -4,13 +4,29 @@
         <v-form  v-model="formValid">
                 <br/>
                 <h3 class="text-center"> Company Registration Data</h3> <br />
-                <v-text-field label="Company Name " v-model="company" :rules="[rules.required]"></v-text-field>
-                <v-text-field label="Company Registration Number " v-model="company_reg" :rules="[rules.required,rules.company_reg]"></v-text-field>
-                <v-text-field label="Company Email" v-model="company_mail" :rules="[rules.required,rules.email]"></v-text-field>
-                <v-text-field label="Enter the password" v-model="password" type="password" :rules="[rules.required,rules.password]"></v-text-field>
-                <v-text-field label="Phone Number" v-model="mob" :rules="[rules.required,rules.mob]"></v-text-field>
-                <v-text-field label="GSTN Number" v-model="gst" :rules="[rules.required,rules.gst]"></v-text-field>
-                <v-file-input @change="fileselect" label="Upload GSTN Certificate File" :rules="[rules.required]"></v-file-input>
+                <br/><br/><br/>
+                <v-text-field label="Company Name " prepend-icon="mdi-domain" outlined v-model="company" :rules="[rules.required]"></v-text-field>
+                <v-row>
+                    <v-col>
+                <v-text-field label="Company Registration Number" prepend-icon="mdi-notebook" outlined v-model="company_reg" :rules="[rules.required,rules.company_reg]"></v-text-field>
+                </v-col><v-col>
+                <v-text-field label="Company Email" prepend-icon="mdi-email" outlined v-model="company_mail" :rules="[rules.required,rules.email]"></v-text-field>
+                </v-col>
+                </v-row>
+                <v-row>
+                    <v-col>
+                <v-text-field label="Enter the password" prepend-icon="mdi-lock" outlined v-model="password" type="password" :rules="[rules.required,rules.password]"></v-text-field>
+            </v-col><v-col>
+                <v-text-field label="Phone Number" prepend-icon="mdi-phone" outlined v-model="mob" :rules="[rules.required,rules.mob]"></v-text-field>
+            </v-col>
+               </v-row>
+               <v-row>
+                <v-col>
+                <v-text-field label="GSTN Number" prepend-icon="mdi-text-box" outlined v-model="gst" :rules="[rules.required,rules.gst]"></v-text-field>
+                </v-col><v-col>
+                <v-file-input @change="fileselect" label="Upload GSTN Certificate File" outlined :rules="[rules.required]"></v-file-input>
+                </v-col>
+            </v-row>
                 <v-container class="text-center">
                     <v-btn text color="indigo  lighten-2"  @click="submit()" :disabled="!formValid">submit</v-btn>
                 </v-container>
