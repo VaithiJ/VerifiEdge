@@ -3,6 +3,7 @@
     <v-form v-model="formvalid" >
         <br/>
         <h3 class="text-center"> SSLC Details</h3>
+        <br/><br/><br/>
         <v-alert border="top" color="red lighten-1" dismissible  v-if="fail"> Data insertion failed</v-alert>
         <v-alert class="success" dismissible v-if="success"> Data insertion succeeded</v-alert>
         <v-row>

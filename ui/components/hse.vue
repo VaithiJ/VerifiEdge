@@ -2,6 +2,7 @@
     <v-container  class="personalform">
         <v-form v-model="formValid">
             <h4 class="text-center"> HSE Details</h4>
+            <br/><br/><br/>
             <v-alert border="top" color="red lighten-1" dismissible  v-if="fail"> Data insertion failed</v-alert>
             <v-row>
                 <v-col>

@@ -4,6 +4,7 @@
         <v-form v-model="isFormValid" >
                 <br/>
                 <h3 class="text-center"> Personal Data</h3> <br />
+                <br/><br/><br/>
                 <v-text-field label="Employee ID " outlined v-model="empid" prepend-icon="mdi-account-card" :rules="[rules.required,rules.alphnum]"></v-text-field>
                 <v-row>
                   <v-col>
