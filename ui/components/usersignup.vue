@@ -8,8 +8,9 @@
               class="guide2Image"
               data-aos-duration="800"
               data-aos-delay="100"
-              src="https://wondercopier.in/Images/signup.png"
+              src="https://d1idiaqkpcnv43.cloudfront.net/website1.0/images/sign-up.png"
               alt="Guide Image"
+              :style="{ width: '130%', height: 'auto' }"
             />
           </div>
             </v-col>
@@ -145,6 +146,11 @@ methods:{
   .guide2Image {
     width: 100%;
     overflow: hidden;
+  }
+
+  .img-resize {
+  max-width: 600%; 
+  max-height: 600px;
   }
   
   @keyframes blueBubble {

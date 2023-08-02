@@ -11,6 +11,7 @@
               data-aos-delay="100"
               src="https://www.naxeed.com/themes/default/images/login-img.png"
               alt="Guide Image"
+              :style="{ width: '140%', height: 'auto' }"
             />
           </div>
         </v-col>
@@ -131,6 +132,11 @@ export default{
   .guide2Image {
     width: 100%;
     overflow: hidden;
+  }
+
+  .img-resize {
+  max-width: 600%; 
+  max-height: 600px;
   }
   
   @keyframes blueBubble {
