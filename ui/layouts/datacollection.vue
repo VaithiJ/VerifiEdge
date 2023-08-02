@@ -1,6 +1,6 @@
 <template>
     <v-app>
-        <v-app-bar app color="indigo darken-3"> 
+        <v-app-bar app color="blue lighten-1"> 
            <v-btn icon @click="home()" ><v-icon color="white">mdi-home</v-icon></v-btn>
            <v-spacer></v-spacer>
         </v-app-bar>
@@ -8,7 +8,7 @@
             <Nuxt/>
         </v-main>
         <v-footer
-        color="indigo darken-1"
+        color="blue lighten-1"
         dark
       >
         <v-row
