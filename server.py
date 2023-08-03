@@ -26,6 +26,7 @@ import io
 import string
 import random
 import json
+import re
 #import key_config as keys
 
 
@@ -2295,6 +2296,60 @@ def generate_id():
     random_string = ''.join(random.choice(characters) for _ in range(50))
     return random_string
 
+def is_valid_email(email):
+    # Define the email regex pattern
+    email_pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+
+    # Check if the email matches the pattern
+    if re.match(email_pattern, email):
+        return True
+    else:
+        return False
+
+
+def is_valid_aadhaar(aadhaar_number):
+    pattern = r'^\d{12}$'
+    if re.match(pattern, aadhaar_number):
+        return True
+    else:
+        return False
+
+
+def is_valid_worldwide_mobile_number(number):
+    # Pattern for a worldwide mobile number (simplified)
+    pattern = r'^\+?\d{6,15}$'
+
+    if re.match(pattern, number):
+        return True
+    else:
+        return False
+
+
+def is_valid_passport_number(passport_number):
+    pattern = r'^[A-Z0-9]{6,15}$'
+
+    if re.match(pattern, passport_number):
+        return True
+    else:
+        return False
+
+
+def is_valid_pan_number(pan_number):
+    pattern = r'^[A-Z]{5}[0-9]{4}[A-Z]{1}$'
+
+    if re.match(pattern, pan_number):
+        return True
+    else:
+        return False
+
+
+def is_valid_date(date_string):
+    pattern = r'^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/\d{4}$'
+
+    if re.match(pattern, date_string):
+        return True
+    else:
+        return False
 
 @app.post("/upload/")
 async def upload_excel_file(file: UploadFile = File(...), bgv: str = "bgv"):
