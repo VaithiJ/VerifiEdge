@@ -40,9 +40,8 @@
             <br/>
         
         <v-row justify="center">
-            <v-col cols="12">
+
         <v-btn text  color="blue lighten-1" @click="submit()" :disabled="!isFormValid" > Submit</v-btn>
-    </v-col>
         </v-row>
         </v-form>
         <v-container v-if="sendotp">

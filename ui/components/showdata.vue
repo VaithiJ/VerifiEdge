@@ -24,12 +24,12 @@
                       <v-row>
                         <v-col>
                           <v-container class="text-center">
-                            <v-btn size="20%"  :loading="isLoading" :disabled="isLoading" color="indigo darken-4" style="color:white" @click="inserted()">Inserted Data</v-btn>
+                            <v-btn size="20%"  :loading="isLoading" :disabled="isLoading" color="blue lighten-1" style="color:white" @click="inserted()">Inserted Data</v-btn>
                           </v-container>
                         </v-col>
                         <v-col>
                           <v-container class="text-center">
-                            <v-btn size="20%"  :loading="isLoading" :disabled="isLoading" color="indigo darken-4" style="color:white" @click="rejected()">Rejected Data</v-btn>
+                            <v-btn size="20%"  :loading="isLoading" :disabled="isLoading" color="blue lighten-1" style="color:white" @click="rejected()">Rejected Data</v-btn>
                           </v-container>
                         </v-col>
                       </v-row>
@@ -45,7 +45,12 @@
   
       }),
     methods:{
-
+      async inserted() {
+            this.$router.push("/inserteddata");
+        },
+        async rejected() {
+            this.$router.push("/rejecteddata");
+        },
    
     
     }

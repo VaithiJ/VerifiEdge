@@ -2,7 +2,10 @@
   <v-container style="width: 100%; ">
     <v-card>
       <v-container v-if="data_">
-        <v-alert type="error" >SSLC Data is mandatory.</v-alert>
+        <div class="custom-alert">
+            <v-icon class="alert-icon">mdi-alert-circle</v-icon>
+            <span>SSLC Data is mandatory.</span>
+          </div>
       </v-container>
       <v-card-title>SSLC Details</v-card-title>
       <v-card-content>
@@ -173,3 +176,21 @@ export default{
 
 }
 </script>
+<style>
+.custom-alert {
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  color: #008cff; 
+}
+
+.custom-alert .alert-icon {
+  color: #008cff; 
+  margin-right: 5px;
+}
+
+.custom-alert .alert-text {
+  font-size: 16px;
+}
+
+</style>

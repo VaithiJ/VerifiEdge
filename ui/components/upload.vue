@@ -7,7 +7,7 @@
       <v-row>
         <v-col>
           <v-container>
-            <v-btn size="40%" color="indigo darken-4" dark @click="downloadTemplate()">Download Template</v-btn>
+            <v-btn size="40%" color="blue lighten-1" dark @click="downloadTemplate()">Download Template</v-btn>
           </v-container>
         </v-col>
       </v-row>
@@ -18,7 +18,7 @@
         <v-col>
           <v-container class="text-center">
             <v-file-input @change="onFileChange" style="width:70%; margin:0 auto; " label="File input" variant="solo-filled"></v-file-input>
-            <v-btn size="20%" :loading="isLoading" :disabled="isLoading || !file" color="indigo darken-4" dark @click="upload()">Upload</v-btn>
+            <v-btn size="20%" :loading="isLoading" :disabled="isLoading || !file" color="blue lighten-1" dark @click="upload()">Upload</v-btn>
             <table v-if="excelData">
               <tr v-for="(row, rowIndex) in excelData" :key="rowIndex">
                 <td v-for="(cell, cellIndex) in row" :key="cellIndex">{{ cell }}</td>
@@ -53,29 +53,19 @@ export default {
       this.file = event.target.files[0];
     },
     async upload() {
-      if (!this.file) {
-        alert('Please select a file first.');
-        return;
-      }
-
-      const formData = new FormData();
-      formData.append('file', this.file);
-
       try {
-        const response = await fetch('http://127.0.0.1:8000/upload', {
-          method: 'POST',
-          body: formData,
+        const formData = new FormData();
+        formData.append("file", this.file);
+
+        const response = await axios.post("http://127.0.0.1:8000/upload", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         });
 
-        if (response.ok) {
-          const data = await response.json();
-          console.log(data);
-        } else {
-          const errorData = await response.json();
-          console.error('Error:', errorData.message);
-        }
+        this.uploadedFile = response.data.filename;
       } catch (error) {
-        console.error('Error:', error.message);
+        console.error("Error uploading file:", error);
       }
     },
   

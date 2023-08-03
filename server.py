@@ -13,7 +13,6 @@ import pandas as pd
 import os
 import configparser
 from graph import Graph
-import key_config as keys
 import boto3
 import hashlib
 import tempfile
@@ -29,12 +28,16 @@ import string
 import random
 import json
 import re
+<<<<<<< HEAD
 import yagmail
 import smtplib
 #from decouple import config
 
 
 #import key_config as keys
+=======
+import key_config as keys
+>>>>>>> 39525fe2635524129f3f562a9f26b2c17d406c5f
 
 client = MongoClient('mongodb://localhost:27017/')
 # SECRET_KEY = config('SECRET_KEY')

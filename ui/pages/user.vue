@@ -6,7 +6,7 @@
           <v-col cols="3">
 
               <v-container fluid>
-                <v-card max-width="450px" class="mx-auto bg" elevation="2">
+                <v-card max-width="450px" class="curved-box" elevation="12">
                   <br><br>
                   <v-row justify="center">
                     <v-col align-self="start" class="d-flex justify-center align-center pa-0" cols="12">
@@ -25,11 +25,41 @@
                   <v-row>
                     <userbannerpage/>
                     <profilepersonal/>
+
+               
                   </v-row>
                   <v-row>
                     <Addaddress/>
                   </v-row>
                 </v-card>
+                <br/><br/><br/>
+                <v-col cols="12" md="10">
+                <div >
+            <img
+              data-aos="zoom-in"
+              class="guide2Image"
+              data-aos-duration="800"
+              data-aos-delay="100"
+              src="https://innov.in/assets/images/simg1.png"
+              alt="Guide Image"
+              :style="{ width: '130%', height: 'auto' }"
+            />
+          </div>
+            </v-col>
+            <br/><br/><br/><br/><br/><br/><br/>
+                <v-col cols="12" md="10">
+                <div >
+            <img
+              data-aos="zoom-in"
+              class="guide2Image"
+              data-aos-duration="800"
+              data-aos-delay="100"
+              src="https://innov.in/assets/employee.png"
+              alt="Guide Image"
+              :style="{ width: '130%', height: 'auto' }"
+            />
+          </div>
+            </v-col>
               </v-container>
              
           </v-col>
@@ -55,7 +85,7 @@
                 <br>
              
                 <v-container class="text-center" >
-                  <v-btn size="20%" :loading="isLoading" :disabled="isLoading" color="indigo darken-4"  v-if="show &&!isLoading" @click="submit(data.email)" style="color:white; width:40">Submit Profile</v-btn>
+                  <v-btn size="20%" :loading="isLoading" :disabled="isLoading" color="blue lighten-1"  v-if="show &&!isLoading" @click="submit(data.email)" style="color:white; width:40">Submit Profile</v-btn>
 
                 </v-container>
                 <v-container v-if="success" class="text-center">
@@ -69,6 +99,20 @@
                 
 
               </v-card>
+              <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+              <v-col cols="12" md="10">
+                <div >
+            <img
+              data-aos="zoom-in"
+              class="guide2Image"
+              data-aos-duration="800"
+              data-aos-delay="100"
+              src="https://carriazetech.com/assets/images/products/product-dtls.png"
+              alt="Guide Image"
+              :style="{ width: '130%', height: 'auto' }"
+            />
+          </div>
+            </v-col>
             </v-container>
 
         </v-col>
@@ -138,3 +182,15 @@
 
   }
 </script>
+<style>
+
+.curved-box {
+    border-radius: 40px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+  }
+ .guide2Image {
+    width: 100%;
+    overflow: hidden;
+  }
+
+</style>
