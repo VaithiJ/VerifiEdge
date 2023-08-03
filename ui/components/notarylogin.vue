@@ -20,7 +20,7 @@
                 <v-btn text @click="login()" color="blue lighten-1" width="200px">Signin</v-btn>
                 </v-row>
         </v-form>
-        </v-card>
+        </v-card> 
         </v-col>
         <v-col cols="14" md="6">
           <div class="blue-bubble">
