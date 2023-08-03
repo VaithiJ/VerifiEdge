@@ -12,7 +12,7 @@
 </template>
 <script>
 export default{
-    layout:"hr_layout",
+    layout:"datacollection",
 
 }
 </script>
