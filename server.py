@@ -1,10 +1,10 @@
-from fastapi import FastAPI,File , UploadFile,Form, Query, HTTPException
+from fastapi import FastAPI,File , UploadFile,Form, Query, HTTPException, Depends, status, Cookie
 from pydantic import BaseModel
 from typing import Dict, Optional
 from random import choice
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
-from starlette.responses import RedirectResponse
+from starlette.responses import RedirectResponse, JSONResponse
 from pymongo import MongoClient
 from datetime import datetime
 from io import StringIO
@@ -21,16 +21,26 @@ import botocore
 from typing import List,Dict , Optional
 from fastapi.responses import JSONResponse
 from bson import ObjectId
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 import uvicorn
 import io
 import string
 import random
 import json
 import re
+import yagmail
+import smtplib
+#from decouple import config
+
+
 #import key_config as keys
 
-
 client = MongoClient('mongodb://localhost:27017/')
+# SECRET_KEY = config('SECRET_KEY')
+# ALGORITHM = config('ALGORITHM')
+# ACCESS_TOKEN_EXPIRE_MINUTES = config('ACCESS_TOKEN_EXPIRE_MINUTES', cast=int, default=30)
+# COOKIE_DOMAIN = config('COOKIE_DOMAIN', default=None)
 
 ##############################S3 bucket #############################
 AWS_REGION = "ap-south-1"
@@ -59,6 +69,51 @@ app.add_middleware(
     allow_methods=['*'],
     allow_headers=['*']
     )
+
+# Replace these variables with your actual Gmail credentials
+GMAIL_USERNAME = "verifyedge13@gmail.com"
+GMAIL_PASSWORD = "kkddrgykwqizejec"
+
+class EmailData(BaseModel):
+    email: str
+    email_subject: str
+    email_body: str
+
+@app.post("/send_rejection_email")
+async def send_rejection_email(send: EmailData):
+    # Replace the following with your email server settings
+    email_server = 'smtp.gmail.com'
+    email_port = 587
+    email_sender = 'verifyedge13@gmail.com'
+    email_password = 'kkddrgykwqizejec'
+
+    email = send.email
+    email_subject = send.email_subject
+    email_body = send.email_body
+    try:
+        # Set up the email
+        msg = MIMEMultipart()
+        msg['From'] = email_sender
+        msg['To'] = email
+        msg['Subject'] = email_subject
+
+        # Attach the body to the email
+        msg.attach(MIMEText(email_body, 'plain'))
+
+        # Connect to the email server and send the email
+        server = smtplib.SMTP(email_server, email_port)
+        server.starttls()
+        server.login(email_sender, email_password)
+        server.sendmail(email_sender, email, msg.as_string())
+        server.quit()
+
+        return {"message": "Rejection email sent successfully!"}
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to send the email: {e}")
+
+
+
 ########################Converting into Hash##############################
 @app.get("/Hash/S3files")
 async def Hash_S3files(email: Optional[str] = None, regno: Optional[str] = None):

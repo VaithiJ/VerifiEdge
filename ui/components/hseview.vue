@@ -189,6 +189,14 @@ export default{
         let res = this.$axios.post(url,reject)
         this.isLoading = true;
 
+        let rurl = "http://127.0.0.1:8000/send_rejection_email"
+        let rdata={
+          email: email,
+          email_subject: "Rejection Mail",
+          email_body: "HSE Data is Rejected"
+        }
+        let nres = await this.$axios.post(rurl, rdata)
+
     }
    }
 }
