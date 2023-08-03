@@ -17,9 +17,7 @@
             </v-row>
             <br>
             <v-row justify="center">
-                <v-col cols="12">
-                <v-btn text @click="login()" color="indigo darken-2" width="200px">Signin</v-btn>
-                </v-col>
+                <v-btn text @click="login()" color="blue lighten-1" width="200px">Signin</v-btn>
                 </v-row>
         </v-form>
         </v-card>

@@ -13,7 +13,6 @@ import pandas as pd
 import os
 import configparser
 from graph import Graph
-import key_config as keys
 import boto3
 import hashlib
 import tempfile
@@ -27,7 +26,7 @@ import string
 import random
 import json
 import re
-#import key_config as keys
+import key_config as keys
 
 
 client = MongoClient('mongodb://localhost:27017/')
