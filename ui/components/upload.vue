@@ -18,7 +18,7 @@
       <v-row>
         <v-col>
           <v-container class="text-center">
-            <v-file-input @change="onFileChange" style="width:70%; margin:0 auto; " label="File input" outlined variant="solo-filled"></v-file-input>
+            <v-file-input @change="onFileChange" style="width:70%; margin:0 auto; " label="Upload Template" outlined variant="solo-filled"></v-file-input>
             <v-btn :loading="isLoading" :disabled="isLoading || !file" color="blue lighten-1" dark @click="upload()">Upload</v-btn>
             <template v-if="excelData">
               <table>
@@ -32,7 +32,7 @@
       </v-row>
       <v-row>
         <v-container class="text-center">
-          <h3 v-if="excelData && excelData.length">Uploaded Details:</h3>
+          <h3 v-if="excelData && excelData.rowIndex">Uploaded Details:</h3>
         </v-container>
       </v-row>
     </v-card>
@@ -41,7 +41,6 @@
 
 <script>
 import axios from 'axios';
-import XLSX from 'xlsx';
 
 export default {
   data() {
@@ -93,4 +92,3 @@ export default {
   },
 };
 </script>
-

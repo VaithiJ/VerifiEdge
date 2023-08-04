@@ -2549,10 +2549,10 @@ async def upload_excel_file(file: UploadFile = File(...), bgv: str = "bgv"):
             print(f"{db_collection}: {len(to_mongo[db_collection])}")
 
         return_data = {
-            'total_count': total_count,
-            'available_count': len(to_mongo["personal"]),
-            'rejected_count': len(rejected_data) + len(rejected_data[0]),
-            'rejected_list': rejected_data,
+            # 'total_count': total_count,
+            # 'available_count': len(to_mongo["personal"]),
+            # 'rejected_count': len(rejected_data) + len(rejected_data[0]),
+            # 'rejected_list': rejected_data,
         }
         return return_data
     except HTTPException as http_exc:
