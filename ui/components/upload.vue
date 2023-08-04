@@ -20,6 +20,9 @@
           <v-container class="text-center">
             <v-file-input @change="onFileChange" style="width:70%; margin:0 auto; " label="Upload Template" outlined variant="solo-filled"></v-file-input>
             <v-btn :loading="isLoading" :disabled="isLoading || !file" color="blue lighten-1" dark @click="upload()">Upload</v-btn>
+            <br /><br />
+            <v-divider></v-divider>
+            <v-divider></v-divider>
             <v-row v-if="excelData">
               <v-col>
                 <v-card-subtitle v-if="excelData.total_count">Total Count:</v-card-subtitle>
