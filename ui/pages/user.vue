@@ -46,7 +46,7 @@
             />
           </div>
             </v-col>
-            <br/><br/><br/><br/><br/><br/><br/>
+            <br/><br/><br/><br/>
                 <v-col cols="12" md="10">
                 <div >
             <img
@@ -81,25 +81,6 @@
           <v-col cols="3">
 
             <v-container fluid>
-              <v-card max-width="350px" height="365px" class="mx-auto bg" elevation="2">
-                <br>
-             
-                <v-container class="text-center" >
-                  <v-btn size="20%" :loading="isLoading" :disabled="isLoading" color="blue lighten-1"  v-if="show &&!isLoading" @click="submit(data.email)" style="color:white; width:40">Submit Profile</v-btn>
-
-                </v-container>
-                <v-container v-if="success" class="text-center">
-                  <v-alert type="success" dismissible> You have submitted the profile </v-alert>
-
-                </v-container>
-                <v-container v-if="fail" class="text-center">
-                  <v-alert type="error" dismissible> Check Whether you have submitted required data </v-alert>
-
-                </v-container>
-                
-
-              </v-card>
-              <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
               <v-col cols="12" md="10">
                 <div >
             <img
@@ -115,8 +96,27 @@
             </v-col>
             </v-container>
 
+
         </v-col>
         </v-row>
+        <v-row>
+          <v-container>
+            <v-container class="text-center" >
+              <v-btn size="20%" :loading="isLoading" :disabled="isLoading" color="blue lighten-1"  v-if="show &&!isLoading" @click="submit(data.email)" style="color:white; width:40">Submit Profile</v-btn>
+  
+            </v-container>
+            <v-container v-if="success" class="text-center">
+              <v-alert type="success" dismissible> You have submitted the profile </v-alert>
+  
+            </v-container>
+            <v-container v-if="fail" class="text-center">
+              <v-alert  type="error" dismissible> Check Whether you have submitted required data </v-alert>
+  
+            </v-container>
+          </v-container>
+        </v-row>
+        <br><br><br>
+
       </v-container>
     </v-main>
   </v-app>
