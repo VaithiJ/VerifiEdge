@@ -2270,7 +2270,7 @@ async def upload_csv(csv_file: UploadFile = None):
         'insert_list': insert.to_dict('records'),
         'delete_list': delete.to_dict('records'),
     }
-    return returndata    
+    return returndata  
 
 ##########################################################################################################
 @app.post("/hr/uploadpg")
