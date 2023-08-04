@@ -58,25 +58,35 @@ export default{
     }),
     methods:{
         async hrlogin(){
-            
-
-            let url = "http://127.0.0.1:8000/hr/login";
-            let nlogin = {
-                company_mail: this.company_mail,
-                password: this.password
-            }
-            let result = await this.$axios.get(url, {params:{'company_mail': this.company_mail, 'password': this.password}});
-            if (result.data === true) {
-                this.$storage.setUniversal('hrmail',this.company_mail)
-                this.$router.push('/hrpage');
-            }else{
+            try{
+              let url = "http://127.0.0.1:8000/hr/login";
+              let nlogin = {
+                  company_mail: this.company_mail,
+                  password: this.password
+              }
+              let result = await this.$axios.get(url, {params:{'company_mail': this.company_mail, 'password': this.password}});
+              this.$storage.setUniversal('hrmail',this.company_mail)
+              let nurl = "http://127.0.0.1:8000/hr/login_date"
+              let nres =  await this.$axios.post(nurl, nlogin)
+              if(result.data == false){
                 this.fail = true;
-            }
-            let nurl = "http://127.0.0.1:8000/hr/login_date"
-       
-            let nres =  await this.$axios.post(nurl, nlogin)
-            
-            
+
+              }
+
+              const access_token = result.data.access_token;
+                if (access_token) {
+                    // Save the access token to local storage or a secure cookie
+                    localStorage.setItem('access_token', access_token);
+
+                    // Redirect the user to the /user route
+                    this.$router.push('/hrpage');
+                  } else {
+                    this.error = true;
+                  }
+            }catch (error) {
+                  console.error('Error signing in:', error);
+                  this.error = true;
+                }
             
         }
     }

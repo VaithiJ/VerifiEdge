@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container v-if="isAuthenticated">
     <br>
       <v-container>
 
@@ -154,6 +154,8 @@ export default {
   layout: "notary_layout",
   async mounted(){
     this.$vuetify.theme.dark =false;
+    const accessToken = localStorage.getItem('access_token');
+    this.isAuthenticated = !!accessToken;
     let url = "http://127.0.0.1:8000/pendinguser"
         let res = await this.$axios.get(url)
         this.profiles = res.data.list
@@ -191,7 +193,9 @@ export default {
       count1:{},
       count2:{},
       counts:{},
-      pdata:{}
+      pdata:{},
+      isAuthenticated: false
+
     }),
 
 }

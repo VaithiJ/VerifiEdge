@@ -54,12 +54,14 @@
     return {
       drawer: false,
     };
-  },
-
-
+  },  
   methods: {
     async logout() {
-        this.$router.push("/notary")
+
+      localStorage.removeItem('access_token');
+      console.log("removed")
+        // this.$router.push("/notary")
+
     }
   }
 

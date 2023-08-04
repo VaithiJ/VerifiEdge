@@ -54,21 +54,35 @@ export default{
     }),
     methods: {
         async login(){
+          try{
             let url = "http://127.0.0.1:8000/notary/login"
             let nlogin = {
                 email: this.email,
                 password: this.password
             }
             let res = await this.$axios.get(url,{params:{'email': this.email, 'password': this.password}});
-            if(res.data == true){
-                this.$storage.setUniversal('notaryemail',this.email)
-                this.$router.push("/notary");
-            }else{
-                this.fail= true
-            }
+            this.$storage.setUniversal('notaryemail',this.email)
+
             let nurl = "http://127.0.0.1:8000/notary/logindate"
             let nres =  await this.$axios.post(nurl, nlogin)
+            if(res.data == false){
+              this.fail = true;
+            }
+            
+            const access_token = res.data.access_token;
+                if (access_token) {
+                    // Save the access token to local storage or a secure cookie
+                    localStorage.setItem('access_token', access_token);
 
+                    // Redirect the user to the /user route
+                    this.$router.push('/notary');
+                  } else {
+                    this.error = true;
+                  }
+          }catch (error) {
+                  console.error('Error signing in:', error);
+                  this.error = true;
+              }
         }
     }
 }

@@ -4,9 +4,10 @@ from typing import Dict, Optional
 from random import choice
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
+from starlette.requests import Request
 from starlette.responses import RedirectResponse, JSONResponse
 from pymongo import MongoClient
-from datetime import datetime
+from datetime import timedelta, datetime
 from io import StringIO
 from fastapi.exceptions import HTTPException
 import pandas as pd
@@ -30,17 +31,15 @@ import json
 import re
 import yagmail
 import smtplib
-#from decouple import config
-
-
-#import key_config as keys
+import jwt
+from decouple import config
 import key_config as keys
 
 client = MongoClient('mongodb://localhost:27017/')
-# SECRET_KEY = config('SECRET_KEY')
-# ALGORITHM = config('ALGORITHM')
-# ACCESS_TOKEN_EXPIRE_MINUTES = config('ACCESS_TOKEN_EXPIRE_MINUTES', cast=int, default=30)
-# COOKIE_DOMAIN = config('COOKIE_DOMAIN', default=None)
+SECRET_KEY = config('SECRET_KEY')
+ALGORITHM = config('ALGORITHM')
+ACCESS_TOKEN_EXPIRE_MINUTES = config('ACCESS_TOKEN_EXPIRE_MINUTES', cast=int, default=30)
+COOKIE_DOMAIN = config('COOKIE_DOMAIN', default=None)
 
 ##############################S3 bucket #############################
 AWS_REGION = "ap-south-1"
@@ -259,18 +258,17 @@ async def add_user(user: UserModel):
     filter = {
         'email': user.email,
     }
-    if client.bgv.user.count_documents(filter) == 0:
+    existing_user = client.bgv.user.find_one(filter)
+    if existing_user:
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="User with this email already exists")
+    else:
+        user_data = dict(user)
+        client.bgv.user.insert_one(user_data)
         try:
             os.mkdir(user.email)
         except FileExistsError as e:
-            print (str(e))
-        try:
-            client.bgv.user.insert_one(dict(user))
-            return True
-        except Exception as e:
-            print('Error inserting user: %s' % e)
-    else : 
-        return False
+            print(str(e))
+        return {"message": "User created successfully"}
 
 #### getting user information from database
 
@@ -1258,9 +1256,16 @@ async def login(email : str, password : str):
         'email': email,
         'password': password
     }
-
-    if client.bgv.notary.count_documents(filter) ==1:
-        return True 
+    notary = client.bgv.notary.find_one(filter)
+    if notary:
+        access_token = create_access_token(data = {"sub":email}, expires_delta=timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
+        response = JSONResponse(content={"access_token": access_token, "token_type": "bearer", "success": True})
+        if COOKIE_DOMAIN:
+            response.set_cookie(key="Authorization", value=f"Bearer {access_token}", domain=COOKIE_DOMAIN,
+                                httponly=True, secure=True)
+        else:
+            response.set_cookie(key="Authorization", value=f"Bearer {access_token}", httponly=True, secure=True)
+        return response
     else:
         return False
     
@@ -1313,7 +1318,32 @@ async def notary_lastlogin(login:NLogin):
 
 
 #################################################################################################
+# JWT Token
+def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
+    to_encode = data.copy()
+    if expires_delta:
+        expire = datetime.utcnow() + expires_delta
+    else:
+        expire = datetime.utcnow() + timedelta(minutes=15)
+    to_encode.update({"exp": expire})
+    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    return encoded_jwt
 
+# Dependency to get the current user from the JWT token in the request header
+async def get_current_user(request: Request, token: str = Cookie(None)):
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        email = payload.get("sub")
+        if email is None:
+            raise HTTPException(status_code=HTTP_401_UNAUTHORIZED, detail="Invalid authentication credentials")
+        return email
+    except jwt.ExpiredSignatureError:
+        raise HTTPException(status_code=HTTP_401_UNAUTHORIZED, detail="Token has expired")
+    except jwt.InvalidTokenError:
+        raise HTTPException(status_code=HTTP_401_UNAUTHORIZED, detail="Invalid token")
+
+
+# You can create other routes for your frontend interactions with Vuetify
 ##################################### Login API #################################################
 
 
@@ -1323,9 +1353,17 @@ async def login(email : str, password : str):
         'email': email,
         'password': password
     }
+    user = client.bgv.user.find_one(filter)
 
-    if client.bgv.user.count_documents(filter) ==1:
-        return True 
+    if user:
+        access_token = create_access_token(data = {"sub":email}, expires_delta=timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
+        response = JSONResponse(content={"access_token": access_token, "token_type": "bearer", "success": True})
+        if COOKIE_DOMAIN:
+            response.set_cookie(key="Authorization", value=f"Bearer {access_token}", domain=COOKIE_DOMAIN,
+                                httponly=True, secure=True)
+        else:
+            response.set_cookie(key="Authorization", value=f"Bearer {access_token}", httponly=True, secure=True)
+        return response
     else:
         return False
 
@@ -1375,12 +1413,19 @@ async def hr_login(company_mail : str, password : str):
         'company_mail': company_mail,
         'password': password
     }
+    hr = client.bgv.hr.find_one(filter)
 
-    if client.bgv.hr.count_documents(filter) ==1:
-        return True 
+    if hr:
+        access_token = create_access_token(data = {"sub":company_mail}, expires_delta=timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
+        response = JSONResponse(content={"access_token": access_token, "token_type": "bearer", "success": True})
+        if COOKIE_DOMAIN:
+            response.set_cookie(key="Authorization", value=f"Bearer {access_token}", domain=COOKIE_DOMAIN,
+                                httponly=True, secure=True)
+        else:
+            response.set_cookie(key="Authorization", value=f"Bearer {access_token}", httponly=True, secure=True)
+        return response
     else:
         return False
-
 
 @app.get('/pendinguser')
 async def pendinguser():

@@ -1,5 +1,5 @@
 <template>
-<v-container>
+<v-container v-if="isAuthenticated">
   <br>
   <hrindex/>
 </v-container>
@@ -7,6 +7,13 @@
 <script>
 export default{
     layout:"hr_layout",
+    async mounted(){
+      const accessToken = localStorage.getItem('access_token');
+    this.isAuthenticated = !!accessToken;
+    },
+    data: () => ({
+      isAuthenticated: false
+    })
 
 }
 </script>

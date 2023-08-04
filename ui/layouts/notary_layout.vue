@@ -69,6 +69,7 @@ export default {
           }
           let nres =  await this.$axios.post(url, ndata)
           console.log('logout');
+          localStorage.removeItem('access_token');
           this.$router.push('/notarysignin');
 
         },

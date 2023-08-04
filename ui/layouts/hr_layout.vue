@@ -80,6 +80,8 @@ export default{
             this.$router.push("/hrpage");
         },
         async logout() {
+          localStorage.removeItem('access_token');
+
             this.$router.push("/hrsignin");
             this.$storage.removeUniversal('user_email')
             let url = "http://127.0.0.1:8000/hr/last_login"

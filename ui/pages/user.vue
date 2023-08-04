@@ -1,5 +1,5 @@
 <template>
-  <v-app >
+  <v-app v-if="isAuthenticated">
     <v-main class="grey lighten-3">
       <v-container>
         <v-row>
@@ -126,6 +126,8 @@
   export default {
     layout:'profile',
     async mounted(){
+      const accessToken = localStorage.getItem('access_token');
+    this.isAuthenticated = !!accessToken;
       this.email = this.$storage.getUniversal('login_mail')
       let url = "http://127.0.0.1:8000/user"
       let res = await this.$axios.get(url,{params:{email: this.email}})
@@ -149,7 +151,8 @@
       personal: false,
       sslc: false,
       hse: false,
-      ug: false
+      ug: false,
+      isAuthenticated: false
       
     }),
     methods:{
