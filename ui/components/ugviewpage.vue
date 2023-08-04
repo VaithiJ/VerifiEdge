@@ -1,6 +1,6 @@
 <template>
   <v-container style="width: 100%; ">
-    <v-card>
+    <v-card class="curved-box" elevation="12">
       <v-container v-if="data_">
         <div class="custom-alert">
             <v-icon class="alert-icon">mdi-alert-circle</v-icon>
@@ -176,6 +176,10 @@ export default{
 }
 </script>
 <style>
+.curved-box {
+    border-radius: 40px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+  }
 .custom-alert {
   display: flex;
   align-items: center;
@@ -191,5 +195,6 @@ export default{
 .custom-alert .alert-text {
   font-size: 16px;
 }
+
 
 </style>
