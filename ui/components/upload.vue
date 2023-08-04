@@ -1,39 +1,47 @@
 <template>
   <v-container fluid class="d-flex align-center justify-center">
     <v-card class="text-center" :elevation="6" :height="auto" :width="700">
-      <br/>
+      <br />
       <v-text-title><h2>User Data</h2></v-text-title>
-      <br/>
+      <br />
       <v-row>
-        <v-col key="download-btn">
+        <v-col>
           <v-container>
             <v-btn color="blue lighten-1" dark @click="downloadTemplate()">Download Template</v-btn>
           </v-container>
         </v-col>
       </v-row>
-      <br/><br/>
+      <br /><br />
       <v-divider></v-divider>
       <v-divider></v-divider>
-      <br/><br/>
+      <br /><br />
       <v-row>
         <v-col>
           <v-container class="text-center">
             <v-file-input @change="onFileChange" style="width:70%; margin:0 auto; " label="Upload Template" outlined variant="solo-filled"></v-file-input>
             <v-btn :loading="isLoading" :disabled="isLoading || !file" color="blue lighten-1" dark @click="upload()">Upload</v-btn>
-            <template v-if="excelData">
-              <table>
-                <tr v-for="(row, rowIndex) in excelData" :key="rowIndex">
-                  <td v-for="(cell, cellIndex) in row" :key="cellIndex">{{ cell }}</td>
-                </tr>
-              </table>
-            </template>
+            <v-row v-if="excelData">
+              <v-col>
+                <v-card-subtitle v-if="excelData.total_count">Total Count:</v-card-subtitle>
+                <v-container>
+                  {{ excelData.total_count }}
+                </v-container>
+              </v-col>
+              <v-col>
+                <v-card-subtitle v-if="excelData.available_count">Inserted Count:</v-card-subtitle>
+                <v-container>
+                  {{ excelData.available_count }}
+                </v-container>
+              </v-col>
+              <v-col>
+                <v-card-subtitle v-if="excelData.rejected_count">Rejected Count:</v-card-subtitle>
+                <v-container>
+                  {{ excelData.rejected_count }}
+                </v-container>
+              </v-col>
+            </v-row>
           </v-container>
         </v-col>
-      </v-row>
-      <v-row>
-        <v-container class="text-center">
-          <h3 v-if="excelData && excelData.rowIndex">Uploaded Details:</h3>
-        </v-container>
       </v-row>
     </v-card>
   </v-container>
@@ -45,6 +53,7 @@ import axios from 'axios';
 export default {
   data() {
     return {
+      data:{},
       isLoading: false,
       file: null,
       excelData: null,

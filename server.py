@@ -34,6 +34,7 @@ import smtplib
 import jwt
 from decouple import config
 import key_config as keys
+from datetime import datetime, timedelta
 
 client = MongoClient('mongodb://localhost:27017/')
 SECRET_KEY = config('SECRET_KEY')
@@ -2453,6 +2454,9 @@ def is_valid_date(date_string):
         return True
     else:
         return False
+    
+current_timestamp = datetime.now()
+formatted_timestamp = current_timestamp.strftime('%Y-%m-%d %H:%M:%S')
 
 @app.post("/upload/")
 async def upload_excel_file(file: UploadFile = File(...), bgv: str = "bgv"):
@@ -2485,6 +2489,9 @@ async def upload_excel_file(file: UploadFile = File(...), bgv: str = "bgv"):
             df = xls.parse(sheet_name)
             collection_name = collection_names.get(sheet_name, sheet_name.lower().replace(" ", "_"))
 
+            if total_count < len(df.index):
+                total_count = len(df.index)
+
             if df.isnull().values.any():
                 rejected_data.append(json.loads(df[df.isnull().any(axis=1)].to_json(orient='records')))
                 # rejected_data += df[df.isnull().any(axis=1)].to_dict()
@@ -2515,12 +2522,13 @@ async def upload_excel_file(file: UploadFile = File(...), bgv: str = "bgv"):
                 columns_to_convert = ["pg_regno", "pg_passout"]
                 df[columns_to_convert] = df[columns_to_convert].astype(int)
 
-            total_count += len(df.index)
             print(sheet_name)
 
             sheet_data[collection_name] = df.to_dict(orient="records")
 
         os.remove(file.filename)
+        new_user_list = list()
+        new_user_emails = list()
 
         for db_collection in list(sheet_data):
             collection = db[db_collection]
@@ -2538,24 +2546,46 @@ async def upload_excel_file(file: UploadFile = File(...), bgv: str = "bgv"):
                     if count == 4:
                         try:
                             user["_id"] = generate_id()
+                            user["status"] = False
+                            user["createdAt"] = formatted_timestamp
                             to_mongo[db_collection].append(user)
                         except KeyError:
                             to_mongo[db_collection] = list()
+                            to_mongo[db_collection].append(user)
+
+                        if new_user_emails.count(email) < 1:
+                            new_user = {
+                                "_id": generate_id(),
+                                "name": user["name"],
+                                "email": email,
+                                "password": generate_id(),
+                                "status": "pending",
+                                "createdAt": formatted_timestamp,
+                            }
+
+                            new_user_emails.append(email)
+                            new_user_list.append(new_user)
                     else:
                         rejected_data.append(user)
                         # pd.concat([rejected_data, pd.DataFrame([user])], ignore_index=True)
                 else:
                     rejected_data.append(user)
 
-            if len(to_mongo[db_collection]) > 0:
-                collection.insert_many(to_mongo[db_collection])
-            print(f"{db_collection}: {len(to_mongo[db_collection])}")
+            try:
+                if len(to_mongo[db_collection]) > 0:
+                    # send_mails(rejected_data)
+                    collection.insert_many(to_mongo[db_collection])
+            except KeyError as e:
+                to_mongo[db_collection] = list()
+
+        if len(new_user_list) > 1:
+            db["user"].insert_many(new_user_list)
 
         return_data = {
-            # 'total_count': total_count,
-            # 'available_count': len(to_mongo["personal"]),
-            # 'rejected_count': len(rejected_data) + len(rejected_data[0]),
-            # 'rejected_list': rejected_data,
+            'total_count': total_count,
+            'available_count': len(to_mongo["personal"]),
+            'rejected_count': total_count - len(to_mongo["personal"]),
+            # "data": rejected_data,
         }
         return return_data
     except HTTPException as http_exc:
@@ -2563,7 +2593,7 @@ async def upload_excel_file(file: UploadFile = File(...), bgv: str = "bgv"):
         raise http_exc
 
     except Exception as e:
-        e.with_traceback()
+        traceback.print_exc()
         return JSONResponse(content={"message": f"Error: {str(e)}"}, status_code=500)
 ################################################################################################################    
 @app.get("/download_excel/{template}/")
