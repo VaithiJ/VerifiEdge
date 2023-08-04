@@ -82,8 +82,6 @@ export default {
       const data = response.data;
       this.excelData = data;
       this.isLoading = false;
-
-      // Show the success alert here
       alert("File successfully uploaded");
     } catch (error) {
       console.error(error);

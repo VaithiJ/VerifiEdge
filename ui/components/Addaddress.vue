@@ -15,12 +15,25 @@
   
           <v-card-text>
             <v-form ref="form" v-model="valid">
-              <v-text-field v-model="houseNo" label="House No/Name" :rules="[rules.required]"></v-text-field>
-              <v-text-field v-model="street" label="Street" :rules="[rules.required,rules.omg]"></v-text-field>
-              <v-text-field v-model="region" label="Town/City" :rules="[rules.required,rules.omg]"></v-text-field>
-              <v-text-field v-model="state" label="State" :rules="[rules.required,rules.omg]"></v-text-field>
-              <v-text-field v-model="country" label="Country" :rules="[rules.required,rules.omg]"></v-text-field>
-              <v-text-field v-model="zipcode" label="ZIP Code" :rules="[rules.required,rules.zipcode]"></v-text-field>
+              <v-row>
+                <v-col>
+              <v-text-field v-model="houseNo" outlined label="House No/Name" :rules="[rules.required]"></v-text-field>
+            </v-col><v-col>
+              <v-text-field v-model="street" outlined label="Street" :rules="[rules.required,rules.omg]"></v-text-field>
+            </v-col>
+            </v-row><v-row>
+              <v-col>
+              <v-text-field v-model="region" outlined label="Town/City" :rules="[rules.required,rules.omg]"></v-text-field>
+            </v-col><v-col>
+              <v-text-field v-model="state" outlined label="State" :rules="[rules.required,rules.omg]"></v-text-field>
+            </v-col>
+            </v-row><v-row>
+              <v-col>
+              <v-text-field v-model="country" outlined label="Country" :rules="[rules.required,rules.omg]"></v-text-field>
+            </v-col><v-col>
+              <v-text-field v-model="zipcode" outlined label="ZIP Code" :rules="[rules.required,rules.zipcode]"></v-text-field>
+              </v-col>
+            </v-row>
             </v-form>
           </v-card-text>
   
