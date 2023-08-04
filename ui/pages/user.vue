@@ -4,7 +4,8 @@
       <v-container>
         <v-row>
           <v-col cols="3">
-
+            <br/><br/><br/><br/><br/><br/><br/>
+            
               <v-container fluid>
                 <v-card max-width="450px" class="curved-box" elevation="12">
                   <br><br>
@@ -23,6 +24,7 @@
                     </v-btn>
                   </v-row>
                   <v-row>
+                    
                     <userbannerpage/>
                     <profilepersonal/>
 
@@ -33,33 +35,8 @@
                   </v-row>
                 </v-card>
                 <br/><br/><br/>
-                <v-col cols="12" md="10">
-                <div >
-            <img
-              data-aos="zoom-in"
-              class="guide2Image"
-              data-aos-duration="800"
-              data-aos-delay="100"
-              src="https://innov.in/assets/images/simg1.png"
-              alt="Guide Image"
-              :style="{ width: '130%', height: 'auto' }"
-            />
-          </div>
-            </v-col>
-            <br/><br/><br/><br/>
-                <v-col cols="12" md="10">
-                <div >
-            <img
-              data-aos="zoom-in"
-              class="guide2Image"
-              data-aos-duration="800"
-              data-aos-delay="100"
-              src="https://innov.in/assets/employee.png"
-              alt="Guide Image"
-              :style="{ width: '130%', height: 'auto' }"
-            />
-          </div>
-            </v-col>
+                
+            
               </v-container>
              
           </v-col>
@@ -81,6 +58,7 @@
           <v-col cols="3">
 
             <v-container fluid>
+              <br/><br/><br/><br/><br/><br/><br/>
               <v-col cols="12" md="10">
                 <div >
             <img
@@ -94,6 +72,21 @@
             />
           </div>
             </v-col>
+            <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+                <v-col cols="12" md="10">
+                <div >
+            <img
+              data-aos="zoom-in"
+              class="guide2Image"
+              data-aos-duration="800"
+              data-aos-delay="100"
+              src="https://innov.in/assets/employee.png"
+              alt="Guide Image"
+              :style="{ width: '130%', height: 'auto' }"
+            />
+          </div>
+            </v-col>
+             
             </v-container>
 
 
