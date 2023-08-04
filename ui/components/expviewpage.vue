@@ -11,7 +11,7 @@
       </v-switch>
     </v-container>
 
-    <v-card v-if="!expshow">
+    <v-card class="curved-box" elevation="12" v-if="!expshow">
       <v-card-title>Experience Details</v-card-title>
       <v-card-content  v-for="data in datas" :key="data.email">
         <v-container v-if="data_s">
@@ -181,3 +181,9 @@ export default{
    }
 }
 </script>
+<style>
+.curved-box {
+    border-radius: 40px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+  }
+</style>
