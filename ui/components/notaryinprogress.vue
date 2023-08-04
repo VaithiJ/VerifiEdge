@@ -98,6 +98,14 @@ export default {
       } catch (error) {
         console.error(error);
       }
+
+      let rurl = "http://127.0.0.1:8000/send_rejection_email"
+        let rdata={
+          email: email,
+          email_subject: "Approval Mail",
+          email_body: "Your Data has been successfully verified"
+        }
+        let nres = await this.$axios.post(rurl, rdata)
     },
   },
 };
