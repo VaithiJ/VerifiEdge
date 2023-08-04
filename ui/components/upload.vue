@@ -74,20 +74,23 @@ export default {
       }
     },
     async upload() {
-      try {
-        this.isLoading = true;
-        const formData = new FormData();
-        formData.append('file', this.file);
-        const response = await axios.post('http://127.0.0.1:8000/upload', formData);
-        const data = response.data;
-        this.excelData = data;
-        this.isLoading = false;
-      } catch (error) {
-        console.error(error);
-        alert("Error uploading file");
-        this.isLoading = false;
-      }
-    },
+    try {
+      this.isLoading = true;
+      const formData = new FormData();
+      formData.append('file', this.file);
+      const response = await axios.post('http://127.0.0.1:8000/upload', formData);
+      const data = response.data;
+      this.excelData = data;
+      this.isLoading = false;
+
+      // Show the success alert here
+      alert("File successfully uploaded");
+    } catch (error) {
+      console.error(error);
+      alert("Error uploading file");
+      this.isLoading = false;
+    }
+  },
   
   },
 };
