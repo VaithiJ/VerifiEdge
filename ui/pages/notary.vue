@@ -3,145 +3,94 @@
     <br>
       <v-container>
 
-        <v-row>
-          <v-col>
-            <v-card width="99%">
-              <v-container class="text-center">
-                <h4>&ensp; Current Login: &ensp; &ensp;{{ pdata.login_date }}</h4>
-
-              </v-container>
+        <v-col>
+          <v-row>
+            <v-col>
+              <v-card height="150.5px">
+                <v-card-title>Total </v-card-title>
+                <v-card-title><h1 style="font-weight: normal; font-size: 70px;" >{{ counts }}</h1></v-card-title>
+              </v-card>
+            </v-col>
+            <v-col>
+              <v-card height="150.5px" style="background-color: #3a849b;">
+  
+                <v-card-title >PENDING </v-card-title>
+                <v-card-title><h1 style="font-weight: normal; font-size: 70px;" >{{ count }}</h1></v-card-title>
+              </v-card>
+  
+            </v-col>
+            <v-col>
+              <v-card height="150.5px" style="background-color: #bdc920;">
+  
+                <v-card-title>INPROGRESS </v-card-title>
+                <v-card-title><h1 style="font-weight: normal; font-size: 70px;" >{{ count2 }}</h1></v-card-title>
+  
+              </v-card>
+  
+            </v-col>
+            <v-col>
+              <v-card height="150.5px" style="background-color: #22d69a;">
+                <v-card-title>COMPLETED </v-card-title>
+                <v-card-title><h1 style="font-weight: normal; font-size: 70px;" >{{ count1 }}</h1></v-card-title>
             </v-card>
-          </v-col>
-          <v-col>
-            <v-card width="97%">
-              <v-container class="text-center">
-                <h4 v-if="pdata.last_login">&ensp; Last Login: &ensp;&ensp;{{ pdata.last_login }}</h4>
-
-              </v-container>
-
-            </v-card>
-          </v-col>
-        </v-row>
-
-        <v-row>
-          <v-col>
-            <v-card height="180.5px">
-              <v-card-title>Total </v-card-title>
-              <v-card-title><h1 style="font-weight: normal; font-size: 70px;" >{{ counts }}</h1></v-card-title>
-            </v-card>
-          </v-col>
-          <v-col>
-            <v-card>
-
-              <v-card-title>PENDING </v-card-title>
-              <v-card-title><h1 style="font-weight: normal; font-size: 70px;" >{{ count }}</h1></v-card-title>
-              <v-card-actions>
-                <v-btn
-                  text
-                  color="indigo darken-4"
-                  @click="reveal = true"
-                >
-                  Show
-                </v-btn>
-              </v-card-actions>
-              <v-expand-transition>
-                <v-card
-                  v-if="reveal"
-                  class="transition-fast-in-fast-out v-card--reveal"
-                  style="height: 100%;"
-                >
-                  <notaryusers/>
-                  <v-card-actions class="pt-0">
-                    <v-btn
-                      text
-                      color="red"
-                      @click="reveal = false"
-                    >
-                      Close
-                    </v-btn>
-                  </v-card-actions>
-                </v-card>
-
-              </v-expand-transition>
-            </v-card>
-
-          </v-col>
-          <v-col>
-            <v-card>
-
-              <v-card-title>INPROGRESS </v-card-title>
-              <v-card-title><h1 style="font-weight: normal; font-size: 70px;" >{{ count2 }}</h1></v-card-title>
-              <v-card-actions>
-                <v-btn
-                  text
-                  color="indigo darken-4"
-                  @click="reveal2 = true"
-                >
-                  Show
-                </v-btn>
-              </v-card-actions>
-              <v-expand-transition>
-                <v-card
-                  v-if="reveal2"
-                  class="transition-fast-in-fast-out v-card--reveal"
-                  style="height: 100%;"
-                >
-                  <notaryinprogress/>
-
-                  <v-card-actions class="pt-0">
-                    <v-btn
-                      text
-                      color="red"
-                      @click="reveal2 = false"
-                    >
-                      Close
-                    </v-btn>
-                  </v-card-actions>
-                </v-card>
-
-              </v-expand-transition>
-            </v-card>
-
-          </v-col>
-          <v-col>
-            <v-card>
-              <v-card-title>COMPLETED </v-card-title>
-              <v-card-title><h1 style="font-weight: normal; font-size: 70px;" >{{ count1 }}</h1></v-card-title>
-            <v-card-actions>
-              <v-btn
-                text
-                color="indigo darken-4"
-                @click="approve = true"
-              >
-                Show
-              </v-btn>
-            </v-card-actions>
-            <v-expand-transition>
-              <v-card
-          v-if="approve"
-          class="transition-fast-in-fast-out v-card--reveal"
-          style="height: 100%;"
-        >
-
-            <notaryapproved/>
-
-
-          <v-card-actions class="pt-0">
-            <v-btn
-              text
-              color="red"
-              @click="approve = false"
+            </v-col>
+  
+          </v-row>
+              <v-container>
+              <v-tabs
+              v-model="tabs"
+              centered
             >
-              Close
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-            </v-expand-transition>
-          </v-card>
-          </v-col>
-
-        </v-row>
-
+              <v-tab
+                v-for="n in 1"
+                :key="n"
+              >
+                pending 
+              </v-tab>
+              <v-tab
+                v-for="n in 1"
+                :key="n"
+              >
+                Inprogress 
+              </v-tab>
+              <v-tab
+                v-for="n in 1"
+                :key="n"
+              >
+                Approved
+              </v-tab>
+            </v-tabs>
+            </v-container>
+            </v-col>
+            
+  
+            <v-container style="margin-bottom: 50%;">
+                <v-tabs-items v-model="tabs">
+          <v-tab-item>
+            <v-card>
+              <v-card-text>
+                  <notaryusers/>
+  
+              </v-card-text>
+            </v-card>
+          </v-tab-item>
+          <v-tab-item>
+            <v-card >
+  
+              <notaryinprogress/>
+  
+            </v-card>
+          </v-tab-item>
+          <v-tab-item>
+            <v-card>
+  
+              <notaryapproved/>
+  
+            </v-card>
+          </v-tab-item>
+        </v-tabs-items>
+              
+            </v-container>
       </v-container>
 
 
@@ -194,7 +143,9 @@ export default {
       count2:{},
       counts:{},
       pdata:{},
-      isAuthenticated: false
+      isAuthenticated: false,
+      tabs: null,
+
 
     }),
 
