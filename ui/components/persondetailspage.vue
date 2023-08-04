@@ -4,7 +4,7 @@
       <v-container v-if="data_">
         <div class="custom-alert">
             <v-icon class="alert-icon">mdi-alert-circle</v-icon>
-            <span>SSLC Data is mandatory.</span>
+            <span>Personal Data is mandatory.</span>
           </div>
       </v-container>
       <v-card-title>Personal Details</v-card-title>
