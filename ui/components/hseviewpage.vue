@@ -4,7 +4,7 @@
       <v-container v-if="data_">
         <div class="custom-alert">
             <v-icon class="alert-icon">mdi-alert-circle</v-icon>
-            <span>Personal Data is mandatory.</span>
+            <span>HSE Data is mandatory.</span>
           </div>
       </v-container>
       <v-card-title>HSE Details</v-card-title>
