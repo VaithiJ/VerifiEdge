@@ -17,21 +17,21 @@
             <v-form ref="form" v-model="valid">
               <v-row>
                 <v-col>
-              <v-text-field v-model="houseNo" outlined label="House No/Name" :rules="[rules.required]"></v-text-field>
+              <v-text-field v-model="houseNo" prepend-icon="mdi-home" outlined label="House No/Name" :rules="[rules.required]"></v-text-field>
             </v-col><v-col>
-              <v-text-field v-model="street" outlined label="Street" :rules="[rules.required,rules.omg]"></v-text-field>
+              <v-text-field v-model="street" prepend-icon="mdi-road" outlined label="Street" :rules="[rules.required,rules.omg]"></v-text-field>
             </v-col>
             </v-row><v-row>
               <v-col>
-              <v-text-field v-model="region" outlined label="Town/City" :rules="[rules.required,rules.omg]"></v-text-field>
+              <v-text-field v-model="region" prepend-icon="mdi-home-group" outlined label="Town/City" :rules="[rules.required,rules.omg]"></v-text-field>
             </v-col><v-col>
-              <v-text-field v-model="state" outlined label="State" :rules="[rules.required,rules.omg]"></v-text-field>
+              <v-text-field v-model="state" prepend-icon="mdi-flag" outlined label="State" :rules="[rules.required,rules.omg]"></v-text-field>
             </v-col>
             </v-row><v-row>
               <v-col>
-              <v-text-field v-model="country" outlined label="Country" :rules="[rules.required,rules.omg]"></v-text-field>
+              <v-text-field v-model="country" prepend-icon="mdi-earth" outlined label="Country" :rules="[rules.required,rules.omg]"></v-text-field>
             </v-col><v-col>
-              <v-text-field v-model="zipcode" outlined label="ZIP Code" :rules="[rules.required,rules.zipcode]"></v-text-field>
+              <v-text-field v-model="zipcode" prepend-icon="mdi-map" outlined label="ZIP Code" :rules="[rules.required,rules.zipcode]"></v-text-field>
               </v-col>
             </v-row>
             </v-form>
