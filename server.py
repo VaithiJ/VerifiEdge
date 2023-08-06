@@ -35,6 +35,8 @@ import jwt
 from decouple import config
 import key_config as keys
 from datetime import datetime, timedelta
+import traceback
+from numbers import Real
 
 client = MongoClient('mongodb://localhost:27017/')
 SECRET_KEY = config('SECRET_KEY')
@@ -2409,51 +2411,58 @@ def is_valid_email(email):
         return True
     else:
         return False
-
+    # return True
 
 def is_valid_aadhaar(aadhaar_number):
     pattern = r'^\d{12}$'
-    if re.match(pattern, aadhaar_number):
+    if re.match(pattern, f"{aadhaar_number}"):
         return True
     else:
         return False
+    # return True
 
 
 def is_valid_worldwide_mobile_number(number):
     # Pattern for a worldwide mobile number (simplified)
-    pattern = r'^\+?\d{6,15}$'
+    pattern = r'^[0-9]{10}$'
 
-    if re.match(pattern, number):
+    if re.match(pattern, f"{number}"):
         return True
     else:
         return False
-
+    # return True
 
 def is_valid_passport_number(passport_number):
     pattern = r'^[A-Z0-9]{6,15}$'
 
-    if re.match(pattern, passport_number):
+    if re.match(pattern, f"{passport_number}"):
         return True
     else:
         return False
+    # return True
 
 
 def is_valid_pan_number(pan_number):
-    pattern = r'^[A-Z]{5}[0-9]{4}[A-Z]{1}$'
+    pattern = r'^([A-Z]){5}([0-9]){4}([A-Z]){1}?$'
 
     if re.match(pattern, pan_number):
         return True
     else:
         return False
-
+    # return True
+    
+def is_valid_number(value):
+    return isinstance(value, (float, int))    
+    # return True
 
 def is_valid_date(date_string):
     pattern = r'^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/\d{4}$'
 
-    if re.match(pattern, date_string):
+    if re.match(pattern, f"{date_string}"):
         return True
     else:
         return False
+    # return True
     
 current_timestamp = datetime.now()
 formatted_timestamp = current_timestamp.strftime('%Y-%m-%d %H:%M:%S')
@@ -2480,7 +2489,7 @@ async def upload_excel_file(file: UploadFile = File(...), bgv: str = "bgv"):
 
         sheet_data = dict()
         to_mongo = dict()
-        emails_exists = []
+        emails_in_excel = []
 
         rejected_data = list()
         total_count = 0
@@ -2489,42 +2498,15 @@ async def upload_excel_file(file: UploadFile = File(...), bgv: str = "bgv"):
             df = xls.parse(sheet_name)
             collection_name = collection_names.get(sheet_name, sheet_name.lower().replace(" ", "_"))
 
-            if total_count < len(df.index):
-                total_count = len(df.index)
+            # print(sheet_name)
 
-            if df.isnull().values.any():
-                rejected_data.append(json.loads(df[df.isnull().any(axis=1)].to_json(orient='records')))
-                # rejected_data += df[df.isnull().any(axis=1)].to_dict()
-                df = df.dropna()
-                # df = df.dropna(how='all', subset=df.columns)
+            total_count_sheet, emails_in_excel_sheet, qualified_data_sheet, rejected_data_sheet = filter_excel(df, total_count, sheet_name)
+            total_count = total_count_sheet
+            emails_in_excel += emails_in_excel_sheet
+            sheet_data[collection_name] = qualified_data_sheet
+            rejected_data += rejected_data_sheet
 
-            if collection_name == "personal":
-                columns_to_convert = ["aadhaar", "passport", "mob"]
-                df[columns_to_convert] = df[columns_to_convert].astype(int)
-                emails_exists += df["email"].to_list()
-
-            if collection_name == "sslc":
-                columns_to_convert = ["sslc_passout", "sslc_regno"]
-                df[columns_to_convert] = df[columns_to_convert].astype(int)
-                emails_exists += df["email"].to_list()
-
-            if sheet_name == "hse":
-                columns_to_convert = ["hse_regno", "hse_passout"]
-                df[columns_to_convert] = df[columns_to_convert].astype(int)
-                emails_exists += df["email"].to_list()
-
-            if sheet_name == "ug":
-                columns_to_convert = ["ug_regno", "ug_passout"]
-                df[columns_to_convert] = df[columns_to_convert].astype(int)
-                emails_exists += df["email"].to_list()
-
-            if sheet_name == "pg":
-                columns_to_convert = ["pg_regno", "pg_passout"]
-                df[columns_to_convert] = df[columns_to_convert].astype(int)
-
-            print(sheet_name)
-
-            sheet_data[collection_name] = df.to_dict(orient="records")
+            # print(len(rejected_data))
 
         os.remove(file.filename)
         new_user_list = list()
@@ -2533,59 +2515,37 @@ async def upload_excel_file(file: UploadFile = File(...), bgv: str = "bgv"):
         for db_collection in list(sheet_data):
             collection = db[db_collection]
 
-            emails_in_db_list = list(collection.find({}, {"email": 1, "_id": 0}))
-            email_in_db = list()
-            for email_obj in emails_in_db_list:
-                email_in_db.append(email_obj["email"])
+            # print(sheet_data[db_collection])
 
-            for user in sheet_data[db_collection]:
-                email = user["email"]
-                count = emails_exists.count(email)
+            excel_data, new_user_list_in_sheet, rejected_data_sheet, new_user_emails_sheet = validate_users(
+                sheet_data[db_collection], collection,db_collection, emails_in_excel, new_user_emails)
 
-                if email_in_db.count(email) < 1:
-                    if count == 4:
-                        try:
-                            user["_id"] = generate_id()
-                            user["status"] = False
-                            user["createdAt"] = formatted_timestamp
-                            to_mongo[db_collection].append(user)
-                        except KeyError:
-                            to_mongo[db_collection] = list()
-                            to_mongo[db_collection].append(user)
+            # print(len(excel_data))
 
-                        if new_user_emails.count(email) < 1:
-                            new_user = {
-                                "_id": generate_id(),
-                                "name": user["name"],
-                                "email": email,
-                                "password": generate_id(),
-                                "status": "pending",
-                                "createdAt": formatted_timestamp,
-                            }
-
-                            new_user_emails.append(email)
-                            new_user_list.append(new_user)
-                    else:
-                        rejected_data.append(user)
-                        # pd.concat([rejected_data, pd.DataFrame([user])], ignore_index=True)
-                else:
-                    rejected_data.append(user)
+            to_mongo[db_collection] = excel_data
+            new_user_list += new_user_list_in_sheet
+            rejected_data += rejected_data_sheet
+            new_user_emails = new_user_emails_sheet
 
             try:
                 if len(to_mongo[db_collection]) > 0:
                     # send_mails(rejected_data)
                     collection.insert_many(to_mongo[db_collection])
             except KeyError as e:
-                to_mongo[db_collection] = list()
+                print(f"No datas to insert in: {db_collection}")
 
         if len(new_user_list) > 1:
             db["user"].insert_many(new_user_list)
+
+        # if len(new_user_list) > 0:
+        #     send_user_mails(new_user_list)
+        # if len(rejected_data) > 0:
+        #     send_rejected_mails(rejected_data)
 
         return_data = {
             'total_count': total_count,
             'available_count': len(to_mongo["personal"]),
             'rejected_count': total_count - len(to_mongo["personal"]),
-            # "data": rejected_data,
         }
         return return_data
     except HTTPException as http_exc:
@@ -2595,6 +2555,195 @@ async def upload_excel_file(file: UploadFile = File(...), bgv: str = "bgv"):
     except Exception as e:
         traceback.print_exc()
         return JSONResponse(content={"message": f"Error: {str(e)}"}, status_code=500)
+
+
+def filter_excel(df_sheet, total_count, sheet_name):
+    rejected_data = list()
+    emails_in_excel = []
+
+    if total_count < len(df_sheet.index):
+        total_count = len(df_sheet.index)
+
+    if df_sheet.isnull().values.any():
+        # df_sheet = df_sheet.dropna()
+        rejected_data.append(json.loads(df_sheet[df_sheet.isnull().any(axis=1)].to_json(orient='records')))
+        df_sheet = df_sheet.dropna()
+
+    if sheet_name == "personal":
+        columns_to_convert = ["aadhaar", "passport", "mob"]
+        df_sheet[columns_to_convert] = df_sheet[columns_to_convert].astype(int)
+        emails_in_excel += df_sheet["email"].to_list()
+
+    if sheet_name == "sslc":
+        columns_to_convert = ["sslc_passout", "sslc_regno"]
+        df_sheet[columns_to_convert] = df_sheet[columns_to_convert].astype(int)
+        emails_in_excel += df_sheet["email"].to_list()
+
+    if sheet_name == "hse":
+        columns_to_convert = ["hse_regno", "hse_passout"]
+        df_sheet[columns_to_convert] = df_sheet[columns_to_convert].astype(int)
+        emails_in_excel += df_sheet["email"].to_list()
+
+    if sheet_name == "ug":
+        columns_to_convert = ["ug_regno", "ug_passout"]
+        df_sheet[columns_to_convert] = df_sheet[columns_to_convert].astype(int)
+        emails_in_excel += df_sheet["email"].to_list()
+
+    if sheet_name == "pg":
+        columns_to_convert = ["pg_regno", "pg_passout"]
+        df_sheet[columns_to_convert] = df_sheet[columns_to_convert].astype(int)
+
+    qualified_data = df_sheet.to_dict(orient="records")
+
+    try:
+        print(len(rejected_data[0]))
+    except IndexError:
+        rejected_data.append([])
+
+    return total_count, emails_in_excel, qualified_data, rejected_data[0]
+
+
+def validate_users(users_data, collection,db_collection, emails_exists, new_user_emails):
+    excel_data = list()
+    new_user_list = list()
+    rejected_data = list()
+
+    emails_in_db_list = list(collection.find({}, {"email": 1, "_id": 0}))
+    email_in_db = list()
+
+    for email_obj in emails_in_db_list:
+        email_in_db.append(email_obj["email"])
+    for user in users_data:
+        # print(user)
+        if user is not None:
+            data_in_excel, new_user, rejected_data_sheet, new_user_emails_sheet = validate_user(user, emails_exists,
+                                                                                                email_in_db, new_user_emails, 
+                                                                                            db_collection)
+    
+            if data_in_excel is not None and len(data_in_excel) is not 0:
+                # print("fijjiij", data_in_excel)
+                excel_data.append(data_in_excel)
+            if new_user is not None and len(new_user) is not 0:
+                new_user_list.append(new_user)
+            rejected_data.append(rejected_data_sheet)
+            new_user_emails = new_user_emails_sheet
+
+            # print("fijjiij", new_user_emails_sheet)
+
+    return excel_data, new_user_list, rejected_data, new_user_emails
+
+
+def validate_user(user_data, emails_exists, email_in_db, new_user_emails,db_collection):
+    user = dict()
+    rejected_data = dict()
+    excel_data = dict()
+
+    email = user_data["email"]
+    count = emails_exists.count(email)
+
+    # print("jnjnj", count)
+
+    if email_in_db.count(email) < 1:
+        if count == 4 and is_valid_email(email):
+            user_data["_id"] = generate_id()
+            user_data["status"] = False
+            user_data["createdAt"] = formatted_timestamp
+
+            excel_data = user_data
+
+            if new_user_emails.count(email) < 1:
+                new_user = {
+                    "_id": generate_id(),
+                    "name": user_data["name"],
+                    "email": email,
+                    "password": generate_id(),
+                    "status": "pending",
+                    "createdAt": formatted_timestamp,
+                }
+
+                new_user_emails.append(email)
+                user = new_user
+        else:
+            rejected_data = user_data
+    else:
+        rejected_data = user_data
+    
+    # if len(excel_data) > 0:
+    #    validity = apply_regex(excel_data,db_collection)
+    # else:
+    #     validity = False
+
+    validity = True
+
+    # print(f"validity {validity} {excel_data}")
+
+    if validity:
+        return excel_data, user, rejected_data, new_user_emails
+    else:
+        return None, None, user_data, new_user_emails
+
+
+def apply_regex(user: dict, collection: str) -> bool:
+    is_valid = False
+
+    print(user,collection)
+
+    if collection == "personal":
+        if is_valid_worldwide_mobile_number(user["mob"]) and is_valid_pan_number(user["pan"]) and is_valid_passport_number(user["passport"]) and is_valid_aadhaar(user["aadhaar"]) and is_valid_email(user["company_mail"]) and is_valid_date(user["doj"]):
+            is_valid = True
+
+    if collection == "sslc":
+        if is_valid_number(user["sslc_marks"]) and is_valid_number(user["sslc_passout"]):
+            is_valid = True
+
+    if collection == "hse":
+        if is_valid_number(user["hse_marks"]) and is_valid_number(user["hse_passout"]):
+            is_valid = True
+
+    if collection == "ug":
+        if is_valid_number(user["ug_marks"]) and is_valid_number(user["ug_passout"]):
+            is_valid = True
+
+    if collection == "pg":
+        if is_valid_number(user["pg_marks"]) and is_valid_number(user["pg_passout"]):
+            is_valid = True
+
+    if collection == "exp":
+        if is_valid_number(user["lpa"]) and is_valid_date(user["start_date"]) and is_valid_date(user["end_date"]):
+            is_valid = True
+
+    return is_valid
+
+
+config = configparser.ConfigParser()
+config.read(['config.cfg', 'config.dev.cfg'])
+azure_settings = config['azure']
+graph: Graph = Graph(azure_settings)
+
+
+def send_rejected_mails(rejected):
+    for user in rejected:
+        # print(user)
+
+        subject = "Registration failed."
+        reciptant = user["email"]
+
+        message = f"Hi! This is to inform that your recird creation was failed due to invalid or inconsistant data."
+
+        graph.send_mail(subject, message, reciptant)
+
+
+def send_user_mails(created):
+    for user in created:
+        print(user)
+
+        subject = "Registration confirmation."
+        reciptant = user["email"]
+        password = user["password"]
+
+        message = f"Hi! This is to inform that your recird has been created and the password is: {password}"
+
+        graph.send_mail(subject, message, reciptant)
 ################################################################################################################    
 @app.get("/download_excel/{template}/")
 async def download_excel(template: str) -> FileResponse:
