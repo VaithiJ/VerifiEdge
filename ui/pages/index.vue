@@ -21,7 +21,7 @@ and get verified.</h4>
         </div>
       </div>
       <div class="col-lg-6 order-1 order-lg-2 hero-img" data-aos="fade-left" data-aos-delay="200">
-        <img src="../assets/img/hero-img.png" class="img-fluid animated" alt="">
+        <img src="../assets/img/hero-img.png" class="img-fluid animated" alt="" width="90%">
       </div>
     </div>
   </div>
@@ -708,7 +708,7 @@ animation: up-down 1s ease-in-out infinite alternate-reverse both;
 }
 
 #hero .hero-img img {
-  width: 50%; padding-top: 20%;
+  width: 250%; padding-top: 20%;
 }
 }
 
