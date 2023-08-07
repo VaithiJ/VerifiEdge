@@ -39,7 +39,30 @@
           <v-container>
             &emsp;&emsp;
             <v-btn size="30%"  :loading="isLoading" :disabled="isLoading" v-if="data.status == !'verified' || data.status==!'rejected'" text outlined color="indigo darken-4" style="color: white;"  @click="approve(data.email, data.empid, ndata.name)">Approve</v-btn>&emsp;
-            <v-btn size="30%"   :loading="isrejecting" :disabled="isrejecting" v-if="data.status == !'verified' || data.status==!'rejected'" text outlined  color="indigo darken-4" style="color: white;"  @click="deny(data.email, data.empid, ndata.name)">Reject</v-btn>&emsp;
+            <v-btn size="30%"   :loading="isrejecting" :disabled="isrejecting" v-if="data.status == !'verified' || data.status==!'rejected'" text outlined  color="indigo darken-4" style="color: white;"   @click="openRejectDialog(data.email, data.empid, ndata.name)">Reject</v-btn>
+            <v-dialog  v-model="showForm" max-width="500px">
+              <v-card>
+                <v-card-title>
+                  <span class="headline">Reason</span>
+                </v-card-title>
+        
+                <v-card-text>
+                  <v-form ref="form" v-model="valid">
+                  <v-row>
+                    <v-text-field v-model="email_body" label="Enter the Reason for rejection" outlined ></v-text-field>
+  
+                  </v-row>
+                  </v-form>
+                </v-card-text>
+        
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="error" text @click="showForm = false">Cancel</v-btn>
+                  <v-btn text color="indigo lighten-2" :disabled="!valid"   @click="deny(rejectionData.email, rejectionData.empid, rejectionData.name, email_body)">Submit</v-btn>
+                </v-card-actions>
+      
+              </v-card>
+            </v-dialog>
           </v-container>
         </v-row>
         <v-row>
@@ -99,12 +122,25 @@ export default{
       data_: false,
       data_s: false,
       isLoading:false,
-      isrejecting: false
+      isrejecting: false,
+      email_body:"",
+      showForm: false,
+      rejectionData: {
+    email: '',
+    empid: '',
+    name: '',
+  },
 
 
 
   }),
   methods:{
+    openRejectDialog(email, empid, name) {
+    this.rejectionData.email = email;
+    this.rejectionData.empid = empid;
+    this.rejectionData.name = name;
+    this.showForm = true;
+  },
    
     async approve(email, empid, name){
       let nurl = "http://127.0.0.1:8000/exp/inprogress"
@@ -180,8 +216,8 @@ export default{
 
     },
     async deny(email, empid, name){
-        console.log(email, name)
-        let url = "http://127.0.0.1:8000/verify/exp"
+      console.log(email, empid)
+      let url = "http://127.0.0.1:8000/verify/exp"
         let reject={
           user_email: email,
           empid: empid,
@@ -190,16 +226,16 @@ export default{
           status: "rejected"
         }
         let res = this.$axios.post(url,reject)
-        window.location.reload()
-
         let rurl = "http://127.0.0.1:8000/send_rejection_email"
         let rdata={
           email: email,
-          email_subject: "Rejection Mail",
-          email_body: "Experience Data is Rejected"
+          email_subject: "EXperience data Rejection",
+          email_body: this.email_body,
         }
         let nres = await this.$axios.post(rurl, rdata)
-
+        console.log(nres)
+        this.showForm = false
+        this.isrejecting = true
         window.location.reload()
 
     }
