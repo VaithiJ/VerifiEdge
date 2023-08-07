@@ -49,7 +49,7 @@
                   v-model="signindata.password"
                   prepend-icon="mdi-lock"
                   type="password"
-                  :rules="[rules.required, rules.min]"
+                  :rules="[rules.required]"
                   label="Password"
                 ></v-text-field>
               </v-col>
@@ -89,7 +89,6 @@ export default{
       error : false,
       rules : {
           required: (v) => !!v || "Required",
-          min : (v) =>  v.match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/)|| "Check your password",
           email : (v) => v.match(/\S+@\S+\.\S+/) || "Email format is wrong",
       }
   }),
