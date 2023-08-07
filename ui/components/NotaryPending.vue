@@ -1,6 +1,7 @@
 <template>
     <v-container >
       <v-container v-if="show">
+        
         <v-list density="compact">
           <v-list-item
             v-for="data in datas"

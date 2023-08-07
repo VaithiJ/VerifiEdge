@@ -1,6 +1,8 @@
 <template>
   <v-container>
     <v-container v-if="show">
+      <v-card class="mx-auto my-12"
+    max-width="700">
       <v-list density="compact">
         <v-list-item
           v-for="profile in paginatedProfiles"
@@ -10,11 +12,12 @@
         >
           <v-list-item-title v-text="profile.name"></v-list-item-title>
           <v-list-item-subtitle v-text="profile.email"></v-list-item-subtitle>
-          <v-btn icon @click="view(profile.email)">
-            <v-icon color="indigo darken-4">mdi-card-account-details-outline</v-icon>
+          <v-btn text color="#3498db" @click="view(profile.email)">view
+            <!-- <v-icon color="indigo darken-4">mdi-card-account-details-outline</v-icon> -->
           </v-btn>
         </v-list-item>
       </v-list>
+      </v-card>
       <v-container class="text-center">
         <v-pagination
           v-model="currentPage"

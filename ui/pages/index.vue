@@ -2,12 +2,6 @@
   <v-container>
 
 
-<meta charset="utf-8">
-<meta content="width=device-width, initial-scale=1.0" name="viewport">
-
-<title>Vesperr Bootstrap Template - Index</title>
-<meta content="" name="description">
-<meta content="" name="keywords">
 <body>
 <!-- ======= Hero Section ======= -->
 <section id="hero" class="d-flex align-items-center">
@@ -654,7 +648,7 @@ display: block;
 --------------------------------------------------------------*/
 #hero {
 width: 100%;
-height: 80vh;
+height: 80%;
 margin-top: 10px;
 }
 

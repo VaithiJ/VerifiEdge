@@ -1,6 +1,8 @@
 <template>
   <v-container>
     <v-container v-if="show">
+      <v-card class="mx-auto my-12"
+    max-width="700">
       <v-list>
         <v-list-item
           v-for="request in paginatedRequests"
@@ -8,14 +10,15 @@
         >
           <v-list-item-title v-text="request.name"></v-list-item-title>
           <v-list-item-subtitle v-text="request.email"></v-list-item-subtitle>
-          <v-btn icon @click="view(request.email)">
-            <v-icon color="indigo darken-4">mdi-card-account-details-outline</v-icon>
+          <v-btn text color="#3498db" @click="view(request.email)">view
+            <!-- <v-icon color="#3498db">mdi-card-account-details-outline</v-icon> -->
           </v-btn>
           <v-btn icon @click="approve(request.email)">
             <v-icon color="green">mdi-check</v-icon>
           </v-btn>
         </v-list-item>
       </v-list>
+      </v-card>
       <v-container class="text-center">
         <v-pagination
           v-model="currentPage"
