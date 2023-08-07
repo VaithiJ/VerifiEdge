@@ -1,9 +1,11 @@
 <template>
     <v-app userprofile>
-        <v-app-bar app  color="blue lighten-1">
-            <v-app-bar-title style="color: ghostwhite;">User Profile</v-app-bar-title>
+      <v-app-bar app color="#3498db">
+         <img class="mr-3" :src="require('../assets/blockedge-logo.svg')" height="40"/>
+      <v-spacer></v-spacer>
+            <
             <v-spacer></v-spacer>
-            <v-btn text style="color: ghostwhite;width: 100px;" @click="logout()">Close</v-btn>
+            <v-btn text style="color: ghostwhite;width: 100px;" @click="logout()">Logout</v-btn>
         </v-app-bar>
         <v-main>
             <Nuxt/>

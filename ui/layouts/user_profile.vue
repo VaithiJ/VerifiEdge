@@ -1,12 +1,14 @@
 <template>
 
     <v-app>
-    <v-app-bar app color="blue lighten-1" :clipped-left="clipped" fixed>
+      <v-app-bar app color="#3498db">
+         <img class="mr-3" :src="require('../assets/blockedge-logo.svg')" height="40"/>
+      <v-spacer></v-spacer>
       &ensp; &ensp; &ensp;
       <v-toolbar-title style="color: white;">User Profile</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-spacer></v-spacer>
-        <v-btn text style="color: ghostwhite;width: 100px;" @click="logout()">Close</v-btn>
+        <v-btn text style="color: ghostwhite;width: 100px;" @click="logout()">Logout</v-btn>
 
     </v-app-bar>
     <v-main>
