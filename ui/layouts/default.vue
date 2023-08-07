@@ -3,13 +3,22 @@
 <v-app-bar app color="#3498db">
     <img class="mr-3" :src="require('../assets/blockedge-logo.svg')" height="40"/>
     <v-spacer></v-spacer>
-    <v-btn text href="#hero"  color="black" width="100px">Home</v-btn>
+    <a href="/">
+      <v-btn text color="black" width="100px">Home</v-btn>
+    </a>
     &ensp;&ensp;
-    <v-btn text href="#about" color="black" width="100px">About</v-btn>
+    <a href="/aboutpage">
+      <v-btn text color="black" width="100px">About</v-btn>
+
+    </a>
     &ensp;&ensp;
-    <v-btn text href="#features"  color="black" width="100px">Features</v-btn>
+    <a href="/featurespage">
+    <v-btn text   color="black" width="100px">Features</v-btn>
+    </a>
     &ensp;&ensp;&ensp;
-    <v-btn text href="#contact"  color="black" width="100px">Contact</v-btn> 
+    <a href="/contactpage">
+    <v-btn text  color="black" width="100px">Contact</v-btn> 
+    </a>
    &ensp;&ensp;&ensp;
    <a href="/getstarted">
     <v-btn  rounded   color="blue lighten-5" class="text =white" width="120px" >Get Started</v-btn>
@@ -66,6 +75,7 @@
     };
   },
     methods : {
+      
         async signup() {
             this.$router.push("/signup");
         },
@@ -75,6 +85,18 @@
         async getstarted(){
           this.$router.push("/getstarted");
 
+        },
+        async index(){
+          this.$router.push("/")
+        },
+        async about(){
+          this.$router.push("/aboutpage")
+        },
+        async features(){
+          this.$router.push("/featurespage")
+        },
+        async contact(){
+          this.$router.push("/contactpage")
         }
     }
 }
