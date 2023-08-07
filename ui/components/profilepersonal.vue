@@ -32,7 +32,10 @@ async mounted (){
   this.pdata=res.data
   console.log(this.pdata)
   console.log(this.pdata)
-  if(this.pdata == true){
+  if(this.pdata == false){
+    this.data_s = false
+  }
+  else{
     this.data_s = true
   }
   if (this.pdata.status == "pending"){
