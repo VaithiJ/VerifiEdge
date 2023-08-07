@@ -13,24 +13,21 @@
               </v-card>
             </v-col>
             <v-col>
-              <v-card height="150.5px" style="background-color: #3a849b;">
-  
-                <v-card-title >PENDING </v-card-title>
-                <v-card-title><h1 style="font-weight: normal; font-size: 70px;" >{{ count }}</h1></v-card-title>
-              </v-card>
-  
-            </v-col>
-            <v-col>
-              <v-card height="150.5px" style="background-color: #bdc920;">
-  
-                <v-card-title>INPROGRESS </v-card-title>
-                <v-card-title><h1 style="font-weight: normal; font-size: 70px;" >{{ count2 }}</h1></v-card-title>
-  
-              </v-card>
-  
-            </v-col>
-            <v-col>
-              <v-card height="150.5px" style="background-color: #22d69a;">
+              <v-card height="150.5px" style="background-color: #BBDEFB;">
+              <v-card-title>Total </v-card-title>
+              <v-card-title><h1 style="font-weight: normal; font-size: 70px;" >{{ counts }}</h1></v-card-title>
+            </v-card>
+          </v-col>
+          <v-col>
+            <v-card height="150.5px" style="background-color: #90CAF9;">
+
+              <v-card-title >PENDING </v-card-title>
+              <v-card-title><h1 style="font-weight: normal; font-size: 70px;" >{{ count }}</h1></v-card-title>
+            </v-card>
+
+          </v-col>
+          <v-col>
+            <v-card height="150.5px" style="background-color: #64B5F6;">
                 <v-card-title>COMPLETED </v-card-title>
                 <v-card-title><h1 style="font-weight: normal; font-size: 70px;" >{{ count1 }}</h1></v-card-title>
             </v-card>
