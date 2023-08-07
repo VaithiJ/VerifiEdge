@@ -11,7 +11,7 @@
     </v-row>
    
     <v-row>
-      <v-text-field label="Enter the password" v-model="password" type="password" :rules="[rules.required,rules.min]"></v-text-field>
+      <v-text-field label="Enter the password" v-model="password" type="password" :rules="[rules.required]"></v-text-field>
     </v-row>
     <br>
     <v-container class="text-center">
@@ -29,7 +29,6 @@ password: "",
 fail: null,
 rules : {
 required: (v) => !!v || "Required",
-min : (v) => v.match(/^(?=.*[A-Z])(?=.*[@])(?=.*[a-z])(?=.*\d).{8,}$/)|| "Enter Password with One Cap letter ,@,small letter and with the number is required",
 email : (v) => v.match(/\S+@\S+\.\S+/) || "Email format is wrong",
 }
 }),
