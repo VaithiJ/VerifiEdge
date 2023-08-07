@@ -66,15 +66,9 @@
       <v-card-action >
         <v-container v-if="data_">
           <v-btn text icon @click="addsslc()"><v-icon color="indigo darken-4">mdi-plus</v-icon></v-btn>
-
         </v-container>
-
       </v-card-action>
-
-
     </v-card>
-
-
        </v-container>
 </template>
 <script>

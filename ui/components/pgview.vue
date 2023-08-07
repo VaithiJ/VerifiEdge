@@ -39,7 +39,7 @@
       <v-row>
         <v-container v-if="!isLoading">
           &emsp;&emsp;
-          <v-btn size="30%" v-on:click="verified = true"  :loading="isLoading" :disabled="isLoading" v-if="this.data.status == !'verified' || this.data.status==!'rejected'" text outlined  color="indigo darken-4" style="color:white;" @click="approve(data.email, data.pg_regno, ndata.name)">Approve</v-btn>&emsp;
+          <v-btn size="30%"  :loading="isLoading" :disabled="isLoading" v-if="this.data.status == !'verified' || this.data.status==!'rejected'" text outlined  color="indigo darken-4" style="color:white;" @click="approve(data.email, data.pg_regno, ndata.name)">Approve</v-btn>&emsp;
           <v-btn size="30%"  :loading="isLoading" :disabled="isLoading" v-if="this.data.status == !'verified' || this.data.status==!'rejected'" text outlined  color="indigo darken-4" style="color:white;"  @click="showForm = true">Reject</v-btn>&emsp;
         </v-container>
         <v-dialog v-model="showForm" max-width="500px">
@@ -218,6 +218,8 @@ export default{
     } catch (error) {
       console.error('Error storing file:', error);
     }
+    this.verified = true;
+
 
     },
     async deny(email, pg_regno, name){
