@@ -224,7 +224,6 @@ export default{
         console.log(nres)
         this.showForm = false
         this.rejected = true
-        window.location.reload()
 
     }
    }

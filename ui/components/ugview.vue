@@ -233,7 +233,6 @@ export default{
         let nres = await this.$axios.post(rurl, rdata)
         this.showForm = false
         this.rejected = true
-        window.location.reload()
 
 
 
