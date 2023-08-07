@@ -15,7 +15,7 @@
             </v-col>
            
             <v-col cols="12">
-              <v-text-field outlined :textarea="true" class="text-field-in-box" v-model="password" type="password" prepend-icon="mdi-lock" :rules="[rules.required,rules.min]" label="Password"></v-text-field>
+              <v-text-field outlined :textarea="true" class="text-field-in-box" v-model="password" type="password" prepend-icon="mdi-lock" :rules="[rules.required]" label="Password"></v-text-field>
             </v-col>
             </v-row>
             <br>
@@ -52,7 +52,6 @@ export default{
         fail: null,
         rules : {
             required: (v) => !!v || "Required",
-            min : (v) =>  v.match(/^(?=.*[A-Z])(?=.*[@])(?=.*[a-z])(?=.*\d).{8,}$/)|| "Enter Password with One Cap letter ,@,small letter and with the number is required",
             email : (v) => v.match(/\S+@\S+\.\S+/) || "Email format is wrong",
         }
     }),
