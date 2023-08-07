@@ -35,6 +35,9 @@
           <v-container class="text-center">
               <v-btn text  @click="submit()" :disabled="!formValid" class="button" color="indigo lighten-2"> Submit </v-btn>
           </v-container>
+          <v-container v-if="notallowed" class="text-center">
+            <v-alert  type="error" dismissible> Only pdf is allowed </v-alert>
+          </v-container>
       </v-form>
   </v-container>
 </template>
@@ -61,6 +64,8 @@ export default{
       pg_marks:"",
       pg_university:"",
       formValid:null,
+      notallowed: false,
+
       rules : {
           required: (v) => !!v || "Required",
           percents : (v) => (v>=0 && v<=100) || "Value must be between 0 and 100",
@@ -78,37 +83,41 @@ export default{
     this.file=event
   },
       async submit(){
-        let nurl = "http://127.0.0.1:8000/user/pgupdation"
-        let ndata={
-          'email': this.email
-        }
-        let nres = await this.$axios.post(nurl, ndata)
-
-
-          let url="http://127.0.0.1:8000/pg"
-          let udata={
-              pg_regno : this.pg_regno,
-              email : this.email,
-              name : this.name,
-              pg_specialization : this.pg_specialization,
-              pg_college : this.pg_college,
-              pg_marks : this.pg_marks,
-              pg_passout : this.pg_passout,
-              pg_university : this.pg_university
-          }
-          let result = await this.$axios.post(url,udata);
-          console.log(result.data)
           let formdata = new FormData()
           formdata.append('email',this.email)
           formdata.append('regno',this.pg_regno)
           formdata.append('file',this.file)
           let furl="http://127.0.0.1:8000/uploadfile/S3"
           let res = await this.$axios.post(furl,formdata,{ headers : {'Content-Type': 'application/json',}});
-          if (result.data == res.data){
+          if(res.data.pdf == false){
+              this.notallowed = true
+            }
+            if (res.data == true){
+              let url="http://127.0.0.1:8000/pg"
+              let udata={
+                  pg_regno : this.pg_regno,
+                  email : this.email,
+                  name : this.name,
+                  pg_specialization : this.pg_specialization,
+                  pg_college : this.pg_college,
+                  pg_marks : this.pg_marks,
+                  pg_passout : this.pg_passout,
+                  pg_university : this.pg_university
+              }
+              let result = await this.$axios.post(url,udata);
+              console.log(result.data)
+              if(result.data == false){
+                    this.fail= true
+            }
+            else{
+              let nurl = "http://127.0.0.1:8000/user/pgupdation"
+              let ndata={
+                'email': this.email
+              }
+              let nres = await this.$axios.post(nurl, ndata)
               this.$router.push('/user')
-          }else{
-              this.fail= true
-          }
+            }
+            }
 
       },
       generateYearRange() {
