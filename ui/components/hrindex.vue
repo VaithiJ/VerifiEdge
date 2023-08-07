@@ -24,7 +24,7 @@
     <v-container class="text-center" fluid style="width:30%">
       <v-text-field label="Enter Email Address" v-model="email"></v-text-field>
       <br>
-      <v-btn color="indigo darken-4" style="color:white" @click="search()">Search</v-btn><br/><br/>
+      <v-btn text color="blue lighten-1" style="color:white" @click="search()">Search</v-btn><br/><br/>
 
     </v-container>
     <v-container>
