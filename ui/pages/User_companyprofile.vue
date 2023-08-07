@@ -20,7 +20,6 @@
                     </v-row>
                     <v-row>
                       <Cuserbanner/>
-                      <Caddress/>
                     </v-row>
                   </v-card>
                 </v-container>
