@@ -11,7 +11,9 @@
         <div class="row">
           <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
             <div class="icon-box" data-aos="fade-up" data-aos-delay="100">
-              <div class="icon"><i class="bx bxl-dribbble"></i></div>
+              <div class="icon">
+                <v-icon>mdi-domain</v-icon>
+              </div>              
               <h4 class="title"><a href="">Company</a></h4>
               <p class="description">Streamline hiring with bulk candidate details upload and real-time verification tracking.
 Access a verified talent pool for efficient and reliable candidate onboarding.</p> 
@@ -41,7 +43,9 @@ Access a verified talent pool for efficient and reliable candidate onboarding.</
 
           <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
             <div class="icon-box" data-aos="fade-up" data-aos-delay="300">
-              <div class="icon"><i class="bx bx-tachometer"></i></div>
+              <div class="icon">
+                <v-icon>mdi-check-decagram-outline</v-icon>
+              </div>
               <h4 class="title"><a href=""> Admin</a></h4>
               <p class="description"> Manage user data, documents, and verification progress from a centralized dashboard.
 Oversee notary verification, blockchain integration, and real-time status tracking.
@@ -73,7 +77,9 @@ Oversee notary verification, blockchain integration, and real-time status tracki
 
           <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
             <div class="icon-box" data-aos="fade-up" data-aos-delay="400">
-              <div class="icon"><i class="bx bx-world"></i></div>
+              <div class="icon">
+                <v-icon>mdi-account</v-icon>
+              </div>
               <h4 class="title"><a href="">User</a></h4>
               <p class="description">Easily upload documents, track verification status, and access verified credentials.
 Benefit from secure document storage and blockchain-backed verification.
