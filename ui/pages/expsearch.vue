@@ -2,7 +2,7 @@
     <v-app expsearch>
         <v-container class="text-center" fluid style="width:30%">
             <v-text-field label="Enter Employee ID" v-model="empid"></v-text-field>
-            <v-btn text @click="search()">Search</v-btn><br/><br/>
+            <v-btn text @click="search()" color="blue lighten-1" width="200px">Search</v-btn><br/><br/>
         </v-container>
             <v-container v-if="exit" fluid style="width:30%">
                 <v-card>
@@ -24,6 +24,7 @@
 <script>
 export default{
     name:"expsearch",
+    layout:'profileform_layout',
     async mounted(){
         this.$vuetify.theme.dark=false;
     },

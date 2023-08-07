@@ -4,7 +4,6 @@
       <v-app-bar app color="#3498db">
          <img class="mr-3" :src="require('../assets/blockedge-logo.svg')" height="40"/>
       <v-spacer></v-spacer>
-          <v-btn icon @click="home()" color="black"><v-icon size="32">mdi-home</v-icon></v-btn>
 
           <v-spacer></v-spacer>
            <h3 class="white--text">{{ name }}</h3>
