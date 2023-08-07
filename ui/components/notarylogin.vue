@@ -4,7 +4,7 @@
         <v-col cols="12" md="6">
           <v-card class="signin-card">
         <v-form>
-            <h1 class="text-center"> Admin Signin </h1>
+            <h1 class="text-center"> Notary Signin </h1>
             <br><br>
             <v-alert border="top" color="red lighten-1" dismissible  v-if="fail"> Invalid Email ID or Password</v-alert>
             <v-row>

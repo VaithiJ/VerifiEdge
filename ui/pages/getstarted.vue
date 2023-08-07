@@ -46,7 +46,7 @@ Access a verified talent pool for efficient and reliable candidate onboarding.</
               <div class="icon">
                 <v-icon>mdi-check-decagram-outline</v-icon>
               </div>
-              <h4 class="title"><a href=""> Admin</a></h4>
+              <h4 class="title"><a href=""> Notary</a></h4>
               <p class="description"> Manage user data, documents, and verification progress from a centralized dashboard.
 Oversee notary verification, blockchain integration, and real-time status tracking.
 </p>
