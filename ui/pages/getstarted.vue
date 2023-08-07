@@ -51,6 +51,10 @@ Oversee notary verification, blockchain integration, and real-time status tracki
     signin
 
 </v-btn>
+&ensp;
+<v-btn size="20%" rounded to="/notarysignup">
+    signup
+</v-btn>    
             </div>
           </div>
           &ensp;
