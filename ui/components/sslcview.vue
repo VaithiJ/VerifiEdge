@@ -68,6 +68,9 @@
           </v-container>
           
         </v-row>
+        <v-container v-if="fail" class="text-center">
+          <v-alert   type="error" dismissible> Check Whether you have connected your wallet </v-alert>
+          </v-container>
       </v-card-content>
       <v-alert border="top" color="red lighten-1" dismissible  v-if="error"> No Documents uploaded</v-alert>
 
@@ -134,6 +137,8 @@ export default{
        isLoading:false,
        email_body:"",
       showForm: false,
+      fail: false
+
        
    }),
    methods:{
@@ -164,6 +169,7 @@ export default{
     },
 
     async approve(email, sslc_regno){
+      this.fail = false
       let nurl = "http://127.0.0.1:8000/sslc/inprogress"
       let data={
         'email':this.email,
@@ -179,6 +185,7 @@ export default{
       try {
       if (!this.contract) {
         console.error('Contract not initialized yet. Please connect with MetaMask first.');
+        this.fail = true
         return;
       }
 
