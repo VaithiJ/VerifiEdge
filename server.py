@@ -2544,10 +2544,10 @@ async def upload_excel_file(file: UploadFile = File(...), bgv: str = "bgv"):
         if len(new_user_list) > 0:
             db["user"].insert_many(new_user_list)
 
-        if len(new_user_list) > 0:
-            send_user_mails(new_user_list)
-        if len(rejected_data) > 0:
-            send_rejected_mails(rejected_data)
+        # if len(new_user_list) > 0:
+        #     send_user_mails(new_user_list)
+        # if len(rejected_data) > 0:
+        #     send_rejected_mails(rejected_data)
 
         return_data = {
             'total_count': total_count,
