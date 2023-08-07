@@ -35,6 +35,9 @@
             <v-container class="text-center">
                 <v-btn text  @click="submit()" :disabled="!formValid" class="button" color="indigo lighten-2"> Submit </v-btn>
             </v-container>
+            <v-container v-if="notallowed" class="text-center">
+              <v-alert  type="error" dismissible> Only pdf is allowed </v-alert>
+            </v-container>
         </v-form>
     </v-container>
 </template>
@@ -60,6 +63,7 @@ export default{
         ug_marks:"",
         ug_university:"",
         formValid:null,
+        notallowed: false,
         rules : {
             required: (v) => !!v || "Required",
             percents : (v) => (v>=0 && v<=100) || "Value must be between 0 and 100",
@@ -77,7 +81,18 @@ export default{
       this.file=event
     },
         async submit(){
-            let url="http://127.0.0.1:8000/ug"
+            
+            let formdata = new FormData()
+            formdata.append('email',this.email)
+            formdata.append('regno',this.ug_regno)
+            formdata.append('file',this.file)
+            let furl="http://127.0.0.1:8000/uploadfile/S3"
+            let res = await this.$axios.post(furl,formdata,{ headers : {'Content-Type': 'application/json',}});
+            if(res.data.pdf == false){
+              this.notallowed = true
+            }
+            if (res.data == true){
+              let url="http://127.0.0.1:8000/ug"
             let udata={
                 ug_regno : this.ug_regno,
                 email : this.email,
@@ -89,17 +104,12 @@ export default{
                 ug_university : this.ug_university
             }
             let result = await this.$axios.post(url,udata);
-            console.log(result.data)
-            let formdata = new FormData()
-            formdata.append('email',this.email)
-            formdata.append('regno',this.ug_regno)
-            formdata.append('file',this.file)
-            let furl="http://127.0.0.1:8000/uploadfile/S3"
-            let res = await this.$axios.post(furl,formdata,{ headers : {'Content-Type': 'application/json',}});
-            if (result.data == res.data){
-                this.$router.push('/user')
-            }else{
+            if(result.data == false){
                 this.fail= true
+            }
+            else{
+              this.$router.push('/user')
+            }
             }
 
         },
