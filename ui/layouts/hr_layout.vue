@@ -1,7 +1,9 @@
 <template>
     <v-app hr>
 
-        <v-app-bar app color="blue lighten-1">
+      <v-app-bar app color="#3498db">
+         <img class="mr-3" :src="require('../assets/blockedge-logo.svg')" height="40"/>
+      <v-spacer></v-spacer>
           <v-btn icon @click="home()" color="white"><v-icon size="32">mdi-home</v-icon></v-btn>
 
           <v-spacer></v-spacer>
