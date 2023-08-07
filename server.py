@@ -2764,7 +2764,7 @@ def send_rejected_mails(rejected):
         subject = "Registration failed."
         reciptant = user["email"]
 
-        message = f"Hi! This is to inform that your recird creation was failed due to invalid or inconsistant data."
+        message = f"Hi! This is to inform that your Profile creation was failed due to invalid or inconsistant data."
 
         graph.send_mail(subject, message, reciptant)
 
@@ -2777,7 +2777,7 @@ def send_user_mails(created):
         reciptant = user["email"]
         password = user["password"]
 
-        message = f"Hi! This is to inform that your recird has been created and the password is: {password}"
+        message = f"Hi! This is to inform that your Profile has been created and the password is: {password}"
 
         graph.send_mail(subject, message, reciptant)
 ################################################################################################################    
