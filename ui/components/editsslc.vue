@@ -99,17 +99,16 @@ export default{
           let result = await this.$axios.post(url,sslcdata);
           console.log(result.data);
           let formdata= new FormData()
-          formdata.append('email',this.email)
-          formdata.append('sslc_regno',this.sslc_regno)
-          formdata.append('file',this.file)
-          let furl = "http://127.0.0.1:8000/uploadsslcpdf"
-          let res = await this.$axios.post(furl,formdata,{ headers : {'Content-Type': 'application/json',}});
-          if (res.data === result.data){
-              this.$router.push('/user')
-          }
-          else{
-              this.fail =true
-          }
+            formdata.append('email',this.email)
+            formdata.append('regno',this.sslc_regno)
+            formdata.append('file',this.file)
+            let furl = "http://127.0.0.1:8000/uploadfile/S3"
+            let res = await this.$axios.post(furl,formdata,{ headers : {'Content-Type': 'application/json',}});
+            if (result.data == res.data){
+                this.$router.push('/user')
+            }else{
+                this.fail= true
+            }
       },
     generateYearRange() {
       const currentYear = new Date().getFullYear();

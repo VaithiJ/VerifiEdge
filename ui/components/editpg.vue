@@ -99,9 +99,9 @@ export default{
           console.log(result.data)
           let formdata = new FormData()
           formdata.append('email',this.email)
-          formdata.append('pg_regno',this.pg_regno)
+          formdata.append('regno',this.pg_regno)
           formdata.append('file',this.file)
-          let furl="http://127.0.0.1:8000/uploadpgpdf"
+          let furl="http://127.0.0.1:8000/uploadfile/S3"
           let res = await this.$axios.post(furl,formdata,{ headers : {'Content-Type': 'application/json',}});
           if (result.data == res.data){
               this.$router.push('/user')
