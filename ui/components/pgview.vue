@@ -40,8 +40,31 @@
         <v-container v-if="!isLoading">
           &emsp;&emsp;
           <v-btn size="30%" v-on:click="verified = true"  :loading="isLoading" :disabled="isLoading" v-if="this.data.status == !'verified' || this.data.status==!'rejected'" text outlined  color="indigo darken-4" style="color:white;" @click="approve(data.email, data.pg_regno, ndata.name)">Approve</v-btn>&emsp;
-          <v-btn size="30%" v-on:click="rejected = true"  :loading="isLoading" :disabled="isLoading" v-if="this.data.status == !'verified' || this.data.status==!'rejected'" text outlined  color="indigo darken-4" style="color:white;" @click="deny(data.email, data.pg_regno, ndata.name)">Reject</v-btn>&emsp;
+          <v-btn size="30%"  :loading="isLoading" :disabled="isLoading" v-if="this.data.status == !'verified' || this.data.status==!'rejected'" text outlined  color="indigo darken-4" style="color:white;"  @click="showForm = true">Reject</v-btn>&emsp;
         </v-container>
+        <v-dialog v-model="showForm" max-width="500px">
+          <v-card>
+            <v-card-title>
+              <span class="headline">Reason</span>
+            </v-card-title>
+    
+            <v-card-text>
+              <v-form ref="form" v-model="valid">
+              <v-row>
+                <v-text-field v-model="email_body" label="Enter the Reason for rejection" outlined ></v-text-field>
+
+              </v-row>
+              </v-form>
+            </v-card-text>
+    
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="error" text @click="showForm = false">Cancel</v-btn>
+              <v-btn text color="indigo lighten-2" :disabled="!valid" class="button"  @click="deny(data.email, data.pg_regno, ndata.name)">Submit</v-btn>
+            </v-card-actions>
+  
+          </v-card>
+        </v-dialog>
       </v-row>
       <v-row>
         <v-container>
@@ -119,6 +142,8 @@ export default{
       data_: false,
       data_s: false,
       isLoading:false,
+      email_body:"",
+      showForm: false,
 
 
 
@@ -208,9 +233,11 @@ export default{
         let rdata={
           email: email,
           email_subject: "Rejection Mail",
-          email_body: "PG Data is Rejected"
+          email_body: this.email_body,
         }
         let nres = await this.$axios.post(rurl, rdata)
+        this.showForm = false
+        this.rejected = true
 
     }
    }
