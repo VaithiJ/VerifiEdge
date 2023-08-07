@@ -1,218 +1,94 @@
 <template>
-  <main id="app">
-    <section class='intro'>
-      <div class='introDescription' data-aos="zoom-in"
-     data-aos-duration="1500"
-     data-aos-delay='500' >
-         A student's Guide 
-         <br>
-         <p>  to Learning from Home </p>
-      </div>
-        <img  class='introImage' src='https://res.cloudinary.com/dsderm9xw/image/upload/v1622028117/3D%20Illustrations/3d-illustration4_usckww.png' alt='3d illustration of boy with a flag'/>
-
-    </section>
-
-     <section class='guide1'>
-       <img class='guide1Image' src='https://res.cloudinary.com/dsderm9xw/image/upload/v1622028085/3D%20Illustrations/3d-illustration2_ykuua3.png' 
-       alt='3d illustration of boy sitting with legs crossed'
-       data-aos="slide-down"
-     data-aos-ease = 'ease'
-      data-aos-duration="1500"
-     data-aos-delay='500'/>
-      <div class='guide1Description'
-      data-aos="slide-up"
-     data-aos-ease = 'ease'
-      data-aos-duration="1500"
-     data-aos-delay='1000'>
-        <h1> Set up your  <br> study space. </h1>
-         <div>
-           Find an area in your house where
-           <br>
-          you can sit comfortably and focus.
-          <br>
-          Make it separate to your relaxation space. 
-          <br>
-          Ideally away from a TV screen 
-          <br>
-          or other distractions.
-         </div>
-      </div>
-        
-
-    </section>
-
-     <section class='guide2'>
-      <div class='guide2Description'
-      data-aos="slide-down"
-        data-aos-ease = 'ease'
-         data-aos-duration="1500"
-        data-aos-delay='1000'>
-            <h1> Plan your  <br> day ahead. </h1>
-         <div>
-           If you have one,
-           <br>
-          follow the schedule provided by your school.
-          <br>
-          If you just have a list of things to study, 
-          <br>
-         break it down into small tasks and 
-          <br>
-          plan to do the hardest ones 
-          <br>
-          when you have the most energy.
-         </div>
-      </div>
-        <img class='guide2Image' src='https://res.cloudinary.com/dsderm9xw/image/upload/v1622028057/3D%20Illustrations/3d-illustration1_j06j0a.png' 
-        alt='3d illustration of boy with laptop sitting'
-        data-aos="slide-up"
-         data-aos-duration="1500"
-        data-aos-ease = 'ease'
-        data-aos-delay='1000'
-        />
-
-    </section>
-  
-  <footer>
-    Developed by FAE
-  </footer>
-  </main>
+  <v-container>
+    <v-container v-if="show">
+      <h2 class="text-center" style="color: darkblue;">List of Approved Profiles</h2>
+      <v-row>
+        <v-col
+          v-for="profile in paginatedProfiles"
+          :key="profile.email"
+          cols="12"
+          md="4"
+        >
+          <v-card class="elevation-2" style="margin: 10px;">
+            <v-card-title>{{ profile.name }}</v-card-title>
+            <v-card-subtitle>{{ profile.email }}</v-card-subtitle>
+            <v-card-actions>
+              <v-btn icon @click="view(profile.email)">
+                <v-icon color="indigo darken-4">mdi-card-account-details-outline</v-icon>
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-col>
+      </v-row>
+      <v-container class="text-center">
+        <v-pagination
+          v-model="currentPage"
+          :total-visible="5"
+          :length="totalPages"
+          @input="changePage"
+        ></v-pagination>
+      </v-container>
+    </v-container>
+    <v-container v-if="hide">
+      <h2 class="text-center" style="color: darkblue;">No Profiles</h2>
+    </v-container>
+  </v-container>
 </template>
 
-
-
-<!-- Use preprocessors via the lang attribute! e.g. <style lang="scss"> -->
-<style>
-*{
-  margin:0;
-  padding:0;
-}
-
-.intro{
-  display:flex;
-  background: #fff3e2;
-  justify-content: space-evenly;
-  padding-top:80px;
-  height: 500px;
-}
-.introDescription {
-  font-size:30px;
-  color:#632b2b;
-  padding-top:120px;
-}
-.introDescription p{
-  font-size:60px;
-  color:#632b2b;
-  font-weight: 900;
-}
-
-.guide1{
-  display:flex;
-  background: #ffd4a9;
-  justify-content: space-evenly;
-  padding-top:80px;
-  height: 500px;
-   overflow:hidden;
-}
-.guide1Description h1{
-  font-size:48px;
-  color:#632b2b;
-  padding: 120px 0px 20px 0px;
-}
-.guide1Description div{
-  background:#fff3e2 ;
-  color:#632b2b;
-  font-size:20px;
-  padding:10px;
-  border-radius:10px;
-}
-
-
-.guide2{
-  display:flex;
-  background: #fff3e2;
-  justify-content: space-evenly;
-  padding-top:80px;
-  height: 500px;
-   overflow:hidden;
-}
-.guide2Description h1{
-  font-size:48px;
-  color:#632b2b;
-  padding: 120px 0px 20px 0px;
-}
-.guide2Description div{
-  background:#ffd4a9 ;
-  color:#632b2b;
-  font-size:20px;
-  padding:10px;
-  border-radius:10px;
-}
-
-footer{
-  background: #ffd4a9;
-  color:#632b2b;
-  padding:10px;
-  text-align: right;
-  font-weight: 900;
-}
-
-/* responsiveness */
-@media screen and (max-width: 500px){
-
-  .intro{
-  display:block;
-  padding-top:10px;
-  height:auto;
-}
-.introImage{
-  width:100%;
-}
-.introDescription {
-  padding: 30px 0px 0px 20px;
-}
-
- .guide1{
- display:block;
-  padding-top:10px;
-  height:auto;
-}
-.guide1Image{
-  width:100%;
-}
-.guide1Description {
-  padding: 20px;
-}
-.guide1Description h1{
-  padding:30px 0px;
-}
-
-.guide2{
- display:block;
-  padding-top:10px;
-  height:auto;
-}
-.guide2Image{
-  width:100%;
-}
-.guide2Description {
-  padding: 20px;
-}
-.guide2Description h1{
-  padding:30px 0px;
-}
-
-}
-
-</style>
-
 <script>
-
-  import AOS from 'aos';
-  import 'aos/dist/aos.css'
 export default {
-  layout: 'hr_layout',
-    async mounted () {
-      AOS.init()
-}
-}
+  name: "NotaryApproved",
+
+  data() {
+    return {
+      currentPage: 1,
+      pageSize: 5,
+      profiles: [],
+      requests: {},
+      notary_email: null,
+      notary_name: null,
+      wallet: 0,
+      show: false,
+      hide: false,
+    };
+  },
+
+  async mounted() {
+    this.$vuetify.theme.dark = false;
+    await this.fetchProfiles();
+  },
+
+  computed: {
+    totalPages() {
+      return Math.ceil(this.profiles.length / this.pageSize);
+    },
+    paginatedProfiles() {
+      const startIndex = (this.currentPage - 1) * this.pageSize;
+      const endIndex = startIndex + this.pageSize;
+      return this.profiles.slice(startIndex, endIndex);
+    },
+  },
+
+  methods: {
+    async fetchProfiles() {
+      try {
+        const response = await this.$axios.get("http://127.0.0.1:8000/verifiedusers");
+        this.profiles = response.data.list;
+        this.show = this.profiles.length > 0;
+        this.hide = !this.show;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
+    changePage(page) {
+      this.currentPage = page;
+    },
+
+    async view(email) {
+      this.$storage.setUniversal("user_email", email);
+      this.$router.push("/userprofile");
+    },
+  },
+};
 </script>

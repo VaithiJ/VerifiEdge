@@ -6,7 +6,7 @@
         <v-form>
             <h1 class="text-center"> Admin Signin </h1>
             <br><br>
-            <v-alert border="top" color="red lighten-1" dismissible  v-if="fail"> Data insertion failed</v-alert>
+            <v-alert border="top" color="red lighten-1" dismissible  v-if="fail"> Invalid Email ID or Password</v-alert>
             <v-row>
                 <v-col cols="12">
               <v-text-field outlined :textarea="true" class="text-field-in-box" v-model="email" prepend-icon="mdi-email" :rules="[rules.required,rules.email]" label ="Admin Email "></v-text-field>

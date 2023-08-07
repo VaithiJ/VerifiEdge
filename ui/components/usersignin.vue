@@ -18,6 +18,8 @@
         <v-card elevation="12" class="signin-card">
           <v-form>
             <h1 class="text-center">User Login</h1>
+            <v-alert border="top" color="red lighten-1" dismissible  v-if="fail"> Invalid Email ID or Password</v-alert>
+
             <div v-if="error" class="custom-info">
             <v-icon class="alert-icon">mdi-alert-circle</v-icon>
             <span class="alert-text">Login Failed</span>
@@ -87,6 +89,8 @@ export default{
 
       },
       error : false,
+      fail: false,
+
       rules : {
           required: (v) => !!v || "Required",
           email : (v) => v.match(/\S+@\S+\.\S+/) || "Email format is wrong",

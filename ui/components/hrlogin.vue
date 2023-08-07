@@ -6,7 +6,7 @@
           <v-card class="signin-card">
         <v-form>
             <h1 class="text-center"> Company Signin </h1>
-            <v-alert border="top" color="red lighten-1" dismissible  v-if="fail"> Data insertion failed</v-alert>
+            <v-alert border="top" color="red lighten-1" dismissible  v-if="fail"> Invalid Email ID or Password</v-alert>
             <v-container class="text-center">
               </v-container>
             <v-row>
