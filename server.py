@@ -2540,7 +2540,8 @@ async def upload_excel_file(file: UploadFile = File(...), bgv: str = "bgv"):
             except KeyError as e:
                 print(f"No datas to insert in: {db_collection}")
 
-        if len(new_user_list) > 1:
+        print(new_user_list)
+        if len(new_user_list) > 0:
             db["user"].insert_many(new_user_list)
 
         # if len(new_user_list) > 0:
@@ -2656,6 +2657,7 @@ def validate_users(users_data, collection,db_collection, emails_exists, new_user
 
     for email_obj in emails_in_db_list:
         email_in_db.append(email_obj["email"])
+    
     for user in users_data:
         # print(user)
         if user is not None:
@@ -2663,15 +2665,17 @@ def validate_users(users_data, collection,db_collection, emails_exists, new_user
                                                                                                 email_in_db, new_user_emails, 
                                                                                             db_collection)
     
-            if data_in_excel is not None and len(data_in_excel) is not 0:
+            if len(data_in_excel) is not 0:
                 # print("fijjiij", data_in_excel)
                 excel_data.append(data_in_excel)
-            if new_user is not None and len(new_user) is not 0:
+            if len(new_user) is not 0:
                 new_user_list.append(new_user)
             rejected_data.append(rejected_data_sheet)
-            new_user_emails = new_user_emails_sheet
+            new_user_emails = new_user_emails_sheet 
 
             # print("fijjiij", new_user_emails_sheet)
+
+    print(new_user_list)
 
     return excel_data, new_user_list, rejected_data, new_user_emails
 
@@ -2711,15 +2715,9 @@ def validate_user(user_data, emails_exists, email_in_db, new_user_emails,db_coll
     else:
         rejected_data = user_data
     
-
-    validity = True
-
     # print(f"validity {validity} {excel_data}")
 
-    if validity:
-        return excel_data, user, rejected_data, new_user_emails
-    else:
-        return None, None, user_data, new_user_emails
+    return excel_data, user, rejected_data, new_user_emails
 
 
 def apply_regex(user: dict, collection: str) -> bool:
