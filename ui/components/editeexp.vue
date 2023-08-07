@@ -47,10 +47,10 @@
         </v-col>
         </v-row>
           <v-container class="text-center">
-              <v-btn text  @click="submit()" :disabled="!formValid" class="button" color="indigo lighten-2"> Submit </v-btn>
+              <v-btn text  @click="submit()" :disabled="!formValid" class="button" color="blue lighten-1"> Submit </v-btn>
           </v-container>
           <v-container class="text-center">
-              <v-btn text  @click="skip()" color="indigo lighten-2"> I'm a fresher </v-btn>
+              <v-btn text  @click="skip()" color="blue lighten-1"> I'm a fresher </v-btn>
           </v-container>
       </v-form>
   </v-container>

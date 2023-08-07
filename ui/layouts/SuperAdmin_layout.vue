@@ -4,10 +4,9 @@
       <v-app-bar app color="#3498db">
          <img class="mr-3" :src="require('../assets/blockedge-logo.svg')" height="40"/>
       <v-spacer></v-spacer>
-      <v-btn icon @click="home()" color="black"><v-icon size="32">mdi-home</v-icon></v-btn>
 
       &emsp; &emsp;
-      <h2 style="color: black;">Super Admin</h2>
+      
       <v-spacer></v-spacer>
       <v-menu offset-y>
         <template v-slot:activator="{ on }">
