@@ -40,13 +40,13 @@
           <v-dialog v-model="showForm" max-width="500px">
             <v-card>
               <v-card-title>
-                <span class="headline">Reason for Rejection</span>
+                <span class="headline">Reason</span>
               </v-card-title>
       
               <v-card-text>
                 <v-form ref="form" v-model="valid">
                 <v-row>
-                  <v-text-field v-model="email_body" label="Reason for rejection" outlined ></v-text-field>
+                  <v-text-field v-model="email_body" label="Enter the Reason for rejection" outlined ></v-text-field>
 
                 </v-row>
                 </v-form>
