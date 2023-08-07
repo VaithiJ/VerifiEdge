@@ -1,6 +1,7 @@
 <template>
   <v-container v-if="isAuthenticated">
     <br>
+    <h2 style="color: black;" align="center" >Notary</h2>
       <v-container>
 
         <v-col>

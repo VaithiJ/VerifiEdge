@@ -3,7 +3,7 @@
       <v-app-bar app color="#3498db">
          <img class="mr-3" :src="require('../assets/blockedge-logo.svg')" height="40"/>
       <v-spacer></v-spacer>
-           <v-btn icon @click="home()" ><v-icon color="black">mdi-home</v-icon></v-btn>
+           
            <v-spacer></v-spacer>
         </v-app-bar>
         <v-main>

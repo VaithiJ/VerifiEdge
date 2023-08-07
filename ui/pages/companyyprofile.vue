@@ -2,7 +2,9 @@
     <v-container>
         <v-row>
         <v-col>
-
+          <br/>
+          <h2 style="color: black;" align="center">Super Admin</h2>
+          <br/><br/>  
             <v-container fluid >
               <v-card max-width="450px" class="mx-auto bg" style="border-color: blue;" elevation="5">
                 <br><br>
