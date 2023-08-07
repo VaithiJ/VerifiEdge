@@ -3,9 +3,8 @@
       <v-app-bar app  color="#3498db">
         <img class="mr-3" :src="require('../assets/blockedge-logo.svg')" height="40"/>
         <v-spacer></v-spacer>
-          <v-app-bar-title style="color: black;">User Profile</v-app-bar-title>
           <v-spacer></v-spacer>
-          <v-btn text style="color: black;width: 100px;" @click="logout()">Close</v-btn>
+          <v-btn text style="color: black;width: 100px;" @click="logout()">Logout</v-btn>
       </v-app-bar>
       <v-main>
           <Nuxt/>
