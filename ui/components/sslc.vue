@@ -37,6 +37,9 @@
         <v-container class="text-center">
             <v-btn text  @click="submit()" :disabled="!formvalid" color="indigo lighten-2" class="button"> Submit </v-btn>
         </v-container>
+        <v-container v-if="notallowed" class="text-center">
+          <v-alert  type="error" dismissible> Only pdf is allowed </v-alert>
+        </v-container>
     </v-form>
 </v-container>
 </template>
@@ -62,6 +65,7 @@ export default{
         name : "",
         fail : null,
         sslc_board : "",
+        notallowed: false,
         rules : {
             required: (v) => !!v || "Required",
             percents : (v) => (v>=0 && v<=100) || "Value must be between 0 and 100",
@@ -81,7 +85,18 @@ export default{
       this.file=event
     },
         async submit(){
-            let url ="http://127.0.0.1:8000/sslc"
+            
+            let formdata= new FormData()
+            formdata.append('email',this.email)
+            formdata.append('regno',this.sslc_regno)
+            formdata.append('file',this.file)
+            let furl = "http://127.0.0.1:8000/uploadfile/S3"
+            let res = await this.$axios.post(furl,formdata,{ headers : {'Content-Type': 'application/json',}});
+            if(res.data.pdf == false){
+              this.notallowed = true
+            }
+            if (res.data == true){
+                let url ="http://127.0.0.1:8000/sslc"
             let sslcdata = {
                 sslc_regno : this.sslc_regno,
                 email : this.email,
@@ -93,16 +108,12 @@ export default{
             }
             let result = await this.$axios.post(url,sslcdata);
             console.log(result.data);
-            let formdata= new FormData()
-            formdata.append('email',this.email)
-            formdata.append('regno',this.sslc_regno)
-            formdata.append('file',this.file)
-            let furl = "http://127.0.0.1:8000/uploadfile/S3"
-            let res = await this.$axios.post(furl,formdata,{ headers : {'Content-Type': 'application/json',}});
-            if (result.data == res.data){
-                this.$router.push('/user')
-            }else{
+            if(result.data == false){
                 this.fail= true
+            }
+            else{
+              this.$router.push('/user')
+            }
             }
         },
 generatesslc_passout() {

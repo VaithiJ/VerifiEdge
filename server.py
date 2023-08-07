@@ -153,10 +153,16 @@ def upload_file_to_s3(file, email, regno):
     # Upload the file to S3 bucket
     s3.upload_fileobj(file.file, BUCKET_NAME, file_key)
 
+def is_pdf_file(file: UploadFile) -> bool:
+    # Check if the file is a PDF based on its content type
+    return file.content_type == "application/pdf"
+
 @app.post("/uploadfile/S3")
 async def upload(email : str = Form(), regno : str = Form(), file: UploadFile = File(...)):
     
     try:
+        if not is_pdf_file(file):
+            return {"pdf": False}
         # Create the user folder if it doesn't exist
         user_folder = f"{email}/{regno}"
         if not os.path.exists(user_folder):
