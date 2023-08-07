@@ -74,6 +74,9 @@
           </v-container>
         </v-row>
       </v-card-content>
+      <v-container v-if="fail" class="text-center">
+        <v-alert   type="error" dismissible> Check Whether you have connected your wallet </v-alert>
+        </v-container>
     </v-card>
   </v-container>
 </template>
@@ -125,6 +128,7 @@ export default{
       isrejecting: false,
       email_body:"",
       showForm: false,
+      fail: false,
       rejectionData: {
     email: '',
     empid: '',
@@ -143,6 +147,8 @@ export default{
   },
    
     async approve(email, empid, name){
+      this.fail = false
+
       let nurl = "http://127.0.0.1:8000/exp/inprogress"
       let data={
         'email':this.email,
@@ -161,6 +167,7 @@ export default{
       try {
       if (!this.contract) {
         console.error('Contract not initialized yet. Please connect with MetaMask first.');
+        this.fail = true
         return;
       }
      

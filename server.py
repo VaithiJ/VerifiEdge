@@ -264,17 +264,18 @@ async def add_user(user: UserModel):
     filter = {
         'email': user.email,
     }
-    existing_user = client.bgv.user.find_one(filter)
-    if existing_user:
-        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="User with this email already exists")
-    else:
-        user_data = dict(user)
-        client.bgv.user.insert_one(user_data)
+    if client.bgv.user.count_documents(filter) == 0:
         try:
             os.mkdir(user.email)
         except FileExistsError as e:
-            print(str(e))
-        return {"message": "User created successfully"}
+            print (str(e))
+        try:
+            client.bgv.user.insert_one(dict(user))
+            return True
+        except Exception as e:
+            print('Error inserting user: %s' % e)
+    else : 
+        return False
 
 #### getting user information from database
 
