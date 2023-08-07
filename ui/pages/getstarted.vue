@@ -19,7 +19,11 @@ Access a verified talent pool for efficient and reliable candidate onboarding.</
 
                 <v-btn rounded  to="/hrsignin">
                     signin
-                </v-btn>                                    
+                </v-btn>     
+                &ensp;
+<v-btn size="20%" rounded to="/hrsignup">
+    signup
+</v-btn>                               
             </div>
           </div>
           &ensp;

@@ -2536,7 +2536,6 @@ async def upload_excel_file(file: UploadFile = File(...), bgv: str = "bgv"):
 
             try:
                 if len(to_mongo[db_collection]) > 0:
-                    # send_mails(rejected_data)
                     collection.insert_many(to_mongo[db_collection])
             except KeyError as e:
                 print(f"No datas to insert in: {db_collection}")
@@ -2579,22 +2578,59 @@ def filter_excel(df_sheet, total_count, sheet_name):
     if sheet_name == "personal":
         columns_to_convert = ["aadhaar", "passport", "mob"]
         df_sheet[columns_to_convert] = df_sheet[columns_to_convert].astype(int)
-        emails_in_excel += df_sheet["email"].to_list()
+
+        # print("===>", df_sheet.to_json(orient='records'))
+
+        for user_data in json.loads(df_sheet.to_json(orient='records')):
+            # print("===>ss", user_data)
+            if len(user_data) > 0:
+                validity = apply_regex(user_data,sheet_name)
+
+                print(validity, sheet_name)
+
+                if validity:
+                    emails_in_excel.append(user_data["email"])
 
     if sheet_name == "sslc":
         columns_to_convert = ["sslc_passout", "sslc_regno"]
         df_sheet[columns_to_convert] = df_sheet[columns_to_convert].astype(int)
-        emails_in_excel += df_sheet["email"].to_list()
+        
+        for user_data in json.loads(df_sheet.to_json(orient='records')):
+            # print("===>ss", user_data)
+            if len(user_data) > 0:
+                validity = apply_regex(user_data,sheet_name)
+
+                print(validity, sheet_name)
+
+                if validity:
+                    emails_in_excel.append(user_data["email"])
 
     if sheet_name == "hse":
         columns_to_convert = ["hse_regno", "hse_passout"]
         df_sheet[columns_to_convert] = df_sheet[columns_to_convert].astype(int)
-        emails_in_excel += df_sheet["email"].to_list()
+        for user_data in json.loads(df_sheet.to_json(orient='records')):
+            # print("===>ss", user_data)
+            if len(user_data) > 0:
+                validity = apply_regex(user_data,sheet_name)
+
+                print(validity, sheet_name)
+
+                if validity:
+                    emails_in_excel.append(user_data["email"])
 
     if sheet_name == "ug":
         columns_to_convert = ["ug_regno", "ug_passout"]
         df_sheet[columns_to_convert] = df_sheet[columns_to_convert].astype(int)
-        emails_in_excel += df_sheet["email"].to_list()
+        
+        for user_data in json.loads(df_sheet.to_json(orient='records')):
+            # print("===>ss", user_data)
+            if len(user_data) > 0:
+                validity = apply_regex(user_data,sheet_name)
+
+                print(validity, sheet_name)
+
+                if validity:
+                    emails_in_excel.append(user_data["email"])
 
     if sheet_name == "pg":
         columns_to_convert = ["pg_regno", "pg_passout"]
@@ -2675,10 +2711,6 @@ def validate_user(user_data, emails_exists, email_in_db, new_user_emails,db_coll
     else:
         rejected_data = user_data
     
-    # if len(excel_data) > 0:
-    #    validity = apply_regex(excel_data,db_collection)
-    # else:
-    #     validity = False
 
     validity = True
 
