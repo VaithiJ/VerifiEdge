@@ -1,97 +1,120 @@
 <template>
     <!-- ======= Features Section ======= -->
-  <section id="features" class="services">
-    <div class="container">
-
-      <div class="section-title" data-aos="fade-up">
-        <h2>Features</h2>
-        <p>Magnam dolores commodi suscipit eius consequatur ex aliquid fug</p>
-      </div>
-
-      <div class="row">
-        <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
-          <div class="icon-box" data-aos="fade-up" data-aos-delay="100">
-            <div class="icon"><i class="bx bxl-dribbble"></i></div>
-            <h4 class="title"><a href="">Blockchain-Backed Security</a></h4>
-            <p class="description">Your data is secured using cutting-edge blockchain 
-                      technology, providing an immutable and tamper-proof verification process.</p> 
-                                                  
+    <section id="features" class="services">
+        <div class="container">
+    
+          <div class="section-title" data-aos="fade-up">
+            <h2>Features</h2>
+            <p>Magnam dolores commodi suscipit eius consequatur ex aliquid fug</p>
           </div>
-        </div>
-
-
-        <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
-          <div class="icon-box" data-aos="fade-up" data-aos-delay="300">
-            <div class="icon"><i class="bx bx-tachometer"></i></div>
-            <h4 class="title"><a href=""> Individual User Verification</a></h4>
-            <p class="description"> Empower individuals to verify their own documents 
-                      effortlessly for future use. </p>
+    
+          <div class="row">
+            <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
+              <div class="icon-box" data-aos="fade-up" data-aos-delay="100">
+                <div class="icon">
+                  <v-icon>mdi-security</v-icon>
+                </div>
+                <h4 class="title"><a href="">Blockchain-Backed Security</a></h4>
+                <p class="description">Your data is secured using cutting-edge blockchain 
+                          technology, providing an immutable and tamper-proof verification process.</p> 
+                                                      
+              </div>
+            </div>
+    
+    
+            <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
+              <div class="icon-box" data-aos="fade-up" data-aos-delay="300">
+                <div class="icon">
+                  <v-icon>mdi-check-decagram</v-icon>
+                </div>
+                <h4 class="title"><a href=""> Individual User Verification</a></h4>
+                <p class="description"> Empower individuals to verify their own documents 
+                          effortlessly for future use. </p>
+              </div>
+            </div>
+    
+            <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
+              <div class="icon-box" data-aos="fade-up" data-aos-delay="400">
+                <div class="icon">
+                  <v-icon>mdi-file-upload</v-icon>
+    
+                </div>
+                <h4 class="title"><a href="">Bulk Candidate Upload </a></h4>
+                <p class="description">Hiring companies can upload candidate data in bulk, 
+                          streamlining the verification process</p>
+              </div>
+            </div>
+    
+            <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
+              <div class="icon-box" data-aos="fade-up" data-aos-delay="400">
+                <div class="icon">
+                  <v-icon>mdi-folder-account</v-icon>
+    
+                </div>
+                <h4 class="title"><a href="">Verified Candidate Showcase</a></h4>
+                <p class="description">Hiring companies can view a status dashboard, 
+    showcasing verified candidates ready for onboarding.
+                    </p>
+              </div>
+            </div>
+    
+            <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
+              <div class="icon-box" data-aos="fade-up" data-aos-delay="400">
+                <div class="icon">
+                  <v-icon>mdi-close-octagon</v-icon>
+    
+                </div>
+                <h4 class="title"><a href="">Automatic Rejection Handling</a></h4>
+                <p class="description">If a document is rejected, the system prompts users to 
+    reupload the corrected one. 
+    </p>
+              </div>
+            </div>
+    
+            <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
+              <div class="icon-box" data-aos="fade-up" data-aos-delay="400">
+                <div class="icon">
+                  <v-icon>mdi-download-box</v-icon>
+    
+                </div>
+                <h4 class="title"><a href="">Download Verified Documents</a></h4>
+                <p class="description">Access and download your verified documents 
+    anytime, anywhere for hassle-free sharing.</p>
+              </div>
+            </div>
+    
+            <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
+              <div class="icon-box" data-aos="fade-up" data-aos-delay="400">
+                <div class="icon">
+                  <v-icon>mdi-update</v-icon>
+    
+                </div>
+                <h4 class="title"><a href="">Document Update Capability</a></h4>
+                <p class="description"> Users can easily update their documents whenever 
+    necessary, keeping their credentials current. </p>
+              </div>
+            </div>
+    
+            <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
+              <div class="icon-box" data-aos="fade-up" data-aos-delay="400">
+                <div class="icon">
+                  <v-icon>mdi-timelapse</v-icon>
+    
+                </div>
+                <h4 class="title"><a href="">Real-time Status Updates</a></h4>
+                <p class="description">Track the verification status of your documents in real-time, eliminating uncertainty. 
+    
+    </p>
+              </div>
+            </div>
+    
+            
+    
           </div>
+    
         </div>
-
-        <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
-          <div class="icon-box" data-aos="fade-up" data-aos-delay="400">
-            <div class="icon"><i class="bx bx-world"></i></div>
-            <h4 class="title"><a href="">Bulk Candidate Upload </a></h4>
-            <p class="description">Hiring companies can upload candidate data in bulk, 
-                      streamlining the verification process</p>
-          </div>
-        </div>
-
-        <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
-          <div class="icon-box" data-aos="fade-up" data-aos-delay="400">
-            <div class="icon"><i class="bx bx-world"></i></div>
-            <h4 class="title"><a href="">Verified Candidate Showcase</a></h4>
-            <p class="description">Hiring companies can view a status dashboard, 
-showcasing verified candidates ready for onboarding.
-                </p>
-          </div>
-        </div>
-
-        <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
-          <div class="icon-box" data-aos="fade-up" data-aos-delay="400">
-            <div class="icon"><i class="bx bx-world"></i></div>
-            <h4 class="title"><a href="">Automatic Rejection Handling</a></h4>
-            <p class="description">If a document is rejected, the system prompts users to 
-reupload the corrected one. 
-</p>
-          </div>
-        </div>
-
-        <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
-          <div class="icon-box" data-aos="fade-up" data-aos-delay="400">
-            <div class="icon"><i class="bx bx-world"></i></div>
-            <h4 class="title"><a href="">Download Verified Documents</a></h4>
-            <p class="description">Access and download your verified documents 
-anytime, anywhere for hassle-free sharing.</p>
-          </div>
-        </div>
-
-        <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
-          <div class="icon-box" data-aos="fade-up" data-aos-delay="400">
-            <div class="icon"><i class="bx bx-world"></i></div>
-            <h4 class="title"><a href="">Document Update Capability</a></h4>
-            <p class="description"> Users can easily update their documents whenever 
-necessary, keeping their credentials current. </p>
-          </div>
-        </div>
-
-        <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
-          <div class="icon-box" data-aos="fade-up" data-aos-delay="400">
-            <div class="icon"><i class="bx bx-world"></i></div>
-            <h4 class="title"><a href="">Real-time Status Updates</a></h4>
-            <p class="description">Track the verification status of your documents in real-time, eliminating uncertainty. 
-
-</p>
-          </div>
-        </div>
-
-        
-
-      </div>
-
-    </div>
-  </section><!-- End Services Section -->
+      </section><!-- End Services Section -->
+    
 
 </template>
 <script src="../assets/img/favicon.png" rel="icon"></script>
