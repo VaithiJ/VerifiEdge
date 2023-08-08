@@ -12,17 +12,29 @@
         <v-container v-if="data_s">
           <v-row>
             <v-col style="padding-left: 4%;">
-              <h3 class="text-subtitle-1"> Mobile number : {{ pdata.mob }}</h3>
-              <h3 class="text-subtitle-1"> PAN Number : {{ pdata.pan }}</h3>
-              <h3 class="text-subtitle-1"> Company Name : {{ pdata.company_name }}</h3>
-              <h3 class="text-subtitle-1"> Designation : {{ pdata.designation }}</h3>
+              <table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc;">
+                
+                <tr style="border-bottom: 1px solid #ccc;">
+                  <td style="padding: 10px;"><h4 class="text-subtitle-3">Mobile Number:</h4></td>
+                  <td style="padding: 10px;"><h5 class="text-subtitle-3">{{ pdata.mob }}</h5></td>
+                </tr>
+                <tr style="border-bottom: 1px solid #ccc;">
+                  <td style="padding: 10px;"><h4 class="text-subtitle-3">PAN Number:</h4></td>
+                  <td style="padding: 10px;"><h5 class="text-subtitle-3">{{ pdata.pan }}</h5></td>
+                </tr>
+                <tr style="border-bottom: 1px solid #ccc;">
+                  <td style="padding: 10px;"><h4 class="text-subtitle-3">Company Name :</h4></td>
+                  <td style="padding: 10px;"><h5 class="text-subtitle-3">{{ pdata.company_name }}</h5></td>
+                </tr>
+                <tr style="border-bottom: 1px solid #ccc;">
+                  <td style="padding: 10px;"><h4 class="text-subtitle-3">Designation :</h4></td>
+                  <td style="padding: 10px;"><h5 class="text-subtitle-3">{{ pdata.designation }}</h5></td>
+                </tr>
+              </table>
               <br>
               <h6 class="text-subtitle-3"> Submitted on : {{ pdata.submitted_on }}</h6>
               <h6 v-if="pdata.edited_on" class="text-subtitle-3"> Edited on : {{ pdata.edited_on }}</h6>
               <h6 v-if="pdata.approved_on, verified" class="text-subtitle-3"> Approved on : {{ pdata.approved_on }}</h6>
-
-
-
 
             </v-col>
             <v-col >
