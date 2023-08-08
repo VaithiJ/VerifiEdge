@@ -3,21 +3,27 @@
     <v-container v-if="show">
       <v-card class="mx-auto my-12"
     max-width="700">
-      <v-list density="compact">
-        <v-list-item
-          v-for="profile in paginatedProfiles"
-          :key="profile.email"
-          :value="profile.email"
-          active-color="primary"
-        >
-          <v-list-item-title v-text="profile.name"></v-list-item-title>
-          <v-list-item-subtitle v-text="profile.email"></v-list-item-subtitle>
-          <v-btn text color="#3498db" @click="view(profile.email)">view
-            <!-- <v-icon color="indigo darken-4">mdi-card-account-details-outline</v-icon> -->
-          </v-btn>
-        </v-list-item>
-      </v-list>
-      </v-card>
+    <table class="styled-table">
+      <thead>
+        <tr>
+          <th class="styled-table-header">Name</th>
+          <th class="styled-table-header">Email</th>
+          <th class="styled-table-header">Profile</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="profile in paginatedProfiles"
+        :key="profile.email"
+        :value="profile.email"
+        active-color="primary">
+          <td>{{ profile.name }}</td>
+          <td>{{ profile.email }}</td>
+          <td>
+            <v-btn text color="primary" @click="view(profile.email)">View</v-btn>
+          </td>
+        </tr>
+      </tbody>
+    </table>
       <v-container class="text-center">
         <v-pagination
           v-model="currentPage"
@@ -26,6 +32,8 @@
           @input="changePage"
         ></v-pagination>
       </v-container>
+    </v-card>
+
     </v-container>
     <v-container v-if="hide">
       <h2 class="text-center" style="color: darkblue;">No profiles</h2>
@@ -100,3 +108,35 @@ export default {
   }
 };
 </script>
+<style scoped>
+.styled-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  border: 1px solid #ccc;
+}
+
+.styled-table th,
+.styled-table td {
+  padding: 10px;
+  text-align: left;
+}
+
+.styled-table-header {
+  background-color: #f0f0f0;
+}
+
+.styled-table tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.styled-no-profiles {
+  color: darkblue;
+}
+
+/* Adjust the button color */
+.v-btn.primary {
+  color: #fff;
+  background-color: #3498db;
+}
+</style>
