@@ -18,7 +18,14 @@
             </template>
             <v-list color="#3498db">
 
-
+              <v-list-item @click="home()">
+                <v-divider></v-divider>
+                <v-list-item-action>
+                  <v-icon color="black">mdi-home</v-icon>
+                </v-list-item-action>
+                &emsp; &emsp;
+                <v-list-item-title style="color:black"> Home</v-list-item-title>
+              </v-list-item>
           <v-list-item @click="profile()">
             <v-divider></v-divider>
             <v-list-item-action>
