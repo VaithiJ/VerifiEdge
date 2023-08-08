@@ -38,8 +38,8 @@
         <v-row>
           <v-container>
             &emsp;&emsp;
-            <v-btn size="30%"  :loading="isLoading" :disabled="isLoading" v-if="data.status == !'verified' || data.status==!'rejected'" text outlined color="indigo darken-4" style="color: white;"  @click="approve(data.email, data.empid, ndata.name)">Approve</v-btn>&emsp;
-            <v-btn size="30%"   :loading="isrejecting" :disabled="isrejecting" v-if="data.status == !'verified' || data.status==!'rejected'" text outlined  color="indigo darken-4" style="color: white;"   @click="openRejectDialog(data.email, data.empid, ndata.name)">Reject</v-btn>
+            <v-btn size="30%"  :loading="isLoading" :disabled="isLoading" v-if="data.status == !'verified' || data.status==!'rejected'" text outlined color="blue lighten-1" style="color: white;"  @click="approve(data.email, data.empid, ndata.name)">Approve</v-btn>&emsp;
+            <v-btn size="30%"   :loading="isrejecting" :disabled="isrejecting" v-if="data.status == !'verified' || data.status==!'rejected'" text outlined  color="blue lighten-1" style="color: white;"   @click="openRejectDialog(data.email, data.empid, ndata.name)">Reject</v-btn>
             <v-dialog  v-model="showForm" max-width="500px">
               <v-card>
                 <v-card-title>
@@ -58,7 +58,7 @@
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn color="error" text @click="showForm = false">Cancel</v-btn>
-                  <v-btn text color="indigo lighten-2" :disabled="!valid"   @click="deny(rejectionData.email, rejectionData.empid, rejectionData.name, email_body)">Submit</v-btn>
+                  <v-btn text color="blue lighten-1" :disabled="!valid"   @click="deny(rejectionData.email, rejectionData.empid, rejectionData.name, email_body)">Submit</v-btn>
                 </v-card-actions>
       
               </v-card>
@@ -69,7 +69,7 @@
           <v-container>
             &emsp;&emsp;
 
-            <v-btn size="30%" text outlined  color="indigo darken-4" style="color: white;" @click="doc(data.email, data.empid)">Document</v-btn>
+            <v-btn size="30%" text outlined  color="blue lighten-1" style="color: white;" @click="doc(data.email, data.empid)">Document</v-btn>
 
           </v-container>
         </v-row>

@@ -16,7 +16,7 @@
       >
         <v-list-item-subtitle v-text="profile.user_email"></v-list-item-subtitle>
         <v-list-item-title v-text="profile.status"></v-list-item-title>
-        <v-btn icon @click="view(profile.user_email)"><v-icon color="indigo darken-4">mdi-card-account-details-outline</v-icon></v-btn>
+        <v-btn icon @click="view(profile.user_email)"><v-icon color="blue lighten-1">mdi-card-account-details-outline</v-icon></v-btn>
       </v-list-item>
     </v-list>
   </v-card>

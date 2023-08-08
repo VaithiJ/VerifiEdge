@@ -37,7 +37,7 @@
               <v-container v-if="data.status == 'rejected'" class="text-center">
                 <v-icon size="150px" color="red">mdi-cancel</v-icon>
                 <br>
-                <v-btn color="indigo darken-3" style="color: white;" @click="edit()">EDIT</v-btn>
+                <v-btn color="blue lighten-1" style="color: white;" @click="edit()">EDIT</v-btn>
               </v-container>
 
               
@@ -47,7 +47,7 @@
           <v-row>
             <v-container v-if="datapdf == true || show">
               &emsp;&emsp;
-              <v-btn text outlined color="indigo darken-4" style="color: white;" @click="doc(data.email, data.empid)">Document</v-btn>
+              <v-btn text outlined color="blue lighten-1" style="color: white;" @click="doc(data.email, data.empid)">Document</v-btn>
             </v-container>
           </v-row>
           <v-row>
@@ -56,8 +56,27 @@
             </v-col>
             <v-col>
               <v-container v-if="datapdf == false">
-                <v-btn size="30%" v-on:click="show = true"  :loading="isLoading" :disabled="isLoading"  text outlined color="indigo darken-4" style="color: white;" @click="upload(data.email, data.empid)">Upload</v-btn>
-              </v-container>
+                <v-btn size="30%" v-on:click="show = true"  :loading="isLoading" :disabled="isLoading"  text outlined color="blue lighten-1" style="color: white;" @click="upload(data.email, data.empid)">Upload</v-btn>
+              </v-container>Please make sure to keep these credentials safe and confidential. In case you forget your password, there is an option to reset it through the platform's password recovery process.
+
+To get started, please follow these steps:
+
+1. Visit our platform's website: [Platform URL]
+2. Click on the "Login" button located at the top-right corner of the homepage.
+3. Enter your provided username and password in the respective fields.
+4. Upon successful login, you will be directed to your dashboard, where you can upload the required documents as requested.
+
+For your convenience, our platform is equipped with an intuitive API message system that allows easy communication and data exchange. Should you encounter any difficulties or have questions about the process, don't hesitate to contact our support team through the platform's messaging feature.
+
+We value your privacy and security; hence, please refrain from sharing your login information with anyone else. Our platform ensures your data is protected using advanced security measures.
+
+Thank you for joining our platform! We are confident that our services will cater to your needs effectively. Should you need any assistance during your journey with us, our team is ready to assist.
+
+Best regards,
+[Your Name]
+[Your Title/Position]
+[Company/Organization Name]
+[Contact Information]
             </v-col>
           </v-row>
         </v-container>
@@ -67,11 +86,11 @@
       </v-card-content>
       <v-card-action >
         <v-container v-if="data_">
-          <v-btn text icon @click="addsslc()"><v-icon color="indigo darken-4">mdi-plus</v-icon></v-btn>
+          <v-btn text icon @click="addsslc()"><v-icon color="blue lighten-1">mdi-plus</v-icon></v-btn>
 
         </v-container>
         <v-container v-if="data_s">
-          <v-btn text icon @click="addsslc()"><v-icon color="indigo darken-4">mdi-plus</v-icon></v-btn>
+          <v-btn text icon @click="addsslc()"><v-icon color="blue lighten-1">mdi-plus</v-icon></v-btn>
         </v-container>
 
       </v-card-action>
