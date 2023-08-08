@@ -2786,20 +2786,20 @@ def send_user_mails(created):
         password = user["password"]
 
         message = f"""
-        Hi There,
+Hi There,
 
-        We're excited to inform you that your profile has been successfully created on our platform. You're now all set to access your account and begin utilizing our range of services. Below, you'll find your login details:
+We're excited to inform you that your profile has been successfully created on our platform. You're now all set to access your account and begin utilizing our range of services. Below, you'll find your login details:
 
-        Password: {password}
+Password: {password}
 
-        Please take a moment to log in and securely update your password. Upon logging in, you'll be prompted to upload the necessary documents as part of the onboarding process.
+Please take a moment to log in and securely update your password. Upon logging in, you'll be prompted to upload the necessary documents as part of the onboarding process.
 
-        If you encounter any issues or have questions, feel free to reach out to our dedicated support team at [Support Email Address] or [Support Phone Number].
+If you encounter any issues or have questions, feel free to reach out to our dedicated support team at [Support Email Address] or [Support Phone Number].
 
-        Thank you for choosing [Your Company Name]. We look forward to serving you!
+Thank you for choosing [Your Company Name]. We look forward to serving you!
 
-        Best regards,
-        Team H.R.
+Best regards,
+Team H.R.
 
     """
 
