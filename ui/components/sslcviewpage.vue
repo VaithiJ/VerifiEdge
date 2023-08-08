@@ -54,7 +54,7 @@
               <v-container v-if="data.status == 'rejected'" class="text-center">
                 <v-icon size="150px" color="red">mdi-cancel</v-icon>
                 <br>
-                <v-btn color="indigo darken-3" style="color: white;" @click="edit()">EDIT</v-btn>
+                <v-btn color="blue lighten-1" style="color: white;" @click="edit()">EDIT</v-btn>
               </v-container>
 
            
@@ -64,7 +64,7 @@
           <v-row>
             <v-container v-if="this.datapdf == true || show">
               &emsp;&emsp;
-              <v-btn size="30%" text outlined color="indigo darken-4" style="color: white;" @click="doc(data.email, data.sslc_regno)">Document</v-btn>
+              <v-btn size="30%" text outlined color="blue lighten-1" style="color: white;" @click="doc(data.email, data.sslc_regno)">Document</v-btn>
             </v-container>
           </v-row>
           <v-row>
@@ -75,7 +75,7 @@
             </v-col>
             <v-col>
               <v-container v-if="this.datapdf == false && !isLoading">
-                <v-btn size="30%" v-on:click="show = true"  :loading="isLoading" :disabled="isLoading"  text outlined color="indigo darken-4" style="color: white;" @click="upload()">Upload</v-btn>
+                <v-btn size="30%" v-on:click="show = true"  :loading="isLoading" :disabled="isLoading"  text outlined color="blue lighten-1" style="color: white;" @click="upload()">Upload</v-btn>
               </v-container>
             </v-col>
           </v-row>
@@ -84,7 +84,7 @@
       </v-card-content>
       <v-card-action >
         <v-container v-if="data_">
-          <v-btn text icon @click="addsslc()"><v-icon color="indigo darken-4">mdi-plus</v-icon></v-btn>
+          <v-btn text icon @click="addsslc()"><v-icon color="blue lighten-1">mdi-plus</v-icon></v-btn>
         </v-container>
       </v-card-action>
     </v-card>
