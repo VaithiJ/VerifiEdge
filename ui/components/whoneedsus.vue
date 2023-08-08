@@ -10,8 +10,8 @@
                 </v-row>
                 <br><br>
                 <v-row justify="center">
-                  <v-icon color="indigo darken-2"  >mdi-office-building-outline</v-icon>
-                  <v-btn text color="indigo darken-2" width="100px" @click="hr()"> Companies </v-btn>
+                  <v-icon color="blue lighten-1"  >mdi-office-building-outline</v-icon>
+                  <v-btn text color="blue lighten-1" width="100px" @click="hr()"> Companies </v-btn>
                 </v-row>
 
               </v-col>
@@ -21,8 +21,8 @@
                 </v-row>
                 <br><br>
                 <v-row justify="center">
-                  <v-icon color="indigo darken-2">mdi-certificate-outline</v-icon>
-                  <v-btn text color="indigo darken-2" width="100px" @click="notary()"> Admin </v-btn>
+                  <v-icon color="blue lighten-1">mdi-certificate-outline</v-icon>
+                  <v-btn text color="blue lighten-1" width="100px" @click="notary()"> Admin </v-btn>
                 </v-row>
 
               </v-col>
@@ -32,9 +32,10 @@
                 </v-row>
                 <br><br>
                 <v-row justify="center">
-                  <v-icon color="indigo darken-2"  >mdi-account</v-icon>
-                  <v-btn text color="indigo darken-2" width="100px" @click="agencies()"> Agencies</v-btn>
+                  <v-icon color="blue lighten-1"  >mdi-account</v-icon>
+                  <v-btn text color="blue lighten-1" width="100px" @click="agencies()"> Agencies</v-btn>
                 </v-row>
+                
 
               </v-col>
           </v-row>

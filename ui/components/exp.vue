@@ -4,10 +4,7 @@
             <h3 class="text-center"> Last Experience Details</h3>
             <br/><br/><br/>
             <v-alert border="top" color="red lighten-1" dismissible  v-if="fail"> Data insertion failed</v-alert>
-            <v-text-field label="Employee ID" outlined
-            prepend-icon="mdi-account-card"
-            v-model="empid"
-            :rules="[rules.required]"></v-text-field>
+            
             <v-row>
               <v-col cols="12">
                 <v-text-field label="Employee ID" outlined

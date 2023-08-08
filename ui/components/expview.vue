@@ -6,12 +6,30 @@
         <v-container >
           <v-row>
             <v-col style="padding-left: 4%; ">
-              <h3 class="text-subtitle-1"> Emp ID :{{ data.empid}}</h3>
-           <h3 class="text-subtitle-1"> Company : {{ data.company_name }}</h3>
-           <h3 class="text-subtitle-1"> Start Date : {{ data.start_date }} </h3>
-           <h3 class="text-subtitle-1"> End Date : {{ data.end_date }}</h3>
-           <h3 class="text-subtitle-1"> Designation : {{ data.designation }}</h3>
-           <br>
+              <table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc;">
+                
+                <tr style="border-bottom: 1px solid #ccc;">
+                  <td style="padding: 10px;"><h4 class="text-subtitle-3">Emp ID :</h4></td>
+                  <td style="padding: 10px;"><h5 class="text-subtitle-3">{{ data.empid }}</h5></td>
+                </tr>
+                <tr style="border-bottom: 1px solid #ccc;">
+                  <td style="padding: 10px;"><h4 class="text-subtitle-3">Company:</h4></td>
+                  <td style="padding: 10px;"><h5 class="text-subtitle-3">{{ data.company_name }}</h5></td>
+                </tr>
+                <tr style="border-bottom: 1px solid #ccc;">
+                  <td style="padding: 10px;"><h4 class="text-subtitle-3">Start Date :</h4></td>
+                  <td style="padding: 10px;"><h5 class="text-subtitle-3">{{ data.start_date }}</h5></td>
+                </tr>
+                <tr style="border-bottom: 1px solid #ccc;">
+                  <td style="padding: 10px;"><h4 class="text-subtitle-3">End Date :</h4></td>
+                  <td style="padding: 10px;"><h5 class="text-subtitle-3">{{ data.end_date }}</h5></td>
+                </tr>
+                <tr style="border-bottom: 1px solid #ccc;">
+                  <td style="padding: 10px;"><h4 class="text-subtitle-3">Designation :</h4></td>
+                  <td style="padding: 10px;"><h5 class="text-subtitle-3">{{ data.designation }}</h5></td>
+                </tr>
+              </table>
+              <br>
           <h6 class="text-subtitle-3"> Submitted on : {{ data.submitted_on }}</h6>
           <h6 v-if="data.edited_on" class="text-subtitle-3"> Edited on : {{ data.edited_on }}</h6>
           <h6 v-if="data.approved_on" class="text-subtitle-3"> Approved on : {{ data.approved_on }}</h6>

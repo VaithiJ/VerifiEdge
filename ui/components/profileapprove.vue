@@ -31,7 +31,7 @@
       </v-card>
     </v-container>
     <v-container v-if="hide">
-      <h2 class="text-center styled-no-profiles">No Profiles</h2>
+      <h2 class="text-center styled-no-profiles" text color="blue lighten-1">No Profiles</h2>
     </v-container>
   </v-container>
 </template>

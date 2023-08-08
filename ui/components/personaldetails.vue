@@ -8,11 +8,25 @@
               <v-container>
                 <v-row>
                   <v-col style="padding-left: 4%;">
-                    <h3 class="text-subtitle-1"> Aadhaar Number : {{ pdata.aadhaar }} </h3>
-                    <h3 class="text-subtitle-1"> Mobile number : {{ pdata.mob }}</h3>
-                    <h3 class="text-subtitle-1"> PAN Number : {{ pdata.pan }}</h3>
-                    <h3 class="text-subtitle-1"> Company Name : {{ pdata.company_name }}</h3>
-                    <h3 class="text-subtitle-1"> Designation : {{ pdata.designation }}</h3>
+                    <table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc;">
+                
+                      <tr style="border-bottom: 1px solid #ccc;">
+                        <td style="padding: 10px;"><h4 class="text-subtitle-3">Mobile Number:</h4></td>
+                        <td style="padding: 10px;"><h5 class="text-subtitle-3">{{ pdata.mob }}</h5></td>
+                      </tr>
+                      <tr style="border-bottom: 1px solid #ccc;">
+                        <td style="padding: 10px;"><h4 class="text-subtitle-3">PAN Number:</h4></td>
+                        <td style="padding: 10px;"><h5 class="text-subtitle-3">{{ pdata.pan }}</h5></td>
+                      </tr>
+                      <tr style="border-bottom: 1px solid #ccc;">
+                        <td style="padding: 10px;"><h4 class="text-subtitle-3">Company Name :</h4></td>
+                        <td style="padding: 10px;"><h5 class="text-subtitle-3">{{ pdata.company_name }}</h5></td>
+                      </tr>
+                      <tr style="border-bottom: 1px solid #ccc;">
+                        <td style="padding: 10px;"><h4 class="text-subtitle-3">Designation :</h4></td>
+                        <td style="padding: 10px;"><h5 class="text-subtitle-3">{{ pdata.designation }}</h5></td>
+                      </tr>
+                    </table>
                     <br>
           <h6 class="text-subtitle-3"> Submitted on : {{ pdata.submitted_on }}</h6>
               <h6 v-if="pdata.edited_on" class="text-subtitle-3"> Edited on : {{ pdata.edited_on }}</h6>
@@ -37,9 +51,9 @@
                 <v-container >
                   &emsp;&emsp;
 
-                  <v-btn size="30%" v-on:click="verified = true"  :loading="isLoading" :disabled="isLoading" v-if="this.pdata.status == !'verified' || this.pdata.status==!'rejected' " text outlined color="indigo darken-4" style="color:white;" @click="approve(pdata.email, ndata.name)">Approve</v-btn>&emsp;
+                  <v-btn size="30%" v-on:click="verified = true"  :loading="isLoading" :disabled="isLoading" v-if="this.pdata.status == !'verified' || this.pdata.status==!'rejected' " text outlined color="blue ligten-1" style="color:white;" @click="approve(pdata.email, ndata.name)">Approve</v-btn>&emsp;
 
-                  <v-btn size="30%"   :loading="isLoading" :disabled="isLoading" v-if="this.pdata.status == !'verified' || this.pdata.status==!'rejected'" text outlined color="indigo darken-4" style="color:white;"  @click="showForm = true">Reject</v-btn>
+                  <v-btn size="30%"   :loading="isLoading" :disabled="isLoading" v-if="this.pdata.status == !'verified' || this.pdata.status==!'rejected'" text outlined color="blue lighten-1" style="color:white;"  @click="showForm = true">Reject</v-btn>
                   <v-dialog v-model="showForm" max-width="500px">
                     <v-card>
                       <v-card-title>
@@ -58,7 +72,7 @@
                       <v-card-actions>
                         <v-spacer></v-spacer>
                         <v-btn color="error" text @click="showForm = false">Cancel</v-btn>
-                        <v-btn text color="indigo lighten-2" :disabled="!valid" @click="deny(pdata.email, ndata.name)"  class="button">Submit</v-btn>
+                        <v-btn text color="blue lighten-1" :disabled="!valid" @click="deny(pdata.email, ndata.name)"  class="button">Submit</v-btn>
                       </v-card-actions>
             
                     </v-card>

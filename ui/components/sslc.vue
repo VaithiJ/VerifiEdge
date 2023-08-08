@@ -38,7 +38,7 @@
         </v-col>
         </v-row>
         <v-container class="text-center">
-            <v-btn text  @click="submit()" :disabled="!formvalid" color="indigo lighten-2" class="button"> Submit </v-btn>
+            <v-btn text  @click="submit()" :disabled="!formvalid" color="blue lighten-1" class="button"> Submit </v-btn>
         </v-container>
         <v-container v-if="notallowed" class="text-center">
           <v-alert  type="error" dismissible> Only pdf is allowed </v-alert>

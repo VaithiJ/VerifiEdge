@@ -15,8 +15,8 @@
     <v-row>
       <v-container class="text-center" fluid>
         <v-responsive :aspect-ratio="16 / 9">
-          <v-btn color="indigo darken-4" style="color:white;" @click="approve(data.email)">Approve</v-btn>&emsp;
-          <v-btn color="indigo darken-4" style="color:white;" @click="deny(data.email)">Reject</v-btn>
+          <v-btn color="blue lighten-1" style="color:white;" @click="approve(data.email)">Approve</v-btn>&emsp;
+          <v-btn color="blue lighten-1" style="color:white;" @click="deny(data.email)">Reject</v-btn>
         </v-responsive>
 
       </v-container>
