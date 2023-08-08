@@ -34,7 +34,7 @@
               <v-container v-if="pdata.status == 'rejected'" class="text-center">
                 <v-icon size="150px" color="red">mdi-cancel</v-icon>
                 <br>
-                <v-btn color="indigo darken-3" style="color: white;" @click="edit()">EDIT</v-btn>
+                <v-btn color="blue lighten-1" style="color: white;" @click="edit()">EDIT</v-btn>
               </v-container>
 
             </v-col>
@@ -45,7 +45,7 @@
       </v-card-content>
       <v-card-action >
         <v-container v-if="data_">
-          <v-btn text icon @click="addpersonal()"><v-icon color="indigo darken-4">mdi-plus</v-icon></v-btn>
+          <v-btn text icon @click="addpersonal()"><v-icon color="blue lighten-1">mdi-plus</v-icon></v-btn>
 
         </v-container>
 
