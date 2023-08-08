@@ -106,7 +106,18 @@ export default {
         let rdata={
           email: email,
           email_subject: "Approval Mail",
-          email_body: "Your Data has been successfully verified"
+          email_body: `
+          Dear Applicant,
+
+          We are here to inform you that your Data has approved by the notary.
+
+          We appreciate your interest in our services and your effort in applying. Thank you for considering us.
+
+          With Regards,
+
+          VerifiEdge
+
+          `
         }
         let nres = await this.$axios.post(rurl, rdata)
     },
