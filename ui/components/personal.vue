@@ -2,40 +2,47 @@
     <v-container class="personalform">
         <v-alert border="top" color="red lighten-1" dismissible  v-if="fail"> Data insertion failed</v-alert>
         <v-form v-model="isFormValid" >
-                <br/>
-                <h3 class="text-center"> Personal Data</h3> <br />
-                <br/><br/><br/>
-                <v-text-field label="Employee ID " outlined v-model="empid" prepend-icon="mdi-account-card" :rules="[rules.required,rules.alphnum]"></v-text-field>
+                
                 <v-row>
-                  <v-col>
+                  <v-col cols="12">
+                    <h3 class="text-center">Personal Data</h3>
+                  </v-col>
+                  <v-col cols="12">
+                    <v-text-field label="Employee ID " outlined v-model="empid" prepend-icon="mdi-account-card" :rules="[rules.required,rules.alphnum]"></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6">
                 <v-menu v-model="DatePicker" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
                   <template v-slot:activator="{ on }">
                     <v-text-field v-model="doj" outlined prepend-icon="mdi-calendar" label="Date of Joining" readonly v-on="on"></v-text-field>
                   </template>
                   <v-date-picker v-model="doj" :max="today" no-title scrollable @input="saveDatePicker"></v-date-picker>
                 </v-menu>
-              </v-col><v-col>
+              </v-col>
+              <v-col cols="12" sm="6">
                 <v-text-field label="Company Name" outlined v-model="company" prepend-icon="mdi-domain" :rules="[rules.required,rules.company]"></v-text-field>
               </v-col>
               </v-row>
               <v-row>
-                <v-col>
+                <v-col cols="12" sm="6">
                 <v-text-field label="Designation" outlined v-model="designation" prepend-icon="mdi-certificate" :rules="[rules.required, rules.designation]"></v-text-field>
-              </v-col><v-col>
+              </v-col>
+              <v-col cols="12" sm="6">
                 <v-text-field label="Company Email" outlined v-model="company_email" prepend-icon="mdi-email" :rules="[rules.required, rules.email]"></v-text-field>
               </v-col>
               </v-row>
               <v-row>
-                <v-col>
+                <v-col cols="12" sm="6">
                 <v-text-field label="Mobile Number" outlined v-model="mob" prepend-icon="mdi-phone" :rules="[rules.required, rules.mob]"></v-text-field>
-              </v-col><v-col>
+              </v-col>
+              <v-col cols="12" sm="6">
                 <v-text-field label="Aadhaar" outlined v-model="aadhaar" prepend-icon="mdi-text-box" :rules="[rules.required, rules.aadhaar]"></v-text-field>
               </v-col>
               </v-row>
               <v-row>
-                <v-col>
+                <v-col cols="12" sm="6">
                 <v-text-field label="PAN" outlined v-model="pan" prepend-icon="mdi-text-box" :rules="[rules.required, rules.pan]"></v-text-field>
-              </v-col><v-col>
+              </v-col>
+              <v-col cols="12" sm="6">
                 <v-text-field label="Passport" outlined v-model="passport" prepend-icon="mdi-text-box" :rules="[rules.required,rules.passport]"></v-text-field>
               </v-col>
               </v-row>
@@ -126,7 +133,10 @@ export default {
 }
 </script>
 <style>
-.personalform{
-    width: 50%;
+.personalform {
+  width: 100%;
+  max-width: 600px; /* Adjust max-width as needed */
+  margin: 0 auto;
+  padding: 20px;
 }
 </style>
