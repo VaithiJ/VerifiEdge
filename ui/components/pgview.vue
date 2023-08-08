@@ -39,8 +39,8 @@
       <v-row>
         <v-container v-if="!isLoading">
           &emsp;&emsp;
-          <v-btn size="30%"  :loading="isLoading" :disabled="isLoading" v-if="this.data.status == !'verified' || this.data.status==!'rejected'" text outlined  color="indigo darken-4" style="color:white;" @click="approve(data.email, data.pg_regno, ndata.name)">Approve</v-btn>&emsp;
-          <v-btn size="30%"  :loading="isLoading" :disabled="isLoading" v-if="this.data.status == !'verified' || this.data.status==!'rejected'" text outlined  color="indigo darken-4" style="color:white;"  @click="showForm = true">Reject</v-btn>&emsp;
+          <v-btn size="30%"  :loading="isLoading" :disabled="isLoading" v-if="this.data.status == !'verified' || this.data.status==!'rejected'" text outlined  color="blue lighten-1" style="color:white;" @click="approve(data.email, data.pg_regno, ndata.name)">Approve</v-btn>&emsp;
+          <v-btn size="30%"  :loading="isLoading" :disabled="isLoading" v-if="this.data.status == !'verified' || this.data.status==!'rejected'" text outlined  color="blue lighten-" style="color:white;"  @click="showForm = true">Reject</v-btn>&emsp;
         </v-container>
         <v-dialog v-model="showForm" max-width="500px">
           <v-card>
@@ -60,7 +60,7 @@
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn color="error" text @click="showForm = false">Cancel</v-btn>
-              <v-btn text color="indigo lighten-2" :disabled="!valid" class="button"  @click="deny(data.email, data.pg_regno, ndata.name)">Submit</v-btn>
+              <v-btn text color="blue lighten-1" :disabled="!valid" class="button"  @click="deny(data.email, data.pg_regno, ndata.name)">Submit</v-btn>
             </v-card-actions>
   
           </v-card>
