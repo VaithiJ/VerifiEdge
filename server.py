@@ -1,3 +1,4 @@
+import requests
 from fastapi import FastAPI,File , UploadFile,Form, Query, HTTPException, Depends, status, Cookie
 from pydantic import BaseModel
 from typing import Dict, Optional
@@ -2544,8 +2545,8 @@ async def upload_excel_file(file: UploadFile = File(...), bgv: str = "bgv"):
         if len(new_user_list) > 0:
             db["user"].insert_many(new_user_list)
 
-        # if len(new_user_list) > 0:
-        #     send_user_mails(new_user_list)
+        if len(new_user_list) > 0:
+            send_user_mails(new_user_list)
         # if len(rejected_data) > 0:
         #     send_rejected_mails(rejected_data)
 
@@ -2766,7 +2767,15 @@ def send_rejected_mails(rejected):
 
         message = f"Hi! This is to inform that your Profile creation was failed due to invalid or inconsistant data."
 
-        graph.send_mail(subject, message, reciptant)
+        # graph.send_mail(subject, message, reciptant)
+
+        payload = {
+            "reciptant": reciptant,
+            "subject": subject,
+            "body": message
+        }
+
+        requests.post("http://3.84.79.77:8000/mail/send", data=json.dumps(payload))
 
 
 def send_user_mails(created):
@@ -2779,7 +2788,16 @@ def send_user_mails(created):
 
         message = f"Hi! This is to inform that your Profile has been created and the password is: {password}"
 
-        graph.send_mail(subject, message, reciptant)
+        # graph.send_mail(subject, message, reciptant)
+
+        payload = {
+            "reciptant": reciptant,
+            "subject": subject,
+            "body": message
+        }
+
+        requests.post("http://3.84.79.77:8000/mail/send", data=json.dumps(payload))
+
 ################################################################################################################    
 @app.get("/download_excel/{template}/")
 async def download_excel(template: str) -> FileResponse:
