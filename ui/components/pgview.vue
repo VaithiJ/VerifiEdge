@@ -239,7 +239,17 @@ export default{
         let rdata={
           email: email,
           email_subject: "Rejection Mail",
-          email_body: this.email_body,
+          email_body: `
+          Dear Applicant,
+
+            We regret to inform you that your application with PG Data has been rejected due to ${this.email_body}. Our team reviewed your application carefully, and unfortunately, we are unable to proceed with your application at this time.
+
+            We appreciate your interest in our services and your effort in applying. Thank you for considering us, and reupload the PG Data .
+
+            With Regards,
+
+            VerifiEdge
+        `
         }
         let nres = await this.$axios.post(rurl, rdata)
         this.showForm = false
