@@ -35,6 +35,7 @@
                   <v-icon color="blue lighten-1"  >mdi-account</v-icon>
                   <v-btn text color="blue lighten-1" width="100px" @click="agencies()"> Agencies</v-btn>
                 </v-row>
+                
 
               </v-col>
           </v-row>
