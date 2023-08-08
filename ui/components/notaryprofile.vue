@@ -37,9 +37,9 @@
                   <br>
                   &emsp;&emsp;
 
-                  <v-btn color="indigo darken-4" style="color:white;" @click="approve(pdata.email, ndata.name)">Approve</v-btn>&emsp;
+                  <v-btn color="blue lighten-1" style="color:white;" @click="approve(pdata.email, ndata.name)">Approve</v-btn>&emsp;
 
-                  <v-btn color="indigo darken-4" style="color:white;" @click="deny(pdata.email, ndata.name)">Reject</v-btn>
+                  <v-btn color="blue lighten-1" style="color:white;" @click="deny(pdata.email, ndata.name)">Reject</v-btn>
 
                 </v-container>
               </v-row>

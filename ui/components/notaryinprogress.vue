@@ -10,7 +10,7 @@
         >
           <v-list-item-title v-text="request.name"></v-list-item-title>
           <v-list-item-subtitle v-text="request.email"></v-list-item-subtitle>
-          <v-btn text color="#3498db" @click="view(request.email)">view
+          <v-btn text color="blue lighten-1" @click="view(request.email)">view
             <!-- <v-icon color="#3498db">mdi-card-account-details-outline</v-icon> -->
           </v-btn>
           <v-btn icon @click="approve(request.email)">
@@ -29,7 +29,7 @@
       </v-container>
     </v-container>
     <v-container v-if="hide">
-      <h2 class="text-center" style="color: darkblue;">No Profiles</h2>
+      <h2 class="text-center" text color="blue lighten-1">No Profiles</h2>
     </v-container>
   </v-container>
 </template>

@@ -11,13 +11,13 @@
           >
             <v-list-item-title v-text="data.name"></v-list-item-title>
             <v-list-item-subtitle v-text="data.email"></v-list-item-subtitle>
-            <v-btn icon @click="view(data.email)"><v-icon color="indigo darken-4">mdi-card-account-details-outline</v-icon></v-btn>
+            <v-btn icon @click="view(data.email)"><v-icon color="blue lighten-1">mdi-card-account-details-outline</v-icon></v-btn>
             
           </v-list-item>
         </v-list>
       </v-container>
       <v-container v-if="hide">
-        <h2 class="text-center" style="color: darkblue;"> No Requests </h2><br /><br/>
+        <h2 class="text-center" text color="blue lighten-1"> No Requests </h2><br /><br/>
       </v-container>
   
       </v-container>
