@@ -21,13 +21,17 @@
       </v-col>
     </v-row>
     <br><br>
-    <v-container class="text-center" fluid style="width:30%">
-      <v-text-field label="Enter Email Address" v-model="email"></v-text-field>
-      <br>
-      <v-btn text color="blue lighten-1" style="color:white" @click="search()">Search</v-btn><br/><br/>
-
+    <v-container class="personalform" >
+      <v-form>
+        <v-row>
+          <v-col cols="12">
+            <v-text-field label="Enter Email Address" v-model="email"></v-text-field>
+          </v-col>
+        </v-row>
+      </v-form>
     </v-container>
-    <v-container>
+    <v-container class="text-center">
+      <v-btn text color="blue lighten-1" style="color:white" @click="search()">Search</v-btn><br/><br/>
 
     </v-container>
     <v-container v-if="user_yes" >
@@ -122,3 +126,11 @@ export default {
 
 </script>
 
+<style>
+.personalform {
+  width: 100%;
+  max-width: 600px; /* Adjust max-width as needed */
+  margin: 0 auto;
+  padding: 20px;
+}
+</style>
