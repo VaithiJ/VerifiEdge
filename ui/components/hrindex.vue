@@ -35,7 +35,7 @@
 
     </v-container>
     <v-container v-if="user_yes" >
-      <h2 class="text-center" style="color: darkblue;"> Profiles</h2><br /><br/>
+      <h2 class="text-center" text color="blue lighten-1"> Profiles</h2><br /><br/>
 
       <v-card
       class="mx-auto my-12"
@@ -48,7 +48,7 @@
       
         <v-list-item-title v-text="users.name"></v-list-item-title>
         <v-list-item-subtitle v-text="users.email"></v-list-item-subtitle>
-        <v-btn text color="#3498db" @click="view(users.email)">view</v-btn>
+        <v-btn text color="blue lighten-1" @click="view(users.email)">view</v-btn>
         <!--<v-btn icon @click="approve(profile.email)"><v-icon color="green">mdi-account-check-outline</v-icon></v-btn>&emsp;&emsp;
         <v-btn icon @click="deny(profile.email)"><v-icon color="error">mdi-account-remove-outline</v-icon></v-btn>-->
       </v-list-item>
@@ -56,7 +56,7 @@
     </v-card>
     </v-container>
     <v-container v-if="user_no" >
-      <h2 class="text-center" style="color: darkblue;">No Profiles</h2><br /><br/>
+      <h2 class="text-center" text color="blue lightne-1">No Profiles</h2><br /><br/>
     </v-container>
     
 
