@@ -3,7 +3,6 @@
     <v-container v-if="show">
       <v-card class="mx-auto my-12"
     max-width="700">
-<<<<<<< HEAD
     <table class="styled-table">
       <thead>
         <tr>
@@ -25,23 +24,8 @@
         </tr>
       </tbody>
     </table>
-=======
-      <v-list density="compact">
-        <v-list-item
-          v-for="profile in paginatedProfiles"
-          :key="profile.email"
-          :value="profile.email"
-          active-color="primary"
-        >
-          <v-list-item-title v-text="profile.name"></v-list-item-title>
-          <v-list-item-subtitle v-text="profile.email"></v-list-item-subtitle>
-          <v-btn text color="blue lighten-1" @click="view(profile.email)">view
-            <!-- <v-icon color="indigo darken-4">mdi-card-account-details-outline</v-icon> -->
-          </v-btn>
-        </v-list-item>
-      </v-list>
-      </v-card>
->>>>>>> c92d5a52e701d23edd71bdd042921d590f918b22
+
+
       <v-container class="text-center">
         <v-pagination
           v-model="currentPage"
