@@ -6,13 +6,35 @@
         <v-container >
           <v-row>
             <v-col style="padding-left: 4%; ">
-              <h3 class="text-subtitle-1"> Register Number :{{ data.pg_regno}}</h3>
-          <h3 class="text-subtitle-1"> Marks : {{ data.pg_marks }}</h3>
-          <h3 class="text-subtitle-1"> Specialization : {{ data.pg_specialization }}</h3>
-          <h3 class="text-subtitle-1"> College : {{ data.pg_college }} </h3>
-          <h3 class="text-subtitle-1"> University : {{ data.pg_university }}</h3>
-          <h3 class="text-subtitle-1"> Year of Completion : {{ data.pg_passout }}</h3>
-          <br>
+              <table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc;">
+                
+                <tr style="border-bottom: 1px solid #ccc;">
+                  <td style="padding: 10px;"><h4 class="text-subtitle-3">Register Number:</h4></td>
+                  <td style="padding: 10px;"><h5 class="text-subtitle-3">{{ data.pg_regno }}</h5></td>
+                </tr>
+                <tr style="border-bottom: 1px solid #ccc;">
+                  <td style="padding: 10px;"><h4 class="text-subtitle-3">Marks:</h4></td>
+                  <td style="padding: 10px;"><h5 class="text-subtitle-3">{{ data.pg_marks }}</h5></td>
+                </tr>
+                <tr style="border-bottom: 1px solid #ccc;">
+                  <td style="padding: 10px;"><h4 class="text-subtitle-3">Specialization :</h4></td>
+                  <td style="padding: 10px;"><h5 class="text-subtitle-3">{{ data.pg_specialization }}</h5></td>
+                </tr>
+                <tr style="border-bottom: 1px solid #ccc;">
+                  <td style="padding: 10px;"><h4 class="text-subtitle-3">College :</h4></td>
+                  <td style="padding: 10px;"><h5 class="text-subtitle-3">{{ data.pg_college }}</h5></td>
+                </tr>
+                <tr style="border-bottom: 1px solid #ccc;">
+                  <td style="padding: 10px;"><h4 class="text-subtitle-3">University :</h4></td>
+                  <td style="padding: 10px;"><h5 class="text-subtitle-3">{{ data.pg_university }}</h5></td>
+                </tr>
+                <tr style="border-bottom: 1px solid #ccc;">
+                  <td style="padding: 10px;"><h4 class="text-subtitle-3">Year of Completion:</h4></td>
+                  <td style="padding: 10px;"><h5 class="text-subtitle-3">{{ data.pg_passout }}</h5></td>
+                </tr>
+                
+              </table>
+              <br>
           <h6 class="text-subtitle-3"> Submitted on : {{ data.submitted_on }}</h6>
               <h6 v-if="data.edited_on" class="text-subtitle-3"> Edited on : {{ data.edited_on }}</h6>
               <h6 v-if="data.approved_on, verified" class="text-subtitle-3"> Approved on : {{ data.approved_on }}</h6>
