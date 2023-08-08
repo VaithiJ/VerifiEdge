@@ -86,10 +86,10 @@ export default {
       this.currentPage = page;
     },
 
-    async view(email) {
-      this.$storage.setUniversal("user_email", email);
-      this.$router.push("/userprofile");
-    },
+    async view(email){
+        this.$storage.setUniversal('search_email', email)
+        this.$router.push('/User_companyprofile')
+      },
   },
 };
 </script>
