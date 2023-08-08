@@ -41,7 +41,7 @@
           <v-card-actions v-if="!formSubmitted" >
             <v-spacer></v-spacer>
             <v-btn color="error" text @click="showForm = false">Cancel</v-btn>
-            <v-btn text color="indigo lighten-2" :disabled="!valid" @click="submitForm()" class="button">Submit</v-btn>
+            <v-btn text color="blue lighten-1" :disabled="!valid" @click="submitForm()" class="button">Submit</v-btn>
           </v-card-actions>
 
         </v-card>

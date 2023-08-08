@@ -15,7 +15,7 @@
     </v-row>
     <br>
     <v-container class="text-center">
-      <v-btn text @click="login()" color="indigo darken-2" width="200px">Signin</v-btn>
+      <v-btn text @click="login()" color="blue lighten-1" width="200px">Signin</v-btn>
     </v-container>
   </v-form>
   </v-container>
