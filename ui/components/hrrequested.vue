@@ -1,7 +1,7 @@
 <template>
     <v-container>
      <v-container>
-        <h2 class="text-center" style="color: darkblue;">Requested Profiles</h2>
+        <h2 class="text-center" text color="blue lighten-1">Requested Profiles</h2>
      </v-container>
      <v-card
     class="mx-auto pa-2"
@@ -18,7 +18,7 @@
         <v-list-item-subtitle v-text="profile.user_email"></v-list-item-subtitle>
         <v-list-item-title v-text="profile.user_designation"></v-list-item-title>
         <v-list-item-title v-text="profile.status"></v-list-item-title>
-        <v-btn icon @click="view(profile.email)"><v-icon color="indigo darken-4">mdi-card-account-details-outline</v-icon></v-btn>
+        <v-btn icon @click="view(profile.email)"><v-icon color="blue lighten-1">mdi-card-account-details-outline</v-icon></v-btn>
       </v-list-item>
     </v-list>
   </v-card>
