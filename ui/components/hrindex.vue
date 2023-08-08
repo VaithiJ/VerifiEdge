@@ -34,8 +34,8 @@
       <h2 class="text-center" style="color: darkblue;"> Profiles</h2><br /><br/>
 
       <v-card
-    class="mx-auto pa-2"
-    style="width: 80%;"
+      class="mx-auto my-12"
+      max-width="700"
     >
     <v-list density="compact">
       <v-list-item
