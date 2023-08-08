@@ -3,10 +3,10 @@
       <v-main class="grey lighten-3">
         <v-container>
           <v-row>
-            <v-col cols="3">
+            <v-col cols="12" md="3">
   
                 <v-container fluid>
-                  <v-card max-width="450px" class="mx-auto bg" elevation="2">
+                  <v-card class="curved-box" elevation="12">
                     <br><br>
                     <v-row justify="center">
                       <v-col align-self="start" class="d-flex justify-center align-center pa-0" cols="12">
@@ -25,7 +25,7 @@
                 </v-container>
             </v-col>
                 
-            <v-col>
+            <v-col cols="12" md="6">
         <Cpersonal/>
   
         <Csslcview/>
@@ -39,7 +39,7 @@
         <Cexpview/>
   
             </v-col>
-            <v-col cols="3">
+            <v-col >
   
               <v-container fluid>
                 <v-card max-width="350px" height="365px" class="mx-auto bg" elevation="2">
