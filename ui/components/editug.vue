@@ -4,22 +4,28 @@
           <h4 class="text-center"> UG Details</h4>
           <br/><br/><br/>
           <v-alert border="top" color="red lighten-1" dismissible  v-if="fail"> Data insertion failed</v-alert>
-          <v-text-field label="Registration Number" outlined v-model="ug_regno" prepend-icon="mdi-notebook" :rules="[rules.required,rules.ug_regno]"></v-text-field>
           <v-row>
-            <v-col>
+            <v-col cols="12">
+              <v-text-field label="Registration Number" outlined v-model="ug_regno" prepend-icon="mdi-notebook" :rules="[rules.required,rules.ug_regno]"></v-text-field>
+
+            </v-col>
+            <v-col cols="12" sm="6">
           <v-text-field label="Marks in %" outlined v-model="ug_marks" prepend-icon="mdi-brightness-percent" :rules="[rules.required,rules.percents]"></v-text-field>
-          </v-col><v-col>
+          </v-col>
+          <v-col cols="12" sm="6">
           <v-text-field label="Specialization" outlined v-model="ug_specialization" prepend-icon="mdi-school" :rules="[rules.required,rules.ug_specialization]"></v-text-field>
           </v-col>
         </v-row>
-        <v-row><v-col>
+        <v-row>
+          <v-col cols="12" sm="6">
           <v-text-field label="College" outlined v-model="ug_college" prepend-icon="mdi-town-hall" :rules="[rules.required,rules.ug_college]"></v-text-field>
-        </v-col><v-col>
+        </v-col>
+        <v-col cols="12" sm="6">
           <v-text-field label="University" outlined v-model="ug_university" prepend-icon="mdi-school" :rules="[rules.required,rules.ug_university]"></v-text-field>
         </v-col>
         </v-row>
         <v-row>
-          <v-col>
+          <v-col cols="12" sm="6">
           <v-select
           v-model="ug_passout"
           :items="ug_passout"
@@ -28,7 +34,8 @@
           :rules="[rules.required]"
           prepend-icon="mdi-calendar"
         ></v-select>
-      </v-col><v-col>
+      </v-col>
+      <v-col cols="12" sm="6">
           <v-file-input @change="fileselect" label="Upload File" outlined :rules="[rules.required]"></v-file-input>
         </v-col>
         </v-row>
@@ -122,3 +129,11 @@ export default{
 
 }
 </script>
+<style>
+.personalform {
+  width: 100%;
+  max-width: 600px; /* Adjust max-width as needed */
+  margin: 0 auto;
+  padding: 20px;
+}
+</style>

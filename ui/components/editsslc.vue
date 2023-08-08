@@ -7,21 +7,23 @@
       <v-alert border="top" color="red lighten-1" dismissible  v-if="fail"> Data insertion failed</v-alert>
       <v-alert class="success" dismissible v-if="success"> Data insertion succeeded</v-alert>
       <v-row>
-        <v-col>
+        <v-col cols="12" sm="6">
       <v-text-field label="Registration Number" outlined v-model="sslc_regno" prepend-icon="mdi-notebook" :rules="[rules.required,rules.sslc_regno]"></v-text-field>
-      </v-col><v-col>
+      </v-col>
+      <v-col cols="12" sm="6">
       <v-text-field label="Marks in %" outlined v-model="sslc_marks" prepend-icon="mdi-brightness-percent" :rules="[rules.required,rules.percents]"></v-text-field>
     </v-col>
     </v-row>
     <v-row>
-      <v-col>
+      <v-col cols="12" sm="6">
       <v-text-field label="School" outlined v-model="sslc_school" prepend-icon="mdi-town-hall" :rules="[rules.required,rules.sslc_school]"></v-text-field>
-    </v-col><v-col>
+    </v-col>
+    <v-col cols="12" sm="6">
      <v-text-field label="Board" outlined v-model="sslc_board" prepend-icon="mdi-school" :rules="[rules.required,rules.sslc_board]"></v-text-field>
     </v-col>
     </v-row>
     <v-row>
-      <v-col>
+      <v-col cols="12" sm="6">
      <v-select
      v-model="sslc_passout"
      :items="sslc_passout"
@@ -30,7 +32,8 @@
      :rules="[rules.required]"
      prepend-icon="mdi-calendar"
    ></v-select>
-  </v-col><v-col>
+  </v-col>
+  <v-col cols="12" sm="6">
       <v-file-input @change="fileselect"  label = "Upload Files" outlined :rules="[rules.required]" ></v-file-input>
     </v-col>
     </v-row>
@@ -123,7 +126,13 @@ export default{
 
 }
 </script>
-<style scoped>
+<style>
+.personalform {
+  width: 100%;
+  max-width: 600px; /* Adjust max-width as needed */
+  margin: 0 auto;
+  padding: 20px;
+}
 .v-menu__content {
   max-height: 200px;
   overflow-y: auto;
