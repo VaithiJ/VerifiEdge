@@ -2694,7 +2694,7 @@ def validate_user(user_data, emails_exists, email_in_db, new_user_emails,db_coll
         if count == 4 and is_valid_email(email):
             user_data["_id"] = generate_id()
             user_data["status"] = False
-            user_data["createdAt"] = formatted_timestamp
+            user_data["submitted_on"] = formatted_timestamp
 
             excel_data = user_data
 
@@ -2705,7 +2705,7 @@ def validate_user(user_data, emails_exists, email_in_db, new_user_emails,db_coll
                     "email": email,
                     "password": generate_id(),
                     "status": "pending",
-                    "createdAt": formatted_timestamp,
+                    "submitted_on": formatted_timestamp,
                 }
 
                 new_user_emails.append(email)
