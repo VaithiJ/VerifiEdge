@@ -27,6 +27,14 @@
             &emsp; &emsp;
             <v-list-item-title style="color:black"> Profile</v-list-item-title>
           </v-list-item>
+          <v-list-item @click="user()">
+            <v-divider></v-divider>
+            <v-list-item-action>
+              <v-icon color="black">mdi-account</v-icon>
+            </v-list-item-action>
+            &emsp; &emsp;
+            <v-list-item-title style="color:black"> Users</v-list-item-title>
+          </v-list-item>
           <v-list-item @click="logout()">
             <v-divider></v-divider>
             <v-list-item-action>
