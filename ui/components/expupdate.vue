@@ -5,7 +5,7 @@
         <v-text-field label="Is the candidate officially relieved ?" v-model="relieved"></v-text-field> 
         <v-text-field label="Remarks" v-model="remarks"></v-text-field>
         <v-container class="text-center">
-            <v-btn text @click="expupdate()">Update Status</v-btn>
+            <v-btn text @click="expupdate()" color="blue lighten-1">Update Status</v-btn>
         </v-container>
     </v-form>
 </template>
