@@ -15,7 +15,7 @@
         </v-list>
       </v-container>
       <v-container v-if="hide">
-        <h2 class="text-center" style="color: darkblue;"> No Requests </h2><br /><br/>
+        <h2 class="text-center" text color="blue lighten-1"> No Requests </h2><br /><br/>
       </v-container>
 
       </v-container>
