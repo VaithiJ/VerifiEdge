@@ -3,111 +3,114 @@
     <v-main class="grey lighten-3">
       <v-container>
         <v-row>
-          <v-col cols="3">
-            <br/><br/><br/><br/><br/><br/><br/>
-            
-              <v-container fluid>
-                <v-card max-width="450px" class="curved-box" elevation="12">
-                  <br><br>
-                  <v-row justify="center">
-                    <v-col align-self="start" class="d-flex justify-center align-center pa-0" cols="12">
-                      <v-avatar class="profile avatar-center-heigth avatar-shadow" color="white" size="170">
-                        <input ref="uploader" class="d-none" type="file" accept="image/*" :change="onFileChanged">
-                        <v-img src="https://cdn-icons-png.flaticon.com/512/6915/6915987.png"></v-img>
-                      </v-avatar>
-
-                    </v-col>
-                    
-                  </v-row>
-                  <v-row>
-                    
-                    <userbannerpage/>
-                    <profilepersonal/>
-
-               
-                  </v-row>
-                  
-                </v-card>
-                <br/><br/><br/>
-                
-            
-              </v-container>
-             
-          </v-col>
-          <v-col>
-
-      <persondetailspage/>
-
-      <sslcviewpage/>
-
-      <hseviewpage/>
-
-      <ugviewpage/>
-
-      <pgviewpage/>
-
-      <expviewpage/>
-
-          </v-col>
-          <v-col cols="3">
-
+          <v-col cols="12" md="3">
             <v-container fluid>
-              <br/><br/><br/><br/><br/><br/><br/>
-              <v-col cols="12" md="10">
-                <div >
-            <img
-              data-aos="zoom-in"
-              class="guide2Image"
-              data-aos-duration="800"
-              data-aos-delay="100"
-              src="https://carriazetech.com/assets/images/products/product-dtls.png"
-              alt="Guide Image"
-              :style="{ width: '130%', height: 'auto' }"
-            />
-          </div>
-            </v-col>
-            <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
-                <v-col cols="12" md="10">
-                <div >
-            <img
-              data-aos="zoom-in"
-              class="guide2Image"
-              data-aos-duration="800"
-              data-aos-delay="100"
-              src="https://innov.in/assets/employee.png"
-              alt="Guide Image"
-              :style="{ width: '130%', height: 'auto' }"
-            />
-          </div>
-            </v-col>
-             
+              <v-card class="curved-box" elevation="12">
+                <br /><br />
+                <v-row justify="center">
+                  <v-col align-self="start" cols="12" class="d-flex justify-center align-center pa-0">
+                    <v-avatar
+                      class="profile avatar-center-height avatar-shadow"
+                      color="white"
+                      size="170"
+                    >
+                      <input
+                        ref="uploader"
+                        class="d-none"
+                        type="file"
+                        accept="image/*"
+                        :change="onFileChanged"
+                      />
+                      <v-img
+                        src="https://cdn-icons-png.flaticon.com/512/6915/6915987.png"
+                      ></v-img>
+                    </v-avatar>
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <userbannerpage />
+                  <profilepersonal />
+                </v-row>
+              </v-card>
+              <br /><br /><br />
             </v-container>
-
-
-        </v-col>
+          </v-col>
+          <v-col cols="12" md="6">
+            <persondetailspage />
+            <sslcviewpage />
+            <hseviewpage />
+            <ugviewpage />
+            <pgviewpage />
+            <expviewpage />
+          </v-col>
+          <v-col cols="12" md="3">
+            <v-container fluid>
+              <br /><br /><br /><br /><br /><br /><br />
+              <v-col cols="12" md="10">
+                <div>
+                  <img
+                    data-aos="zoom-in"
+                    class="guide2Image"
+                    data-aos-duration="800"
+                    data-aos-delay="100"
+                    src="https://carriazetech.com/assets/images/products/product-dtls.png"
+                    alt="Guide Image"
+                    :style="{ width: '100%', height: 'auto' }"
+                  />
+                </div>
+              </v-col>
+              <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+              <v-col cols="12" md="10">
+                <div>
+                  <img
+                    data-aos="zoom-in"
+                    class="guide2Image"
+                    data-aos-duration="800"
+                    data-aos-delay="100"
+                    src="https://innov.in/assets/employee.png"
+                    alt="Guide Image"
+                    :style="{ width: '100%', height: 'auto' }"
+                  />
+                </div>
+              </v-col>
+            </v-container>
+          </v-col>
         </v-row>
         <v-row>
           <v-container>
-            <v-container class="text-center" >
-              <v-btn size="20%" :loading="isLoading" :disabled="isLoading" color="blue lighten-1"  v-if="show &&!isLoading" @click="submit(data.email)" style="color:white; width:40">Submit Profile</v-btn>
-  
+            <v-container class="text-center">
+              <v-btn
+                size="20%"
+                :loading="isLoading"
+                :disabled="isLoading"
+                color="blue lighten-1"
+                v-if="show && !isLoading"
+                @click="submit(data.email)"
+                style="color:white; width:40%"
+              >
+                Submit Profile
+              </v-btn>
             </v-container>
             <v-container v-if="success" class="text-center">
-              <v-alert type="success" dismissible> You have submitted the profile </v-alert>
-  
+              <v-alert type="success" dismissible>
+                You have submitted the profile
+              </v-alert>
             </v-container>
             <v-container v-if="fail" class="text-center">
-              <v-alert  type="error" dismissible> Check Whether you have submitted required data </v-alert>
-  
+              <v-alert type="error" dismissible>
+                Check Whether you have submitted required data
+              </v-alert>
             </v-container>
           </v-container>
         </v-row>
-        <br><br><br>
-
+        <br /><br /><br />
       </v-container>
     </v-main>
   </v-app>
 </template>
+
+<!-- Rest of your script and style sections remain unchanged -->
+
 
 <script>
   export default {
