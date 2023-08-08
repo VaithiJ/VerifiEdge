@@ -42,7 +42,7 @@
       >
         <v-list-item-title v-text="users.name"></v-list-item-title>
         <v-list-item-subtitle v-text="users.email"></v-list-item-subtitle>
-        <v-btn icon @click="view(users.email)"><v-icon color="indigo darken-4">mdi-card-account-details-outline</v-icon></v-btn>
+        <v-btn text color="#3498db" @click="view(users.email)">view</v-btn>
         <!--<v-btn icon @click="approve(profile.email)"><v-icon color="green">mdi-account-check-outline</v-icon></v-btn>&emsp;&emsp;
         <v-btn icon @click="deny(profile.email)"><v-icon color="error">mdi-account-remove-outline</v-icon></v-btn>-->
       </v-list-item>

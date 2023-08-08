@@ -2,6 +2,7 @@
 <v-container v-if="isAuthenticated">
   <br>
   <hrindex/>
+  <notaryapproved/>
 </v-container>
 </template>
 <script>
