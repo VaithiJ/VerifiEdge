@@ -28,7 +28,7 @@
                 </v-col>
             </v-row>
                 <v-container class="text-center">
-                    <v-btn text color="indigo  lighten-2"  @click="submit()" :disabled="!formValid">submit</v-btn>
+                    <v-btn text color="blue lighten-1"  @click="submit()" :disabled="!formValid">submit</v-btn>
                 </v-container>
   
         </v-form>
