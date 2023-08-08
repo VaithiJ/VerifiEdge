@@ -121,7 +121,7 @@ export default {
 .styled-table th,
 .styled-table td {
   padding: 10px;
-  text-align: left;
+  text-align: center;
 }
 
 .styled-table-header {
