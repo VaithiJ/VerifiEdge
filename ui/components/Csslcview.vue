@@ -6,11 +6,29 @@
         <v-container>
           <v-row>
             <v-col style="padding-left: 4%;">
-              <h3 class="text-subtitle-1"> Register Number :{{ data.sslc_regno}}</h3>
-              <h3 class="text-subtitle-1"> Marks : {{ data.sslc_marks }}</h3>
-              <h3 class="text-subtitle-1"> School : {{ data.sslc_school }} </h3>
-              <h3 class="text-subtitle-1"> Board : {{ data.sslc_board }}</h3>
-              <h3 class="text-subtitle-1"> Year of Completion : {{ data.sslc_passout }}</h3>
+              <table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc;">
+                
+                <tr style="border-bottom: 1px solid #ccc;">
+                  <td style="padding: 10px;"><h4 class="text-subtitle-3">Register Number:</h4></td>
+                  <td style="padding: 10px;"><h5 class="text-subtitle-3">{{ data.sslc_regno }}</h5></td>
+                </tr>
+                <tr style="border-bottom: 1px solid #ccc;">
+                  <td style="padding: 10px;"><h4 class="text-subtitle-3">Marks:</h4></td>
+                  <td style="padding: 10px;"><h5 class="text-subtitle-3">{{ data.sslc_marks }}</h5></td>
+                </tr>
+                <tr style="border-bottom: 1px solid #ccc;">
+                  <td style="padding: 10px;"><h4 class="text-subtitle-3">School:</h4></td>
+                  <td style="padding: 10px;"><h5 class="text-subtitle-3">{{ data.sslc_school }}</h5></td>
+                </tr>
+                <tr style="border-bottom: 1px solid #ccc;">
+                  <td style="padding: 10px;"><h4 class="text-subtitle-3">Board:</h4></td>
+                  <td style="padding: 10px;"><h5 class="text-subtitle-3">{{ data.sslc_board }}</h5></td>
+                </tr>
+                <tr style="border-bottom: 1px solid #ccc;">
+                  <td style="padding: 10px;"><h4 class="text-subtitle-3">Year of Completion:</h4></td>
+                  <td style="padding: 10px;"><h5 class="text-subtitle-3">{{ data.sslc_passout }}</h5></td>
+                </tr>
+              </table>
               <br>
           <h6 class="text-subtitle-3"> Submitted on : {{ data.submitted_on }}</h6>
           <h6 v-if="data.approved_on, verified" class="text-subtitle-3"> Approved on : {{ data.approved_on }}</h6>
