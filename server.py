@@ -2781,12 +2781,27 @@ def send_rejected_mails(rejected):
 def send_user_mails(created):
     for user in created:
         print(user)
-
-        subject = "Registration confirmation."
+        subject = "Your New Account Details on Our Platform"
         reciptant = user["email"]
         password = user["password"]
 
-        message = f"Hi! This is to inform that your Profile has been created and the password is: {password}"
+        message = f"""
+        Hi There,
+
+        We're excited to inform you that your profile has been successfully created on our platform. You're now all set to access your account and begin utilizing our range of services. Below, you'll find your login details:
+
+        Password: {password}
+
+        Please take a moment to log in and securely update your password. Upon logging in, you'll be prompted to upload the necessary documents as part of the onboarding process.
+
+        If you encounter any issues or have questions, feel free to reach out to our dedicated support team at [Support Email Address] or [Support Phone Number].
+
+        Thank you for choosing [Your Company Name]. We look forward to serving you!
+
+        Best regards,
+        Team H.R.
+
+    """
 
         # graph.send_mail(subject, message, reciptant)
 
