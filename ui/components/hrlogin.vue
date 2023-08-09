@@ -1,5 +1,6 @@
 <template>
     <v-container>
+      <br><br><br><br><br>
         <v-row align="center">
        
         <v-col cols="12" md="6">
@@ -26,6 +27,7 @@
           </v-card>
         </v-col>
         <v-col cols="14" md="6">
+          
           <div class="blue-bubble">
             <img
               data-aos="zoom-in"
