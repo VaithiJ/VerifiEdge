@@ -1,5 +1,6 @@
 <template>
     <v-container>
+      <br/><br/><br/><br/><br/><br/>
         <v-row align="center">
         <v-col cols="12" md="6">
           <v-card class="signin-card">
@@ -31,7 +32,7 @@
               data-aos-delay="100"
               src="https://png.pngtree.com/png-vector/20220825/ourmid/pngtree-administration-illustration-with-women-on-the-phone-and-talking-many-things-png-image_6122641.png"
               alt="Guide Image"
-              :style="{ width: '170%', height: 'auto' }"
+              :style="{ width: '100%', height: 'auto' }"
 
             />
           </div>

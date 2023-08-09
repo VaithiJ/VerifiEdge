@@ -10,7 +10,7 @@
             data-aos-delay="100"
             src="https://www.naxeed.com/themes/default/images/login-img.png"
             alt="Guide Image"
-            :style="{ width: '140%', height: 'auto' }"
+            :style="{ width: '100%', height: 'auto' }"
           />
         </div>
       </v-col>

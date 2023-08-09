@@ -34,7 +34,7 @@
               data-aos-delay="100"
               src="https://png.pngtree.com/png-vector/20220721/ourmid/pngtree-sales-team-with-financial-business-growth-development-from-people-working-and-png-image_6014803.png"
               alt="Guide Image"
-              :style="{ width: '170%', height: 'auto' }"
+              :style="{ width: '100%', height: 'auto' }"
 
             />
           </div>
