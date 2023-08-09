@@ -74,11 +74,14 @@ export default {
   },
     methods:{
         async logout (){
+
           let url = "http://127.0.0.1:8000/notary/last_login"
           let ndata={
             email:this.email
           }
           let nres =  await this.$axios.post(url, ndata)
+          localStorage.removeItem('access_token');
+
           console.log('logout');
           this.$router.push('/notarysignin');
 

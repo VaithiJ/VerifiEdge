@@ -1,6 +1,6 @@
 <template>
     <v-main class="grey lighten-3">
-      <v-container>
+      <v-container v-if="isAuthenticated">
         <v-card>
           <v-card-title class="text-h5">XDC Connection</v-card-title>
           <v-card-text>
@@ -99,6 +99,8 @@ export default{
     name: 'profile',
     layout:'notary_layout',
     async mounted (){
+      const accessToken = localStorage.getItem('access_token');
+      this.isAuthenticated = !!accessToken;
         this.$vuetify.theme.dark =false;
         this.email = this.$storage.getUniversal('user_email')
         let url = "http://127.0.0.1:8000/user"
@@ -121,7 +123,8 @@ export default{
         balance:0,
         input:0,
         accounts: null,
-        contract:null
+        contract:null,
+        isAuthenticated: false
     }),
    methods: {
     async get(){

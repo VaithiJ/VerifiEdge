@@ -1,7 +1,7 @@
 <template>
     <v-app >
       <v-main class="grey lighten-3">
-        <v-container>
+        <v-container v-if="isAuthenticated">
           <v-row>
             <v-col cols="12" md="3">
   
@@ -71,7 +71,13 @@
   <script>
     export default {
       layout:'hr_layout',
+      
+
       async mounted(){
+
+        const accessToken = localStorage.getItem('access_token');
+        this.isAuthenticated = !!accessToken;
+        
         this.email = this.$storage.getUniversal('login_mail')
         let url = "http://127.0.0.1:8000/user"
         let res = await this.$axios.get(url,{params:{email: this.email}})
@@ -91,6 +97,7 @@
         success: false,
         fail: false,
         show: false,
+        isAuthenticated: false
         
       }),
       methods:{
