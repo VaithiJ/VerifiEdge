@@ -44,7 +44,7 @@
 
             
             
-            <v-col style="margin-top: -5%;">
+            <v-col >
               <v-container v-if="pending" class="text-center">
                 <v-icon size="150px" color="yellow" ></v-icon>
               </v-container>
