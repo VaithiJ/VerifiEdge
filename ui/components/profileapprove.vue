@@ -1,6 +1,7 @@
 <template>
   <v-container>
     <v-container v-if="show">
+      <h2 class="text-center styled-no-profiles" text color="blue lighten-1">Approved Profiles</h2>
       <v-card class="mx-auto my-12" max-width="700">
         <table class="styled-table">
           <thead>
@@ -31,7 +32,7 @@
       </v-card>
     </v-container>
     <v-container v-if="hide">
-      <h2 class="text-center styled-no-profiles" text color="blue lighten-1">No Profiles</h2>
+      <h2 class="text-center styled-no-profiles" text color="blue lighten-1">No Profiles yet approved</h2>
     </v-container>
   </v-container>
 </template>
