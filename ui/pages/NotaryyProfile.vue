@@ -1,5 +1,5 @@
 <template>
-    <v-container>
+    <v-container v-if="isAuthenticated">
         <v-row>
         <v-col>
 
@@ -38,5 +38,12 @@
 export default{
   name :"NotaryyProfile",
     layout: "SuperAdmin_layout",
+    async mounted(){
+      const accessToken = localStorage.getItem('access_token');
+    this.isAuthenticated = !!accessToken;
+    },
+    data: () => ({
+      isAuthenticated: false
+    })
 }
 </script>

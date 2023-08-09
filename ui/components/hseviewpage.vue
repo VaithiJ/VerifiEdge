@@ -43,7 +43,7 @@
               <h6 v-if="data.approved_on, data.status == 'verified'" class="text-subtitle-3"> Approved on : {{ data.approved_on }}</h6>
 
             </v-col>
-            <v-col style="margin-top: -5%;">
+            <v-col >
               <v-container v-if="pending" class="text-center">
                 <v-icon size="150px" color="yellow" ></v-icon>
               </v-container>

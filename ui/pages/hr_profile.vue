@@ -1,6 +1,6 @@
 <template>
   <v-main >
-    <v-container>
+    <v-container v-if="isAuthenticated">
       <v-row>
         <v-col>
 
@@ -40,6 +40,13 @@
 export default{
   name: 'profile',
   layout:'hr_layout',
+  async mounted(){
+      const accessToken = localStorage.getItem('access_token');
+    this.isAuthenticated = !!accessToken;
+    },
+    data: () => ({
+      isAuthenticated: false
+    })
 
 }
 </script>

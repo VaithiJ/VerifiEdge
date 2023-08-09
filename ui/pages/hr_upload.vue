@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container v-if="isAuthenticated">
     <v-col>
       <v-row rows="4">
         <upload/>
@@ -9,7 +9,14 @@
 </template>
 <script>
 export default{
-    layout:"datacollection",
+    layout:"hr_layout",
+    async mounted(){
+      const accessToken = localStorage.getItem('access_token');
+    this.isAuthenticated = !!accessToken;
+    },
+    data: () => ({
+      isAuthenticated: false
+    })
 
 }
 </script>
