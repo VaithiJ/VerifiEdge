@@ -292,17 +292,7 @@ necessary, keeping their credentials current. </p>
 
 <style>
 
-/**
-* Template Name: Vesperr
-* Updated: May 30 2023 with Bootstrap v5.3.0
-* Template URL: https://bootstrapmade.com/vesperr-free-bootstrap-template/
-* Author: BootstrapMade.com
-* License: https://bootstrapmade.com/license/
-*/
 
-/*--------------------------------------------------------------
-# General
---------------------------------------------------------------*/
 body {
 font-family: "Open Sans", sans-serif;
 color: #444444;
@@ -327,9 +317,7 @@ h6 {
 font-family: "Raleway", sans-serif;
 }
 
-/*--------------------------------------------------------------
-# Back to top button
---------------------------------------------------------------*/
+
 .back-to-top {
 position: fixed;
 visibility: hidden;
@@ -360,18 +348,14 @@ visibility: visible;
 opacity: 1;
 }
 
-/*--------------------------------------------------------------
-# Disable AOS delay on mobile
---------------------------------------------------------------*/
+
 @media screen and (max-width: 768px) {
 [data-aos-delay] {
   transition-delay: 0 !important;
 }
 }
 
-/*--------------------------------------------------------------
-# Header
---------------------------------------------------------------*/
+
 #header {
 z-index: 997;
 transition: all 0.5s;
@@ -405,12 +389,7 @@ margin: 0;
 max-height: 40px;
 }
 
-/*--------------------------------------------------------------
-# Navigation Menu
---------------------------------------------------------------*/
-/**
-* Desktop Navigation 
-*/
+
 .navbar {
 padding: 0;
 }
@@ -533,9 +512,7 @@ visibility: visible;
 }
 }
 
-/**
-* Mobile Navigation 
-*/
+
 .mobile-nav-toggle {
 color: #222222;
 font-size: 28px;
@@ -643,9 +620,7 @@ color: #3498db;
 display: block;
 }
 
-/*--------------------------------------------------------------
-# Hero Section
---------------------------------------------------------------*/
+
 #hero {
 width: 100%;
 height: 80%;
@@ -749,9 +724,7 @@ animation: up-down 1s ease-in-out infinite alternate-reverse both;
 }
 }
 
-/*--------------------------------------------------------------
-# Sections General
---------------------------------------------------------------*/
+
 section {
 padding: 60px 0;
 overflow: hidden;
@@ -796,9 +769,7 @@ margin: 15px 0 0 0;
 }
 
 
-/*--------------------------------------------------------------
-# About Us
---------------------------------------------------------------*/
+
 .about .content h2 {
 font-weight: 600;
 font-size: 26px;
@@ -833,9 +804,7 @@ border: 2px solid #3498db;
 
 
 
-/*--------------------------------------------------------------
-# Features
---------------------------------------------------------------*/
+
 .services .icon-box {
 padding: 30px;
 position: relative;
@@ -916,9 +885,7 @@ background: #fff;
 color: #3498db;
 }
 
-/*--------------------------------------------------------------
-# More Services
---------------------------------------------------------------*/
+
 .more-services {
 padding-top: 20px;
 }
@@ -981,9 +948,7 @@ color: #fff;
 }
 
 
-/*--------------------------------------------------------------
-# Contact
---------------------------------------------------------------*/
+
 .contact-contact.png{
   width:10%; padding-top: 20%;
 
@@ -992,9 +957,8 @@ color: #fff;
 
 
 
-/*-------------------------------------------------------------  
-# Breadcrumbs
---------------------------------------------------------------*/
+
+
 .breadcrumbs {
 padding: 15px 0;
 background: #f8f8f8;
@@ -1055,10 +1019,3 @@ content: "/";
 }
 
 </style>
- <!-- =======================================================
-* Template Name: Vesperr
-* Updated: May 30 2023 with Bootstrap v5.3.0
-* Template URL: https://bootstrapmade.com/vesperr-free-bootstrap-template/
-* Author: BootstrapMade.com
-* License: https://bootstrapmade.com/license/
-======================================================== --!>
