@@ -37,6 +37,7 @@ from decouple import config
 import key_config as keys
 from datetime import datetime, timedelta
 import traceback
+import threading
 from numbers import Real
 
 client = MongoClient('mongodb://localhost:27017/')
@@ -2546,7 +2547,9 @@ async def upload_excel_file(file: UploadFile = File(...), bgv: str = "bgv"):
             db["user"].insert_many(new_user_list)
 
         if len(new_user_list) > 0:
-            send_user_mails(new_user_list)
+            # send_user_mails(new_user_list)
+            x = threading.Thread(target=send_user_mails, args=(new_user_list,))
+            x.start()
         # if len(rejected_data) > 0:
         #     send_rejected_mails(rejected_data)
 
@@ -2588,7 +2591,7 @@ def filter_excel(df_sheet, total_count, sheet_name):
             if len(user_data) > 0:
                 validity = apply_regex(user_data,sheet_name)
 
-                print(validity, sheet_name)
+                # print(validity, sheet_name)
 
                 if validity:
                     emails_in_excel.append(user_data["email"])
@@ -2602,7 +2605,7 @@ def filter_excel(df_sheet, total_count, sheet_name):
             if len(user_data) > 0:
                 validity = apply_regex(user_data,sheet_name)
 
-                print(validity, sheet_name)
+                # print(validity, sheet_name)
 
                 if validity:
                     emails_in_excel.append(user_data["email"])
@@ -2615,7 +2618,7 @@ def filter_excel(df_sheet, total_count, sheet_name):
             if len(user_data) > 0:
                 validity = apply_regex(user_data,sheet_name)
 
-                print(validity, sheet_name)
+                # print(validity, sheet_name)
 
                 if validity:
                     emails_in_excel.append(user_data["email"])
@@ -2629,7 +2632,7 @@ def filter_excel(df_sheet, total_count, sheet_name):
             if len(user_data) > 0:
                 validity = apply_regex(user_data,sheet_name)
 
-                print(validity, sheet_name)
+                # print(validity, sheet_name)
 
                 if validity:
                     emails_in_excel.append(user_data["email"])
@@ -2675,7 +2678,7 @@ def validate_users(users_data, collection,db_collection, emails_exists, new_user
 
             # print("fijjiij", new_user_emails_sheet)
 
-    print(new_user_list)
+    # print(new_user_list)
 
     return excel_data, new_user_list, rejected_data, new_user_emails
 
@@ -2812,7 +2815,6 @@ Team H.R.
         }
 
         requests.post("http://3.84.79.77:8000/mail/send", data=json.dumps(payload))
-
 ################################################################################################################    
 @app.get("/download_excel/{template}/")
 async def download_excel(template: str) -> FileResponse:
