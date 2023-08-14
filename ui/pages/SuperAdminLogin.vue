@@ -1,5 +1,5 @@
 <template>
-  <v-container  class="signin" >
+  <v-container>
       <admin/>
   </v-container>
 </template>
@@ -20,10 +20,3 @@ export default{
   }
 }
 </script>
-<style>
-.signin{
-  width: 30%;
-  margin: 0% auto;
-  text-align: center;
-}
-</style>

@@ -28,19 +28,6 @@ Access a verified talent pool for efficient and reliable candidate onboarding.</
 </v-btn>                               
             </div>
           </div>
-          &ensp;
-          &ensp;
-          &ensp;
-          &ensp;
-          &ensp;
-          &ensp;
-          &ensp;
-          &ensp;
-          &ensp;
-          &ensp;
-          &ensp;
-          &ensp;
-
           <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
             <div class="icon-box" data-aos="fade-up" data-aos-delay="300">
               <div class="icon">
@@ -57,23 +44,11 @@ Oversee notary verification, blockchain integration, and real-time status tracki
 </v-btn>
 &ensp;
 <v-btn size="20%" rounded to="/notarysignup">
-    signup
+    Register
 </v-btn>    
             </div>
           </div>
-          &ensp;
-          &ensp;
-          &ensp;
-          &ensp;
-          &ensp;
-          &ensp;
-          &ensp;
-          &ensp;
-          &ensp;
-          &ensp;
-          &ensp;
-          &ensp;
-          
+     
 
           <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
             <div class="icon-box" data-aos="fade-up" data-aos-delay="400">
@@ -94,10 +69,22 @@ Benefit from secure document storage and blockchain-backed verification.
 </v-btn>
             </div>
           </div>
+          <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
+            <div class="icon-box" data-aos="fade-up" data-aos-delay="400">
+              <div class="icon">
+                <v-icon>mdi-account</v-icon>
+              </div>
+              <h4 class="title"><a href="">Super Admin</a></h4>
+              <p class="description">Easily upload documents, track verification status, and access verified credentials.
+Benefit from secure document storage and blockchain-backed verification.
+</p>
+<br>
+<v-btn size="20%" rounded to="/SuperAdminLogin">
+    signin
+</v-btn>
 
-          
-          
-
+            </div>
+          </div>
         </div>
 
       </div>

@@ -55,7 +55,13 @@ export default{
     methods: {
         async login(){
           try{
-            let url = "http://127.0.0.1:8000/notary/login"
+            let hurl = "http://127.0.0.1:8000/notary"
+            let hres = await this.$axios.get(hurl,{params:{ email :this.email}})
+            this.status = hres.data.status
+            console.log(hres.data)
+
+            if(this.status == "verified"){
+              let url = "http://127.0.0.1:8000/notary/login"
             let nlogin = {
                 email: this.email,
                 password: this.password
@@ -79,6 +85,12 @@ export default{
                   } else {
                     this.error = true;
                   }
+            }
+            else{
+              alert("Still not approved")
+            }
+
+            
           }catch (error) {
                   console.error('Error signing in:', error);
                   this.error = true;

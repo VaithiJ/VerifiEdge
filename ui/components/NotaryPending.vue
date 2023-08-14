@@ -1,70 +1,136 @@
 <template>
-    <v-container >
-      <v-container v-if="show">
-        
-        <v-list density="compact">
-          <v-list-item
-            v-for="data in datas"
-            :key="data.email"
-            :value="data.email"
-            active-color="primary"
-          >
-            <v-list-item-title v-text="data.name"></v-list-item-title>
-            <v-list-item-subtitle v-text="data.email"></v-list-item-subtitle>
-            <v-btn icon @click="view(data.email)"><v-icon color="blue lighten-1">mdi-card-account-details-outline</v-icon></v-btn>
-            
-          </v-list-item>
-        </v-list>
+  <v-container>
+    <v-container v-if="show">
+      <v-card class="mx-auto my-12"
+    max-width="700">
+    <table class="styled-table">
+      <thead>
+        <tr>
+          <th class="styled-table-header">Name</th>
+          <th class="styled-table-header">Email</th>
+          <th class="styled-table-header">Profile</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="profile in paginatedProfiles"
+        :key="profile.email"
+        :value="profile.email"
+        active-color="primary">
+          <td>{{ profile.name }}</td>
+          <td>{{ profile.email }}</td>
+          <td>
+            <v-btn text color="primary" @click="view(profile.email)">View</v-btn>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+      <v-container class="text-center">
+        <v-pagination
+          v-model="currentPage"
+          :total-visible="5"
+          :length="totalPages"
+          @input="changePage"
+        ></v-pagination>
       </v-container>
-      <v-container v-if="hide">
-        <h2 class="text-center" text color="blue lighten-1"> No Requests </h2><br /><br/>
-      </v-container>
-  
-      </v-container>
-  </template>
-  
-  <script>
-  export default{
-      name :"notaryrequests",
-  
-      async mounted(){
-          this.$vuetify.theme.dark=false;
-          let url = "http://127.0.0.1:8000/notary/pending"
-          let res = await this.$axios.get(url)
-          this.datas = res.data.list
-          this.count = res.data.count
-  
-          if(this.datas == false){
-            this.hide = true
-            this.show = false
-          }
-          else{
-            this.show = true
-            this.hide = false
-          }
-      },
-  
-      data:() =>({
-        datas: [],
-        count:{},
-        show: false,
-        hide: false
-  
-      }),
-      methods:{
-        async home(){
-          this.$router.push("/");
-        },
-  
-        async view(email){
-          this.$storage.setUniversal('notary_email',email)
-          
-          this.$router.push("/NotaryyProfile")
-        },
+    </v-card>
 
-  
-      }
-  
+    </v-container>
+    <v-container v-if="hide">
+      <h2 class="text-center" text color="blue lighten-1">No profiles</h2>
+      <br />
+      <br />
+    </v-container>
+  </v-container>
+</template>
+
+<script>
+export default {
+  name: "NotaryUsers",
+
+  data() {
+    return {
+      currentPage: 1,
+      pageSize: 5,
+      profiles: [],
+      requests: {},
+      count: {},
+      notary_email: null,
+      notary_name: null,
+      wallet: 0,
+      show: false,
+      hide: false
+    };
+  },
+  async mounted() {
+    this.$vuetify.theme.dark = false;
+    await this.fetchProfiles();
+  },
+
+  computed: {
+    totalPages() {
+      return Math.ceil(this.profiles.length / this.pageSize);
+    },
+    paginatedProfiles() {
+      const startIndex = (this.currentPage - 1) * this.pageSize;
+      const endIndex = startIndex + this.pageSize;
+      return this.profiles.slice(startIndex, endIndex);
     }
-  </script>
-  
+  },
+
+  methods: {
+    async fetchProfiles() {
+      try {
+        const response = await this.$axios.get("http://127.0.0.1:8000/notary/pending");
+        this.profiles = response.data.list;
+        this.count = response.data.count;
+        this.show = this.profiles.length > 0;
+        this.hide = !this.show;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
+    changePage(page) {
+      this.currentPage = page;
+    },
+
+    async view(email) {
+      this.$storage.setUniversal("notary_email", email);
+      console.log(email)
+      this.$router.push("/NotaryyProfile");
+    }
+  }
+};
+</script>
+<style scoped>
+.styled-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  border: 1px solid #ccc;
+}
+
+.styled-table th,
+.styled-table td {
+  padding: 10px;
+  text-align: center;
+}
+
+.styled-table-header {
+  background-color: #f0f0f0;
+}
+
+.styled-table tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.styled-no-profiles {
+  color: darkblue;
+}
+
+/* Adjust the button color */
+.v-btn.primary {
+  color: #fff;
+  background-color: #3498db;
+}
+</style>

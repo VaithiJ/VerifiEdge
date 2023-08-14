@@ -5,17 +5,22 @@
   
           <v-container>
             <v-row>
-              <v-col style="padding-left: 4%;">
-                <h3 class="text-title-1">Name</h3>
+              <v-col cols="12">
+                <h3 class="text-title-1">Company Name</h3>
                 <h3 class="text-subtitle-1">{{ pdata.name }}</h3>
-                <h3 class="text-title-1">Registration Number</h3>
+                <h3 class="text-title-1">Comapny Reg.No</h3>
                 <h3 class="text-subtitle-1">{{ pdata.company_reg }}</h3>
-                <h3 class="text-title-1">Email</h3>
+                <h3 class="text-title-1">Company Mail</h3>
                 <h3 class="text-subtitle-1">{{ pdata.company_mail }}</h3>
+                <h3 class="text-title-1">Business Type</h3>
+                <h3 class="text-subtitle-1">{{ pdata.business_type }}</h3>
+                <h3 class="text-title-1">Industry</h3>
+                <h3 class="text-subtitle-1">{{ pdata.industry }}</h3>
+                <h3 class="text-title-1">Address </h3>
+                <h3 class="text-subtitle-1">{{ pdata.address }}</h3>
                 <h3 class="text-title-1">Mobile Number</h3>
                 <h3 class="text-subtitle-1">{{ pdata.mob }}</h3>
-                <h3 class="text-title-1">GSTIN Number</h3>
-                <h3 class="text-subtitle-1">{{ pdata.gst }}</h3>
+
                <br>
                 <!---<h6 class="text-subtitle-3"> Submitted on : {{ pdata.submitted_on }}</h6>
                 <h6 v-if="pdata.edited_on" class="text-subtitle-3"> Edited on : {{ pdata.edited_on }}</h6>
@@ -35,19 +40,14 @@
               </v-row>
           </v-container>
           <v-row>
-                <v-container>
-                  <br>
+                <v-container v-if="!isLoading">
                   &emsp;&emsp;
-
-                  <v-btn color="blue lighten-1" style="color:white;" @click="approve(pdata.company_mail, ndata.name)">Approve</v-btn>&emsp;
-
-                  <v-btn color="blue lighten-1" style="color:white;" @click="deny(pdata.company_mail, ndata.name)">Reject</v-btn>
-
+                  <v-btn size="30%"   :loading="isLoading" :disabled="isLoading" v-if="this.pdata.status == !'verified' || this.pdata.status==!'rejected'" color="blue lighten-1" style="color:white;" @click="approve(pdata.company_mail, ndata.name)">Approve</v-btn>&emsp;
+                  <v-btn size="30%"   :loading="isLoading" :disabled="isLoading" v-if="this.pdata.status == !'verified' || this.pdata.status==!'rejected'"  color="blue lighten-1" style="color:white;" @click="deny(pdata.company_mail, ndata.name)">Reject</v-btn>
                 </v-container>
               </v-row>
+              <br>
 
-  
-  
     </v-container>
   </template>
   

@@ -59,8 +59,13 @@ export default{
     }),
     methods:{
         async hrlogin(){
+          let hurl = "http://127.0.0.1:8000/hr"
+            let hres = await this.$axios.get(hurl,{params:{ company_mail :this.company_mail}})
+            this.status = hres.data.status
+            console.log(hres.data)
             try{
-              let url = "http://127.0.0.1:8000/hr/login";
+              if(this.status == "verified"){
+                let url = "http://127.0.0.1:8000/hr/login";
               let nlogin = {
                   company_mail: this.company_mail,
                   password: this.password
@@ -84,6 +89,12 @@ export default{
                   } else {
                     this.error = true;
                   }
+
+              }
+              else{
+                alert("Still not approved")
+              }
+              
             }catch (error) {
                   console.error('Error signing in:', error);
                   this.error = true;

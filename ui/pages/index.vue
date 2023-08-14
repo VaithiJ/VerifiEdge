@@ -254,7 +254,19 @@ necessary, keeping their credentials current. </p>
       </div>
 
 
+
   </section><!-- End Contact Section -->
+  <div class="hover-element" v-if="showHover">
+
+    <div class="hover-content">
+      <h4 style="color:rgb(51, 46, 46)">Unlock Opportunities: Start your journey as a trusted notary public.<br> Join us to serve as a witness to authenticity and integrity.</h4>
+      <v-btn text style="color:white"  @click="notaryregister()">Register Here</v-btn>
+    </div>
+    <div class="hover-content1">
+      <v-btn icon @click="closeHover"><v-icon color="white">mdi-close</v-icon></v-btn>
+
+    </div>
+  </div>
 
 </main><!-- End #main -->
 
@@ -267,30 +279,55 @@ necessary, keeping their credentials current. </p>
 
   </v-container>
 </template>
+<script>
+export default {
+  data() {
+    return {
+      showHover: true, // Initially show the hover element
+    };
+  },
+  methods: {
+    closeHover() {
+      this.showHover = false; // Close the hover element when the button is clicked
+    },
+    async notaryregister(){
+      this.$router.push("/notarysignup")
+    }
+  },
+};
+</script>
 
-<!-- Favicons -->
-<script src="../assets/img/favicon.png" rel="icon"></script>
-<script src="../assets/img/apple-touch-icon.png" rel="apple-touch-icon"></script>
 
-<!-- Google Fonts -->
-<script src="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
-
-
-<script src="../assets/vendor/aos/aos.css" rel="stylesheet"></script>
-<script src="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"></script>
-<script src="../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet"></script>
-<script src="../assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet"></script>
-<script src="../assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet"></script>
-<script src="../assets/vendor/remixicon/remixicon.css" rel="stylesheet"></script>
-<script src="../assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet"></script>
-
-<!-- Template Main CSS File -->
-<script src="../assets/css/style.css" rel="stylesheet"></script>
 
 
 
 
 <style>
+/* New styles for the hover element */
+.hover-element {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.hover-content {
+  background-color: #a586fa;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.3);
+}
+.hover-content1 {
+  padding: 20px;
+  text-align: center;
+}
 
 /**
 * Template Name: Vesperr

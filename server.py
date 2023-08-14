@@ -11,6 +11,7 @@ from pymongo import MongoClient
 from datetime import timedelta, datetime
 from io import StringIO
 from fastapi.exceptions import HTTPException
+import botocore.exceptions
 import pandas as pd
 import os
 import configparser
@@ -1134,12 +1135,15 @@ async def dataadd(data : Expupdate):
 
 class HrModel(BaseModel):
     name : str
+    doi: str
+    business_type: str
+    industry: str
+    address: str
     company_reg:str
     company_mail : str
     password : str
     mob:str
-    gst:str
-    status:str='pending'
+    status: bool = False
     
 @app.post('/hr')
 async def add_hr(hr:HrModel):
@@ -1219,12 +1223,21 @@ async def get_notary(email: str):
 
 class NotaryModel(BaseModel):
     name : str
+    dob: str
+    gender: str
+    address: str
+    city: str
+    state: str
+    country: str
+    pincode: str
+    qualification: str
+    experience: str
     email : str
     aadhaar :str
     password : str
     mob:str
     pan:str
-    status:str='pending'
+    status: bool = False
 
 @app.post('/notary')
 async def add_notary(notary:NotaryModel):
@@ -1848,7 +1861,7 @@ async def uploadcsv(company_mail: str= Form(),file: UploadFile = File(...) ):
 @app.get('/company/pending')
 async def company_pending():
     filter={
-        'status':"pending"
+        'status': False
     }
     project={
         '_id':0
@@ -1879,7 +1892,7 @@ async def company_verified():
 @app.get('/notary/pending')
 async def notary_pending():
     filter={
-        'status':"pending"
+        'status': False
     }
     project={
         '_id':0
