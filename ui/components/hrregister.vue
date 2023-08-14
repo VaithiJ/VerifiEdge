@@ -17,35 +17,56 @@
              <v-col cols="12" md="6">
                 <v-card class="signin-card">
                  <v-form v-model="isFormValid">
-                    <h1 class="text-center" >Create your account</h1>
-                      <v-alert dismissible type="error" v-model="fail"> Duplicate User Email </v-alert>
+                    <h1 class="text-center" >Company Registration</h1>
+                      <v-alert dismissible type="error" v-model="fail"> Email already registered </v-alert>
 
               <v-container class="text-center">
               </v-container>
              <br/>
 
             <v-row>
-                <v-col cols="12">
-                    <v-text-field outlined :textarea="true" class="text-field-in-box" required v-model="user.name" prepend-icon="mdi-account" label="Full Name" :rules="[rules.required, rules.name]"></v-text-field>
+                <v-col cols="12" md="6">
+                    <v-text-field outlined :textarea="true" class="text-field-in-box" required v-model="user.name" prepend-icon="mdi-account" label="Company Name" :rules="[rules.required, rules.name]"></v-text-field>
                 </v-col>
             
-                <v-col cols="12">
+                <v-col cols="12" md="6">
                     <v-text-field outlined :textarea="true" class="text-field-in-box" v-model="user.company_mail" prepend-icon="mdi-email" label="Company Email" :rules="[rules.required,rules.email]"></v-text-field>
                 </v-col>
-
-                <v-col cols="12">
-                    <v-text-field outlined :textarea="true" class="text-field-in-box" v-model="user.company_reg" prepend-icon="mdi-notebook" label="Company Register Number" :rules="[rules.required,rules.company_reg]"></v-text-field>
+                <v-col cols="12" sm="6">
+                    <v-select
+                    outlined prepend-icon="mdi-account"
+                    label="Business type" v-model="user.business_type"
+                    :items="['Corporation', 'SME', 'Startup', 'Nonprofit', 'Government', 'Education', 'Healthcare', 'Finance', 'Technology', 'Retail', 'Manufacturing', 'Consulting']"
+                  ></v-select>
+                </v-col>
+                <v-col cols="12" sm="6">
+                    <v-select
+                    outlined prepend-icon="mdi-account"
+                    label="Industry" v-model="user.industry"
+                    :items="['IT/Technology', 'Healthcare', 'Finance', 'Retail', 'Manufacturing', 'Education', 'Consulting', 'Other']"
+                  ></v-select>
+                </v-col>
+                <v-col cols="12" sm="6">
+                    <v-text-field outlined :textarea="true" class="text-field-in-box" v-model="user.address" prepend-icon="mdi-email" label="Company Address" :rules="[rules.required]"></v-text-field>
                 </v-col>
 
-                <v-col cols="12">
+                <v-col cols="12" md="6">
+                    <v-text-field outlined :textarea="true" class="text-field-in-box" v-model="user.company_reg" prepend-icon="mdi-notebook" label="Company Reg.No" :rules="[rules.required,rules.company_reg]"></v-text-field>
+                </v-col>
+                <v-col cols="12" sm="6">
+                    <v-menu v-model="DatePicker" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
+                      <template v-slot:activator="{ on }">
+                        <v-text-field v-model="doi" outlined prepend-icon="mdi-calendar" label="Date of Incorporation" readonly v-on="on"></v-text-field>
+                      </template>
+                      <v-date-picker v-model="doi" :max="today" no-title scrollable @input="saveDatePicker"></v-date-picker>
+                    </v-menu>
+                </v-col>
+                <v-col cols="12" md="6">
                     <v-text-field outlined :textarea="true" class="text-field-in-box" v-model="user.mob" prepend-icon="mdi-phone" label="Mobile Number" :rules="[rules.required,rules.mob]"></v-text-field>
                 </v-col>
 
-                <v-col cols="12">
-                    <v-text-field outlined :textarea="true" class="text-field-in-box" v-model="user.gst" prepend-icon="mdi-text-box" label="GSTIN Number" :rules="[rules.required,rules.gst]"></v-text-field>
-                </v-col>
            
-                <v-col cols="12">
+                <v-col cols="12" >
                     <v-text-field outlined :textarea="true" class="text-field-in-box" v-model="user.password" prepend-icon="mdi-lock" label="Password" type="password" :rules="[rules.required,rules.min]"></v-text-field>
                 </v-col>
             </v-row>
@@ -56,22 +77,6 @@
         <v-btn text  color="blue lighten-1" @click="submit()" :disabled="!isFormValid" > Submit</v-btn>
         </v-row>
         </v-form>
-        <v-container v-if="sendotp">
-            <v-form>
-                <v-alert v-model="error" type="error"  dismissible>OTP verification failed</v-alert>
-                <v-col>
-                    <v-row>
-                        <caption>Please enter the OTP below for verification</caption>
-                    </v-row>
-                    <v-row>
-                        <v-text-field label ="Enter OTP Here" v-model="utop"></v-text-field>
-                    </v-row>
-                    <v-row>
-                        <v-btn text  color="blue lighten-1" @click="signup()" >Signup</v-btn>
-                    </v-row>
-                </v-col>
-            </v-form>
-        </v-container>
                 </v-card>
     </v-col>
         </v-row>
@@ -89,13 +94,14 @@ async mounted(){
 data:() => ({
     user :{
         name :'',
+        doi:'',
+        business_type:'',
+        industry:'',
+        address:'',
         company_reg: '',
         company_mail: '',
         password :'',
         mob:'',
-        gst: '',        
-        firstlogin :true,
-        status: 'pending'
     },
     success:false,
     fail:false,
@@ -112,24 +118,17 @@ data:() => ({
         mob: (v) => v.match(/^[0-9]{10}$/) || "check your mobile number",
         company_reg : (v) => v.match(/^\d{21}$/) || "Check the register number for errors",
         gst : (v) => v.match(/^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[0-9A-Z]{1}[Z]{1}[0-9A-Z]{1}$/) || "Check the GSTN number for errors",
-    }
+    },
+    menu: false,
+    today: new Date().toISOString().substring(0, 10),
+    DatePicker: false,
 }),
 methods:{
     async home(){
         this.$router.push('/')
     },
     async submit(){
-        let url = "http://3.84.79.77:8000/otp"
-        let mdata = { params :{email : this.user.company_mail}}
-        await this.$axios.get(url,mdata).then(res => {
-            this.otp = res.data
-            this.sendotp = true
-            console.log(this.otp)
-        }).catch(err => { console.log(err)});
-    },
-    async signup(){
-        if (this.utop == this.otp){
-            let url = "http://127.0.0.1:8000/hr"
+        let url = "http://127.0.0.1:8000/hr"
             await this.$axios.post(url,this.user).then(res => {
                 if (res.data == true){
                     this.success = true
@@ -139,10 +138,22 @@ methods:{
                     this.fail = true
                 }
             });
-        }
-        else {
-            this.error = true
-        }
+    },
+    async signup(){
+       
+    },
+    saveDatePicker() {
+      this.DatePicker = false;
+    },
+    getFormattedDate(date) {
+      if (date) {
+        const dateObj = new Date(date);
+        const day = String(dateObj.getDate()).padStart(2, "0");
+        const month = String(dateObj.getMonth() + 1).padStart(2, "0");
+        const year = dateObj.getFullYear();
+        return `${day}/${month}/${year}`;
+      }
+      return null;
     }
 }
 }
