@@ -90,35 +90,20 @@ class EmailData(BaseModel):
 @app.post("/send_rejection_email")
 async def send_rejection_email(send: EmailData):
     # Replace the following with your email server settings
-    email_server = 'smtp.gmail.com'
-    email_port = 587
-    email_sender = 'verifyedge13@gmail.com'
-    email_password = 'kkddrgykwqizejec'
+    
 
-    email = send.email
-    email_subject = send.email_subject
-    email_body = send.email_body
-    try:
-        # Set up the email
-        msg = MIMEMultipart()
-        msg['From'] = email_sender
-        msg['To'] = email
-        msg['Subject'] = email_subject
+    reciptant = send.email
+    subject = send.email_subject
+    message = send.email_body
+    
+    # graph.send_mail(subject, message, reciptant)
+    payload = {
+            "reciptant": reciptant,
+            "subject": subject,
+            "body": message
+        }
 
-        # Attach the body to the email
-        msg.attach(MIMEText(email_body, 'plain'))
-
-        # Connect to the email server and send the email
-        server = smtplib.SMTP(email_server, email_port)
-        server.starttls()
-        server.login(email_sender, email_password)
-        server.sendmail(email_sender, email, msg.as_string())
-        server.quit()
-
-        return {"message": "Rejection email sent successfully!"}
-
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to send the email: {e}")
+    requests.post("http://13.234.20.225:8000/mail/send", data=json.dumps(payload))
 
 
 
@@ -2791,7 +2776,7 @@ def send_rejected_mails(rejected):
             "body": message
         }
 
-        requests.post("http://3.84.79.77:8000/mail/send", data=json.dumps(payload))
+        requests.post("http://13.234.20.225:8000/mail/send", data=json.dumps(payload))
 
 
 def send_user_mails(created):
@@ -2827,7 +2812,7 @@ Team H.R.
             "body": message
         }
 
-        requests.post("http://3.84.79.77:8000/mail/send", data=json.dumps(payload))
+        requests.post("http://13.234.20.225:8000/mail/send", data=json.dumps(payload))
 ################################################################################################################    
 @app.get("/download_excel/{template}/")
 async def download_excel(template: str) -> FileResponse:
