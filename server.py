@@ -1,4 +1,5 @@
 import requests
+from tabulate import tabulate  # Import tabulate library for creating a table
 from fastapi import FastAPI,File , UploadFile,Form, Query, HTTPException, Depends, status, Cookie
 from pydantic import BaseModel
 from typing import Dict, Optional
@@ -2158,42 +2159,147 @@ async def inprogressuser():
         return False
     
 #################################################### Upload CSV File ####################################################################################
+# @app.post("/hr/uploadpersonal")
+# async def upload_csv(csv_file: UploadFile = None):
+#     if csv_file is None:
+#         return {"message": "No file uploaded"}
+    
+#     contents = await csv_file.read()
+#     csv_string = contents.decode("utf-8")
+    
+#     df = pd.read_csv(StringIO(csv_string))
+    
+#     # Filtering out rows with any missing values
+#     insert = df.dropna()
+
+#     insert['status'] = False
+#     insert['submitted_on'] = datetime.now()
+    
+#     user = insert[['email', 'name']].copy()
+#     user['submit_button'] = True
+#     user["password"] = "sajith@123"
+    
+#     try:
+#         client.bgv.user.insert_many(user.to_dict('records'))
+#         client.bgv.personal.insert_many(insert.to_dict('records'))
+#     except Exception as e:
+#         print(str(e))
+
+#     # Filling missing values with 0
+#     delete = df.fillna(0)
+    
+#     returndata = {
+#         'total_count': len(df.index),
+#         'insert_count': len(insert.index),
+#         'delete_count': len(delete.index),
+#         'insert_list': insert.to_dict('records'),
+#         'delete_list': delete.to_dict('records'),
+#     }
+    
+#     return returndata
+class Emaildata(BaseModel):
+    email: str
+    email_subject: str
+    email_body: str
+
+def generate_random_password(name):
+    # Generate a random password combining user's name and random numbers/letters
+    random_digits = ''.join(random.choices(string.digits, k=4))
+    password = name.lower() + "@" + random_digits
+    return password
+
 @app.post("/hr/uploadpersonal")
 async def upload_csv(csv_file: UploadFile = None):
     if csv_file is None:
         return {"message": "No file uploaded"}
+    
     contents = await csv_file.read()
     csv_string = contents.decode("utf-8")
+    
     df = pd.read_csv(StringIO(csv_string))
-    df['aadhaar'] = df['aadhaar'].astype(str)
-    df['passport'] = df['passport'].astype(str)
-    df['mob'] = df['mob'].astype(str)
-    insert=df[~df.isnull().any(1)]
+    # Identify missing data columns
+    missing_columns = df.columns[df.isnull().any()].tolist()
+    # Filtering out rows with any missing values
+    insert = df.dropna()
 
     insert['status'] = False
     insert['submitted_on'] = datetime.now()
+    
+    user = insert[['email', 'name']].copy()
+    user['submit_button'] = True
+    deleted_list = df[df.isnull().any(axis=1)].astype(str).to_dict('records')
 
-    user = insert[['email','name']].copy()
-    user['submit_button'] = False
-    user['status'] = "pending"
-    user["password"]="sajith@123"
+    
     try:
+        passwords = []
+        for index, row in user.iterrows():
+            password = generate_random_password(row['name'])
+            passwords.append(password)
+        user["password"] = passwords
+
         client.bgv.user.insert_many(user.to_dict('records'))
         client.bgv.personal.insert_many(insert.to_dict('records'))
+        # Simulated insertion of data into the database
+        # Replace this with your actual database insertion logic
+        # For example: client.bgv.user.insert_many(user.to_dict('records'))
+        # and client.bgv.personal.insert_many(insert.to_dict('records'))
+        print("Data inserted into database successfully")
+        
+        # Sending acceptance email to each user
 
+        # deleted_table = tabulate(deleted_list, headers="keys", tablefmt="grid")
+        # Email_data = Emaildata(
+        #     email="jhari00078@gmail.com",  # Change this to the uploader's email
+        #     email_subject="VerifiEdge - Deleted Data Report",
+        #     email_body=f"Dear Uploader,\nThe following data was deleted due to missing values:\n{deleted_table}\n"
+        # )
+        # send_acceptance_email(Email_data)
+
+        for index, row in insert.iterrows():
+            email_data = Emaildata(
+                email=row['email'],
+                email_subject="VerifiEdge - Successfully Registered",
+                email_body=f"Dear {row['name']},\nYour application has been successfully registered. This is your credentials, Username: {row['email']} and Password: {user.loc[index, 'password']}. Use this credential to log in to the website."
+            )
+            send_acceptance_email(email_data)
+            
     except Exception as e:
         print(str(e))
+        return {"message": "Error inserting data into database"}
     
-    delete=df[df.isnull().any(1)]
-    delete.fillna(0,inplace=True)
-    returndata  = {
-        'total_count':len(df.index),
+    # Filling missing values with 0
+    delete = len(df) - len(insert)
+
+    returndata = {
+        'total_count': len(df.index),
         'insert_count': len(insert.index),
-        'delete_count': len(delete.index),
+        'delete_count': delete,
         'insert_list': insert.to_dict('records'),
-        'delete_list': delete.to_dict('records'),
+        'delete_list': deleted_list
     }
-    return returndata  
+    
+    return returndata
+
+def send_acceptance_email(send: Emaildata):
+    reciptant = send.email
+    subject = send.email_subject
+    message = send.email_body
+    
+    payload = {
+        "reciptant": reciptant,
+        "subject": subject,
+        "body": message
+    }
+
+    # Simulated email sending to the provided endpoint
+    # Replace this with your actual email sending logic
+    response = requests.post("http://13.234.20.225:8000/mail/send", data=json.dumps(payload))
+    
+    if response.status_code == 200:
+        print(f"Email sent to {reciptant} successfully")
+    else:
+        print(f"Failed to send email to {reciptant}")
+   
 ################################################################################################
 @app.post("/hr/uploadsslc")
 async def upload_csv(csv_file: UploadFile = None):
@@ -2640,6 +2746,7 @@ def filter_excel(df_sheet, total_count, sheet_name):
         df_sheet[columns_to_convert] = df_sheet[columns_to_convert].astype(int)
 
     qualified_data = df_sheet.to_dict(orient="records")
+    
 
     try:
         print(len(rejected_data[0]))

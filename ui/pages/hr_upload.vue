@@ -1,10 +1,12 @@
 <template>
-  <v-container v-if="isAuthenticated">
-    <v-col>
-      <v-row rows="4">
-        <upload/>
-        </v-row>
+  <v-container  v-if="isAuthenticated">
+    <v-row>
+      <v-col class="d-flex justify-center align-center">
+        <v-container>
+          <upload/>
+        </v-container>
       </v-col>
+    </v-row>
   </v-container>
 </template>
 <script>

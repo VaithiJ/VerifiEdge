@@ -1,107 +1,194 @@
 <template>
   <v-container fluid class="d-flex align-center justify-center">
-    <v-card class="text-center" :elevation="6" :height="auto" :width="700">
-      <br />
-      <v-text-title><h2>User Data</h2></v-text-title>
-      <br />
-      <v-row>
-        <v-col>
-          <v-container>
-            <v-btn color="blue lighten-1" dark @click="downloadTemplate()">Download Template</v-btn>
-          </v-container>
-        </v-col>
-      </v-row>
-      <br /><br />
-      <v-divider></v-divider>
-      <v-divider></v-divider>
-      <br /><br />
-      <v-row>
-        <v-col>
-          <v-container class="text-center">
-            <v-file-input @change="onFileChange" style="width:70%; margin:0 auto; " label="Upload Template" outlined variant="solo-filled"></v-file-input>
-            <v-btn :loading="isLoading" :disabled="isLoading || !file" color="blue lighten-1" dark @click="upload()">Upload</v-btn>
-            <br /><br />
-            <v-divider></v-divider>
-            <v-divider></v-divider>
-            <v-row v-if="excelData">
+    <v-row>
+      <v-col >
+          
+          <v-row>
+            <v-col>
+              <v-container class="text-center">
+                <br>
+          <v-text-title><h2>Download the Template</h2></v-text-title>
+          <br><br>
+                <v-btn size="40%" color="indigo darken-4" style="color: white" @click="downloadCSVTemplate">
+                  Personal Template
+                </v-btn>
+              </v-container>
+            </v-col>
+          </v-row>
+          <br><br>
+
+          <v-row>
+            
+
+            <v-col>
+              <v-container class="text-center">
+                <v-text-title><h2>Upload the User data</h2></v-text-title>
+                <br><br>
+
+                <v-file-input outlined size="" @change="fileselect" style="width:30%; margin:0 auto; " label="File input" variant="solo-filled"></v-file-input>
+                <v-btn size="20%" :loading="isLoading" :disabled="isLoading" color="indigo darken-4" style="color:white" @click="upload()">Upload</v-btn>
+              </v-container>
+            </v-col>
+          </v-row>
+          
+          <v-row>
+            <v-container class="text-center">
+              <h3 v-if="this.data.total_count">Uploaded Details:</h3>
+              <v-row>
               <v-col>
-                <v-card-subtitle v-if="excelData.total_count">Total Count:</v-card-subtitle>
                 <v-container>
-                  {{ excelData.total_count }}
+                  <v-card-subtitle v-if="this.data.total_count">Total Uploaded ID: {{ this.data.total_count }}</v-card-subtitle>
                 </v-container>
               </v-col>
               <v-col>
-                <v-card-subtitle v-if="excelData.available_count">Inserted Count:</v-card-subtitle>
                 <v-container>
-                  {{ excelData.available_count }}
+                  <v-card-subtitle v-if="this.data.insert_count">Validated ID: {{ this.data.insert_count }}</v-card-subtitle>
                 </v-container>
               </v-col>
               <v-col>
-                <v-card-subtitle v-if="excelData.rejected_count">Rejected Count:</v-card-subtitle>
                 <v-container>
-                  {{ excelData.rejected_count }}
+                  <v-card-subtitle v-if="this.data.delete_count">Invalid ID: {{ this.data.delete_count }}</v-card-subtitle>
                 </v-container>
               </v-col>
-            </v-row>
-          </v-container>
-        </v-col>
-      </v-row>
-    </v-card>
+              </v-row>
+             
+            </v-container>
+            
+          </v-row>
+          <v-row v-if="this.data.delete_list.length > 0">
+            <v-col>
+              <v-container class="text-center">
+                <h3>Invalid ID List:</h3>
+                <h5>Please check and reupload these Invalid ID details in proper fomrat</h5>
+                <br>
+                <table class="styled-table">
+                  <thead>
+                    <tr>
+                      <th class="styled-table-header">Name</th>
+                      <th class="styled-table-header">Email</th>
+                      <th class="styled-table-header">Mobile No</th>
+                      <th class="styled-table-header">DOJ</th>
+                      <th class="styled-table-header">Aadhaar</th>
+                      <th class="styled-table-header">PAN number</th>
+                      <th class="styled-table-header">Passport</th>
+                      <th class="styled-table-header">Comapny Name</th>
+                      <th class="styled-table-header">Company mail</th>
+                      <th class="styled-table-header">Emp ID</th>
+                      <th class="styled-table-header">Designation </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="(item, index) in data.delete_list" :key="index">
+                      <td>{{ item.name }}</td>
+                      <td>{{ item.email }}</td>
+                      <td>{{ item.mob }}</td>
+                      <td>{{ item.doj }}</td>
+                      <td>{{ item.aadhaar }}</td>
+                      <td>{{ item.pan }}</td>
+                      <td>{{ item.passport }}</td>
+                      <td>{{ item.company_name }}</td>
+                      <td>{{ item.company_mail }}</td>
+                      <td>{{ item.empid }}</td>
+                      <td>{{ item.designation }}</td>
+
+                      <!-- Add more columns here based on your deleted_list structure -->
+                    </tr>
+                  </tbody>
+                </table>
+              </v-container>
+            </v-col>
+          </v-row>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
-
 <script>
-import axios from 'axios';
-
 export default {
-  data() {
-    return {
-      data:{},
-      isLoading: false,
-      file: null,
-      excelData: null,
-    };
-  },
-  methods: {
-    async onFileChange(event){
-        this.file=event
-      },
-    async downloadTemplate() {
-      try {
-        const response = await axios.get(
-          "http://localhost:8000/download_excel/template.xlsx",
-          { responseType: "blob" }
-        );
+name: 'personalupload',
+data: () => ({
+    data:{
+      delete_list: [], // Initialize the delete_list array
 
-        const url = window.URL.createObjectURL(new Blob([response.data]));
-        const link = document.createElement("a");
-        link.href = url;
-        link.setAttribute("download", "template.xlsx"); 
-        document.body.appendChild(link);
-        link.click();
-        window.URL.revokeObjectURL(url);
-      } catch (error) {
-        console.error(error);
-        alert("Error downloading file");
-      }
     },
-    async upload() {
-    try {
+    isLoading: false,
+    deletedHeaders: [
+      { text: 'Name', value: 'name' },
+      { text: 'Email', value: 'email' },
+      // Add more header columns here based on your deleted_list structure
+    ],
+  }),
+methods:{
+  async fileselect(event){
+      this.file=event
+    },
+  async upload(){
       this.isLoading = true;
-      const formData = new FormData();
-      formData.append('file', this.file);
-      const response = await axios.post('http://127.0.0.1:8000/upload', formData);
-      const data = response.data;
-      this.excelData = data;
-      this.isLoading = false;
-      alert("File successfully uploaded");
-    } catch (error) {
-      console.error(error);
-      alert("Error uploading file");
-      this.isLoading = false;
-    }
+
+      let formdata= new FormData()
+          formdata.append('csv_file',this.file)
+          let furl = "http://127.0.0.1:8000/hr/uploadpersonal"
+          let res = await this.$axios.post(furl, formdata);
+          this.data = res.data
+          let total_count = res.data.total_count
+          let insert_count = res.insert_count
+          let delete_count = res.delete_count
+          console.log(res.data.total_count)
+
+          // Simulate an asynchronous operation, such as an API call
+          setTimeout(() => {
+            // After the operation is complete, set isLoading to false
+            this.isLoading = false;
+          }, 2000);
   },
-  
+  downloadCSVTemplate() {
+    const csvContent ="name,email,mob,doj,empid,company_name,company_mail,designation,aadhaar,pan,passport"
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "personal.csv";
+    link.style.visibility = "hidden";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
   },
-};
+  showDeletedList() {
+      // Display the table with deleted data list
+      this.data.showDeletedList = true;
+    },
+}
+}
 </script>
+<style scoped>
+.styled-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  border: 1px solid #ccc;
+}
+
+.styled-table th,
+.styled-table td {
+  padding: 10px;
+  text-align: center;
+}
+
+.styled-table-header {
+  background-color: #f0f0f0;
+}
+
+.styled-table tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.styled-no-profiles {
+  color: darkblue;
+}
+
+/* Adjust the button color */
+.v-btn.primary {
+  color: #fff;
+  background-color: #3498db;
+}
+</style>
