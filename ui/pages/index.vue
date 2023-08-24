@@ -11,7 +11,7 @@
       <div class="col-lg-6 pt-5 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center">
         <h1 data-aos="fade-up">Welcome to Verifiedge </h1>
         &ensp;
-        <h2 data-aos="fade-up" >Your Trusted Background Verification Platform </h2>
+        <h2 data-aos="fade-up" >Your Trusted Background Verification Platform. </h2>
         <h4 data-aos="fade-up" data-aos-delay="400">Are you tired of traditional background verification processes that are slow, cumbersome, and 
 lack transparency? Look no further! Verifiedge is here to revolutionize the way you verify 
 and get verified.</h4>

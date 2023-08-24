@@ -364,17 +364,12 @@ async def checkotp(email : str ):
 ## the personal data input api for the user     
 
 class PersonalData(BaseModel):
-
-    empid : str
-    doj : str
+    dob : str
     email : str
     company_name:str
-    designation: str
     company_mail : str
     mob : str
     aadhaar: str
-    pan : str
-    passport : str
     personal : bool = True
     status : bool = False
     submitted_on : str =  datetime.now()
@@ -399,30 +394,22 @@ async def get_personal(email : str):
 async def add_personal( data : PersonalData ):
     filt = {
         'email' : data.email,
-        'empid': data.empid,
-        'doj': data.doj,
+        'dob': data.dob,
         'company_name':data.company_name,
-        'designation' : data.designation,
         'company_mail': data.company_mail,
         'mob': data.mob,
         'aadhaar': data.aadhaar,
-        'pan': data.pan,
-        'passport': data.passport,
         'personal': data.personal,
         'status': data.status,
         'submitted_on': data.submitted_on
     }
     update={
         '$set':{
-        'empid': data.empid,
-        'doj': data.doj,
+        'dob': data.dob,
         'company_name':data.company_name,
-        'designation' : data.designation,
         'company_mail': data.company_mail,
         'mob': data.mob,
         'aadhaar': data.aadhaar,
-        'pan': data.pan,
-        'passport': data.passport,
         'personal': data.personal,
         'status': data.status,
         'submitted_on': data.submitted_on
@@ -476,14 +463,11 @@ async def update( data : PersonalData ):
     }
     update={
         '$set':{
-        'empid': data.empid,
-        'doj': data.doj,
+        'dob': data.dob,
         'company_name':data.company_name,
-        'designation' : data.designation,
         'company_mail': data.company_mail,
         'mob': data.mob,
         'aadhaar': data.aadhaar,
-        'pan': data.pan,
         'passport': data.passport,
         'personal': data.personal,
         'status': data.status,
@@ -2208,6 +2192,20 @@ def generate_random_password(name):
     password = name.lower() + "@" + random_digits
     return password
 
+# Validation functions..
+def is_valid_email(email):
+    email_pattern = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+    return re.match(email_pattern, email) is not None
+
+def is_valid_mobile(mob):
+    return len(mob) == 10 and mob.isdigit()
+
+def is_valid_aadhaar(aadhaar):
+    return len(aadhaar) == 12 and aadhaar.isdigit()
+
+
+
+
 @app.post("/hr/uploadpersonal")
 async def upload_csv(csv_file: UploadFile = None):
     if csv_file is None:
@@ -2227,58 +2225,72 @@ async def upload_csv(csv_file: UploadFile = None):
     
     user = insert[['email', 'name']].copy()
     user['submit_button'] = True
-    deleted_list = df[df.isnull().any(axis=1)].astype(str).to_dict('records')
+    deleted_list = []
 
     
     try:
-        passwords = []
-        for index, row in user.iterrows():
-            password = generate_random_password(row['name'])
-            passwords.append(password)
-        user["password"] = passwords
 
-        client.bgv.user.insert_many(user.to_dict('records'))
-        client.bgv.personal.insert_many(insert.to_dict('records'))
-        # Simulated insertion of data into the database
-        # Replace this with your actual database insertion logic
-        # For example: client.bgv.user.insert_many(user.to_dict('records'))
-        # and client.bgv.personal.insert_many(insert.to_dict('records'))
-        print("Data inserted into database successfully")
-        
-        # Sending acceptance email to each user
-
-        # deleted_table = tabulate(deleted_list, headers="keys", tablefmt="grid")
-        # Email_data = Emaildata(
-        #     email="jhari00078@gmail.com",  # Change this to the uploader's email
-        #     email_subject="VerifiEdge - Deleted Data Report",
-        #     email_body=f"Dear Uploader,\nThe following data was deleted due to missing values:\n{deleted_table}\n"
-        # )
-        # send_acceptance_email(Email_data)
+        # Collect data for batch insertion
+        bgv_user_data = []
+        personal_data = []
 
         for index, row in insert.iterrows():
-            email_data = Emaildata(
-                email=row['email'],
-                email_subject="VerifiEdge - Successfully Registered",
-                email_body=f"Dear {row['name']},\nYour application has been successfully registered. This is your credentials, Username: {row['email']} and Password: {user.loc[index, 'password']}. Use this credential to log in to the website."
+            email = str(row['email'])
+            mob = str(row['mob'])
+            aadhaar = str(row['aadhaar'])
+         
+
+            if not is_valid_email(email) or not is_valid_mobile(mob) or not is_valid_aadhaar(aadhaar):
+                deleted_list.append(row.to_dict())
+                continue
+
+            # Generate and add password for each user
+            password = generate_random_password(row['name'])
+            print(f"Generated password '{password}' for {row['name']} and added to the user collection.")
+
+            bgv_user_data.append({
+                'email': email,
+                'name': row['name'],
+                'submit_button': True,
+                'password': password
+            })
+            personal_data.append(row.to_dict())
+
+
+            send_acceptance_email(
+                Emaildata(
+                    email=email,
+                    email_subject="VerifiEdge - Successfully Registered",
+                    email_body=f"Dear {row['name']},\nYour application has been successfully registered. This is your credentials, Username: {email} and Password: {password}. Use this credential to log in to the website."
+                )
             )
-            send_acceptance_email(email_data)
+            # Batch insert into the database
+        if bgv_user_data:
+            client.bgv.user.insert_many(bgv_user_data)
+        if personal_data:
+            client.bgv.personal.insert_many(personal_data)
             
     except Exception as e:
         print(str(e))
         return {"message": "Error inserting data into database"}
+
+    deleted_list += df[df.isnull().any(axis=1)].astype(str).to_dict('records')
+
     
     # Filling missing values with 0
-    delete = len(df) - len(insert)
+    delete = len(deleted_list)
 
     returndata = {
         'total_count': len(df.index),
-        'insert_count': len(insert.index),
+        'insert_count': len(bgv_user_data),
         'delete_count': delete,
         'insert_list': insert.to_dict('records'),
         'delete_list': deleted_list
     }
     
     return returndata
+    
+
 
 def send_acceptance_email(send: Emaildata):
     reciptant = send.email

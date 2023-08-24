@@ -24,6 +24,7 @@
         </tr>
       </tbody>
     </table>
+    
       <v-container class="text-center">
         <v-pagination
           v-model="currentPage"

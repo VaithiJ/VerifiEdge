@@ -45,7 +45,7 @@
               </v-container>         
           </v-col>
           <v-col cols="12" md="6">
-      <personaldetails/>
+      <personaldetails :contract="contract"/>
       <sslcview :contract="contract"/>
       <hseview :contract="contract"/>
       <ugview :contract="contract"/>

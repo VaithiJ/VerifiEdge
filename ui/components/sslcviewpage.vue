@@ -119,8 +119,6 @@ export default{
  
       }
 
- 
-
    },
    data: () =>({
        email:"",
@@ -128,7 +126,6 @@ export default{
        data:{},
        regno:"",
        isLoading: false,
-
        pending: false,
        verified: false,
        rejected: false,

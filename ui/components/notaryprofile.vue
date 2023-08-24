@@ -8,7 +8,7 @@
           <v-container>
             <v-row>
               <v-col >
-                <table style="width: 130%; border-collapse: collapse; border: 1px solid #ccc;">
+                <table style="width: 90%; border-collapse: collapse; border: 1px solid #ccc;">
                 
                   <tr style="border-bottom: 1px solid #ccc;">
                     <td style="padding: 10px;"><h4 class="text-subtitle-3">Full Name:</h4></td>
@@ -19,7 +19,7 @@
                     <td style="padding: 10px;"><h5 class="text-subtitle-3">{{ pdata.email }}</h5></td>
                   </tr>
                   <tr style="border-bottom: 1px solid #ccc;">
-                    <td style="padding: 10px;"><h4 class="text-subtitle-3">Mobile Number: </h4></td>
+                    <td style="padding: 10px;"><h4 class="text-subtitle-3">Mobile Number : </h4></td>
                     <td style="padding: 10px;"><h5 class="text-subtitle-3">{{ pdata.mob }}</h5></td>
                   </tr>
                   <tr style="border-bottom: 1px solid #ccc;">
@@ -27,27 +27,27 @@
                     <td style="padding: 10px;"><h5 class="text-subtitle-3">{{ pdata.aadhaar }}</h5></td>
                   </tr>
                   <tr style="border-bottom: 1px solid #ccc;">
-                    <td style="padding: 10px;"><h4 class="text-subtitle-3">PAN Number:</h4></td>
+                    <td style="padding: 10px;"><h4 class="text-subtitle-3">PAN Number :</h4></td>
                     <td style="padding: 10px;"><h5 class="text-subtitle-3">{{ pdata.pan }}</h5></td>
                   </tr>
                   <tr style="border-bottom: 1px solid #ccc;">
-                    <td style="padding: 10px;"><h4 class="text-subtitle-3">Year of Completion:</h4></td>
+                    <td style="padding: 10px;"><h4 class="text-subtitle-3">Year of Completion :</h4></td>
                     <td style="padding: 10px;"><h5 class="text-subtitle-3">{{ pdata.address }}</h5></td>
                   </tr>
                   <tr style="border-bottom: 1px solid #ccc;">
-                    <td style="padding: 10px;"><h4 class="text-subtitle-3">Year of Completion:</h4></td>
+                    <td style="padding: 10px;"><h4 class="text-subtitle-3">City :</h4></td>
                     <td style="padding: 10px;"><h5 class="text-subtitle-3">{{ pdata.city }}</h5></td>
                   </tr>
                   <tr style="border-bottom: 1px solid #ccc;">
-                    <td style="padding: 10px;"><h4 class="text-subtitle-3">Year of Completion:</h4></td>
+                    <td style="padding: 10px;"><h4 class="text-subtitle-3">Pincode :</h4></td>
                     <td style="padding: 10px;"><h5 class="text-subtitle-3">{{ pdata.pincode }}</h5></td>
                   </tr>
                   <tr style="border-bottom: 1px solid #ccc;">
-                    <td style="padding: 10px;"><h4 class="text-subtitle-3">Year of Completion:</h4></td>
+                    <td style="padding: 10px;"><h4 class="text-subtitle-3">State :</h4></td>
                     <td style="padding: 10px;"><h5 class="text-subtitle-3">{{ pdata.state }}</h5></td>
                   </tr>
                   <tr style="border-bottom: 1px solid #ccc;">
-                    <td style="padding: 10px;"><h4 class="text-subtitle-3">Year of Completion:</h4></td>
+                    <td style="padding: 10px;"><h4 class="text-subtitle-3">Country :</h4></td>
                     <td style="padding: 10px;"><h5 class="text-subtitle-3">{{ pdata.country }}</h5></td>
                   </tr>
                   
@@ -55,43 +55,26 @@
 
               <br>                <br>
               <v-row>
+                <v-spacer></v-spacer>
+
                 <v-col>
                   <v-btn size="30%" color="blue lighten-1" style="color:white" @click="aadhaar(pdata.email, pdata.aadhaar)">Aadhaar Card</v-btn>
                 </v-col>
+&ensp;&ensp;
                 <v-col>
                   <v-btn size="30%" color="blue lighten-1" style="color:white" @click="pan(pdata.email, pdata.pan)">Pan Card</v-btn>
                 </v-col>
-
+                
                 <v-col>
                   <v-btn size="30%" color="blue lighten-1" style="color:white" @click="education(pdata.email, pdata.mob)">Certificate</v-btn>
-
                 </v-col>
+                <v-spacer></v-spacer>                <v-spacer></v-spacer>
+
               </v-row>
-              <v-row>
-                <v-container v-if="!isLoading">
-                  &emsp;&emsp;
 
-                  <v-btn size="30%"   :loading="isLoading" :disabled="isLoading" v-if="this.pdata.status == !'verified' || this.pdata.status==!'rejected'" color="blue lighten-1" style="color:white;" @click="approve(pdata.email, ndata.name)">Approve</v-btn>&emsp;
-
-                  <v-btn size="30%"   :loading="isLoading" :disabled="isLoading" v-if="this.pdata.status == !'verified' || this.pdata.status==!'rejected'" color="blue lighten-1" style="color:white;" @click="deny(pdata.email, ndata.name)">Reject</v-btn>
-
-                </v-container>
-              </v-row>
              </v-col>
              
-             <v-col >
-                    <v-container v-if="pending" class="text-center">
-                      <v-icon size="150px" color="yellow" ></v-icon>
-                    </v-container>
-                    <v-container v-if="verified" class="text-center">
-                      <v-icon size="150px" color="green">mdi-check-decagram</v-icon>
-                    </v-container>
-                    <v-container v-if="rejected" class="text-center">
-                      <v-icon size="150px" color="red">mdi-cancel</v-icon>
 
-                    </v-container>
-                    
-                  </v-col>
                   
               </v-row>
 

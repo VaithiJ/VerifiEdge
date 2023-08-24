@@ -2,22 +2,34 @@
     <v-container>
       <v-container v-if="show">
       <v-card
-        class="mx-auto pa-2"
-        style="width: 80%;"
+      class="mx-auto my-12" max-width="700"
       >
-        <v-list density="compact">
-          <v-list-item
-            v-for="info in infos"
-            :key="info.email"
-            :value="info.email"
-            active-color="primary"
-          >
-            <v-list-item-title v-text="info.name"></v-list-item-title>
-            <v-list-item-subtitle v-text="info.company_mail"></v-list-item-subtitle>
-            <v-btn icon @click="view(info.company_mail)"><v-icon color="indigo darken-4">mdi-card-account-details-outline</v-icon></v-btn>
-
-          </v-list-item>
-        </v-list>
+      <table class="styled-table">
+        <thead>
+          <tr>
+            <th class="styled-table-header">Name</th>
+            <th class="styled-table-header">Email</th>
+            <th class="styled-table-header">Profile</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="profile in paginatedProfiles" :key="profile.email">
+            <td>{{ profile.name }}</td>
+            <td>{{ profile.company_mail }}</td>
+            <td>
+              <v-btn text color="primary" @click="view(profile.company_mail)">View</v-btn>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <v-container class="text-center">
+        <v-pagination
+          v-model="currentPage"
+          :total-visible="5"
+          :length="totalPages"
+          @input="changePage"
+        ></v-pagination>
+      </v-container>
         </v-card>
       </v-container>
       <v-container v-if="hide">
@@ -31,29 +43,45 @@
   export default{
       name :"CompanyApproved",
     
-      async mounted(){
-          this.$vuetify.theme.dark=false;
-          let url = "http://127.0.0.1:8000/company/verified"
-          let res = await this.$axios.get(url)
-          this.infos = res.data.list
-  
-          if(this.infos == false){
-            this.hide = true
-            this.show = false
-          }
-          else{
-            this.show = true
-            this.hide = false
-          }
-      },
-  
       data:() =>({
-        infos: [],
+        currentPage: 1,
+        pageSize: 5,
+        profiles: [],
+        requests: {},       
         wallet:0,
         show: false,
         hide:false
       }),
+      async mounted() {
+        this.$vuetify.theme.dark = false;
+        await this.fetchProfiles();
+      },
+      computed: {
+        totalPages() {
+          return Math.ceil(this.profiles.length / this.pageSize);
+        },
+        paginatedProfiles() {
+          const startIndex = (this.currentPage - 1) * this.pageSize;
+          const endIndex = startIndex + this.pageSize;
+          return this.profiles.slice(startIndex, endIndex);
+        },
+      },
+
       methods:{
+        async fetchProfiles() {
+          try {
+            const response = await this.$axios.get("http://127.0.0.1:8000/company/verified");
+            this.profiles = response.data.list;
+            this.show = this.profiles.length > 0;
+            this.hide = !this.show;
+          } catch (error) {
+            console.error(error);
+          }
+        },
+
+        changePage(page) {
+          this.currentPage = page;
+        },
         async home(){
           this.$router.push("/");
         },
@@ -68,4 +96,35 @@
   
     }
   </script>
+  <style scoped>
+  .styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    border: 1px solid #ccc;
+  }
   
+  .styled-table th,
+  .styled-table td {
+    padding: 10px;
+    text-align: center;
+  }
+  
+  .styled-table-header {
+    background-color: #f0f0f0;
+  }
+  
+  .styled-table tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  .styled-no-profiles {
+    color: darkblue;
+  }
+  
+  /* Adjust the button color */
+  .v-btn.primary {
+    color: #fff;
+    background-color: #3498db;
+  }
+  </style>

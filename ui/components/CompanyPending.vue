@@ -18,7 +18,7 @@
           <td>{{ info.name }}</td>
           <td>{{ info.company_mail }}</td>
           <td>
-            <v-btn icon @click="view(info.company_mail)"><v-icon color="indigo darken-4">mdi-card-account-details-outline</v-icon></v-btn>
+            <v-btn text color="primary" @click="view(info.company_mail)">View</v-btn>
           </td>
         </tr>
       </tbody>

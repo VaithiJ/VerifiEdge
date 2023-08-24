@@ -19,16 +19,20 @@
                   <td style="padding: 10px;"><h5 class="text-subtitle-3">{{ pdata.mob }}</h5></td>
                 </tr>
                 <tr style="border-bottom: 1px solid #ccc;">
-                  <td style="padding: 10px;"><h4 class="text-subtitle-3">PAN Number:</h4></td>
-                  <td style="padding: 10px;"><h5 class="text-subtitle-3">{{ pdata.pan }}</h5></td>
+                  <td style="padding: 10px;"><h4 class="text-subtitle-3">Date of Birth :</h4></td>
+                  <td style="padding: 10px;"><h5 class="text-subtitle-3">{{ pdata.dob }}</h5></td>
+                </tr>
+                <tr style="border-bottom: 1px solid #ccc;">
+                  <td style="padding: 10px;"><h4 class="text-subtitle-3">Aadhar Number:</h4></td>
+                  <td style="padding: 10px;"><h5 class="text-subtitle-3">{{ pdata.aadhaar }}</h5></td>
                 </tr>
                 <tr style="border-bottom: 1px solid #ccc;">
                   <td style="padding: 10px;"><h4 class="text-subtitle-3">Company Name :</h4></td>
                   <td style="padding: 10px;"><h5 class="text-subtitle-3">{{ pdata.company_name }}</h5></td>
                 </tr>
                 <tr style="border-bottom: 1px solid #ccc;">
-                  <td style="padding: 10px;"><h4 class="text-subtitle-3">Designation :</h4></td>
-                  <td style="padding: 10px;"><h5 class="text-subtitle-3">{{ pdata.designation }}</h5></td>
+                  <td style="padding: 10px;"><h4 class="text-subtitle-3">Company Email:</h4></td>
+                  <td style="padding: 10px;"><h5 class="text-subtitle-3">{{ pdata.company_mail }}</h5></td>
                 </tr>
               </table>
               <br>
@@ -52,6 +56,45 @@
             </v-col>
 
 
+          </v-row>
+          <v-row>
+            <v-container  v-if="this.datapdf == true || show">
+              &emsp;&emsp;
+  
+              <v-btn size="30%" text outlined color="blue lighten-1" style="color: white;" @click="doc(pdata.email, pdata.aadhaar)">Aadhaar Card</v-btn>
+  
+            </v-container>
+          </v-row>
+          <v-row>
+            <v-col v-if="this.datapdf == false  &&!isLoading">
+              &emsp;&emsp;
+
+              <v-btn size="30%"   :loading="isLoading" :disabled="isLoading"  text outlined color="blue lighten-1" style="color:white;"  @click="showForm = true">Upload Aadhaar Card</v-btn>
+              <v-dialog v-model="showForm" max-width="500px">
+                <v-card>
+                  <v-card-title>
+                    <span class="headline">Reason</span>
+                  </v-card-title>
+          
+                  <v-card-text>
+                    <v-form ref="form" v-model="valid">
+                    <v-row>
+                      <v-file-input  style="width:60%;" @change="fileselect"  label = "Upload sslc doc" ></v-file-input>
+    
+                    </v-row>
+                    </v-form>
+                  </v-card-text>
+          
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="error" text @click="showForm = false">Cancel</v-btn>
+                    <v-btn text color="blue lighten-1"  @click="upload(pdata.email, pdata.aadhaar)"  class="button">Submit</v-btn>
+                  </v-card-actions>
+        
+                </v-card>
+              </v-dialog>      
+            </v-col>
+            
           </v-row>
         </v-container>
       </v-card-content>
@@ -78,7 +121,17 @@ async mounted (){
   let url = "http://127.0.0.1:8000/personal"
   let res = await this.$axios.get(url,{params:{ email :this.email}});
   this.pdata=res.data
+  this.regno = res.data.aadhaar
   console.log(this.pdata)
+
+  let nurl = "http://127.0.0.1:8000/check-s3-folder"
+  let nres = await this.$axios.get(nurl,{params:{email: this.email, regno: this.regno}})
+  this.datapdf = nres.data.file_present
+  console.log(nres.data)
+  if(this.datapdf == true){
+    this.show = true
+
+  }
 
   if(this.pdata == false){
         this.data_ = true,
@@ -113,9 +166,58 @@ data: () =>({
   verified: false,
   rejected: false,
   data_: false,
-  data_s: false
+  datapdf:"",
+  isLoading:false,
+  data_s: false,
+  show: false,
+  showForm: false,
+
+
 }),
 methods:{
+  async fileselect(event){
+      this.file=event
+    },
+    async upload(email, aadhaar){
+      
+
+            let formdata= new FormData()
+            formdata.append('email', email)
+            formdata.append('regno', aadhaar)
+            formdata.append('file',this.file)
+            let furl = "http://127.0.0.1:8000/uploadfile/S3"
+            let res = await this.$axios.post(furl,formdata,{ headers : {'Content-Type': 'application/json',}});
+            if(res.data == true){
+              this.isLoading = true;
+              let nurl = "http://127.0.0.1:8000/user/expupdation"
+              let ndata={
+                'email': this.email
+              }
+              let nres = await this.$axios.post(nurl, ndata)
+              window.location.reload()
+            }
+            // Simulate an asynchronous operation, such as an API call
+   },
+
+    async doc(email, aadhaar){
+      this.$axios.get("http://127.0.0.1:8000/download/S3files",{
+        params:{
+          email: email,
+          regno: aadhaar
+        },
+        responseType: 'arraybuffer'
+      })
+      .then(response => {
+        console.log(response)
+
+        let blob = new Blob([response.data], { type: 'application/pdf'}),
+        url = window.URL.createObjectURL(blob)
+
+        window.open(url)
+      })
+      console.log(aadhaar)
+
+    },
   async edit(){
     this.$router.push("/personal_edit")
   },

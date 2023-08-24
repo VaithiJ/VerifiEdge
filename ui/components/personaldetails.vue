@@ -15,16 +15,16 @@
                         <td style="padding: 10px;"><h5 class="text-subtitle-3">{{ pdata.mob }}</h5></td>
                       </tr>
                       <tr style="border-bottom: 1px solid #ccc;">
-                        <td style="padding: 10px;"><h4 class="text-subtitle-3">PAN Number:</h4></td>
-                        <td style="padding: 10px;"><h5 class="text-subtitle-3">{{ pdata.pan }}</h5></td>
+                        <td style="padding: 10px;"><h4 class="text-subtitle-3">Aadhar Number:</h4></td>
+                        <td style="padding: 10px;"><h5 class="text-subtitle-3">{{ pdata.aadhaar }}</h5></td>
                       </tr>
                       <tr style="border-bottom: 1px solid #ccc;">
                         <td style="padding: 10px;"><h4 class="text-subtitle-3">Company Name :</h4></td>
                         <td style="padding: 10px;"><h5 class="text-subtitle-3">{{ pdata.company_name }}</h5></td>
                       </tr>
                       <tr style="border-bottom: 1px solid #ccc;">
-                        <td style="padding: 10px;"><h4 class="text-subtitle-3">Designation :</h4></td>
-                        <td style="padding: 10px;"><h5 class="text-subtitle-3">{{ pdata.designation }}</h5></td>
+                        <td style="padding: 10px;"><h4 class="text-subtitle-3">Company Email :</h4></td>
+                        <td style="padding: 10px;"><h5 class="text-subtitle-3">{{ pdata.company_mail }}</h5></td>
                       </tr>
                     </table>
                     <br>
@@ -51,7 +51,7 @@
                 <v-container >
                   &emsp;&emsp;
 
-                  <v-btn size="30%" v-on:click="verified = true"  :loading="isLoading" :disabled="isLoading" v-if="this.pdata.status == !'verified' || this.pdata.status==!'rejected' " text outlined color="blue ligten-1" style="color:white;" @click="approve(pdata.email, ndata.name)">Approve</v-btn>&emsp;
+                  <v-btn size="30%"   :loading="isLoading" :disabled="isLoading" v-if="this.pdata.status == !'verified' || this.pdata.status==!'rejected' " text outlined color="blue ligten-1" style="color:white;" @click="approve(pdata.email, ndata.name, pdata.aadhaar)">Approve</v-btn>&emsp;
 
                   <v-btn size="30%"   :loading="isLoading" :disabled="isLoading" v-if="this.pdata.status == !'verified' || this.pdata.status==!'rejected'" text outlined color="blue lighten-1" style="color:white;"  @click="showForm = true">Reject</v-btn>
                   <v-dialog v-model="showForm" max-width="500px">
@@ -80,6 +80,16 @@
 
                 </v-container>
               </v-row>
+              <v-row>
+                <v-container>
+                  &emsp;&emsp;
+                  <v-btn size="30%" text outlined  color="blue lighten-1" style="color: white;" @click="doc(pdata.email, pdata.aadhaar)">Document</v-btn>
+                </v-container>
+              </v-row>
+              
+              <v-container v-if="fail" class="text-center">
+                <v-alert   type="error" dismissible> Check Whether you have connected your wallet </v-alert>
+                </v-container>
 
 
             </v-card-content>
@@ -91,14 +101,26 @@
 </template>
 
 <script>
+import Web3 from "xdc3"
+import { ethers } from 'ethers';
+import abi from "../app/src/artifacts/contracts/FIlestorage.sol/FileStorage.json"
+const contractAddress = '0x51094cD8d5CA57c751328CFDC8b2791D42DB3663';
 export default{
     name: 'userprofile',
+    props: {
+    contract: {
+      type: Object,
+      required: true,
+    },
+  },
     async mounted (){
         this.$vuetify.theme.dark =false;
         this.email = this.$storage.getUniversal('user_email')
         let url = "http://127.0.0.1:8000/personal"
         let res = await this.$axios.get(url,{params:{ email :this.email}});
         this.pdata=res.data
+        this.regno = res.data.aadhaar
+
 
         if (this.pdata.status == "pending"){
           this.pending = true
@@ -135,20 +157,61 @@ export default{
         isLoading:false,
         email_body:"",
         showForm: false,
+        fail: false
+
 
 
     }),
     methods:{
-      async approve(email, name){
+      async doc(email, aadhaar){
+      this.$axios.get("http://127.0.0.1:8000/download/S3files",{
+        params:{
+          email: email,
+          regno: aadhaar,
+        },
+        responseType: 'arraybuffer'
+      })
+      .then(response => {
+        console.log(response)
+
+        let blob = new Blob([response.data], { type: 'application/pdf'}),
+        url = window.URL.createObjectURL(blob)
+
+        window.open(url)
+      })
+      console.log(aadhaar)
+
+    },
+      async approve(email, name, aadhaar){
+        this.fail = false
         let nurl = "http://127.0.0.1:8000/personal/inprogress"
         let ndata={
           'email': this.email,
         }
         let nres = await this.$axios.post(nurl,ndata)
 
-        
-       
-        
+        let hurl = "http://127.0.0.1:8000/Hash/S3files"
+        let hres = await this.$axios.get(hurl,{params:{email: email, regno: aadhaar}})
+        this.hash = hres.data
+        console.log(this.hash)
+        try {
+      if (!this.contract) {
+        console.error('Contract not initialized yet. Please connect with MetaMask first.');
+        this.fail = true
+        return;
+      }
+
+      const regNo = this.regno // Replace with the registration number
+      const fileHash = this.hash// Replace with the file hash
+      const userEmail = this.email
+
+      // Call the storeFile function in the contract
+      await this.contract.storeFile(regNo, userEmail, fileHash);
+      const status = 'File stored successfully!'
+      console.log('File stored successfully!');
+      
+      this.render = false;
+      if (status == 'File stored successfully!'){
         let url = "http://127.0.0.1:8000/verify/personaldetails"
         let verify={
           user_email: email,
@@ -158,6 +221,12 @@ export default{
         let res = this.$axios.post(url,verify)
         this.isLoading = true;
 
+    } 
+
+    } catch (error) {
+      console.error('Error storing file:', error);
+    }
+    this.verified = true;
 
       },
       async deny(email, name){

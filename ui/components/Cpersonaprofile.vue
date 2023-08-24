@@ -8,10 +8,9 @@
             <v-col style="padding-left: 4%;">
               <h3 class="text-title-1">Company</h3>
               <h3 class="text-subtitle-1">{{ pdata.company_name }}</h3>
-              <h3 class="text-title-1">Designation</h3>
-              <h3 class="text-subtitle-1">{{ pdata.designation }}</h3>
-              <h3 class="text-title-1">Employee ID</h3>
-              <h3 class="text-subtitle-1">{{ pdata.empid }}</h3>
+              <h3 class="text-title-1">Company Mail ID:</h3>
+              <h3 class="text-subtitle-1">{{ pdata.company_mail }}</h3>
+    
 
             </v-col>
 

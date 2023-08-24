@@ -11,9 +11,9 @@
         </v-card>
       </v-col>
       <v-col>
-        <v-card width="97%">
+        <v-card width="97%" v-if="pdata.last_login">
           <v-container class="text-center">
-            <h4 v-if="pdata.last_login">&ensp; Last Login: &ensp;&ensp;{{ pdata.last_login }}</h4>
+            <h4 >&ensp; Last Login: &ensp;&ensp;{{ pdata.last_login }}</h4>
 
           </v-container>
 
@@ -44,8 +44,6 @@
     <v-list density="compact">
       <v-list-item
       >
-
-      
         <v-list-item-title v-text="users.name"></v-list-item-title>
         <v-list-item-subtitle v-text="users.email"></v-list-item-subtitle>
         <v-btn text color="blue lighten-1" @click="view(users.email)">view</v-btn>

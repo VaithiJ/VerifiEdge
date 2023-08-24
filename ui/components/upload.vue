@@ -1,7 +1,7 @@
 <template>
   <v-container fluid class="d-flex align-center justify-center">
     <v-row>
-      <v-col >
+      <v-col  >
           
           <v-row>
             <v-col>
@@ -23,7 +23,20 @@
             <v-col>
               <v-container class="text-center">
                 <v-text-title><h2>Upload the User data</h2></v-text-title>
-                <br><br>
+                <br>
+                <table class="note-table">
+                  <tr>
+                    <td class="note-cell">
+                      <v-text-title>NOTE:</v-text-title>
+                      <p>Please check the format of the data in CSV File before uploading</p>
+                      <ul>
+                        <li>Mobile number and Aadhaar number should be in the Number format.</li>
+                        <li>Date of Birth (DOB) should be in Date(Short Date) format (DD-MM-YYYY).</li>
+                      </ul>
+                    </td>
+                  </tr>
+                </table>
+                <br>
 
                 <v-file-input outlined size="" @change="fileselect" style="width:30%; margin:0 auto; " label="File input" variant="solo-filled"></v-file-input>
                 <v-btn size="20%" :loading="isLoading" :disabled="isLoading" color="indigo darken-4" style="color:white" @click="upload()">Upload</v-btn>
@@ -67,14 +80,10 @@
                       <th class="styled-table-header">Name</th>
                       <th class="styled-table-header">Email</th>
                       <th class="styled-table-header">Mobile No</th>
-                      <th class="styled-table-header">DOJ</th>
+                      <th class="styled-table-header">DOB</th>
                       <th class="styled-table-header">Aadhaar</th>
-                      <th class="styled-table-header">PAN number</th>
-                      <th class="styled-table-header">Passport</th>
                       <th class="styled-table-header">Comapny Name</th>
                       <th class="styled-table-header">Company mail</th>
-                      <th class="styled-table-header">Emp ID</th>
-                      <th class="styled-table-header">Designation </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -82,14 +91,10 @@
                       <td>{{ item.name }}</td>
                       <td>{{ item.email }}</td>
                       <td>{{ item.mob }}</td>
-                      <td>{{ item.doj }}</td>
+                      <td>{{ item.dob }}</td>
                       <td>{{ item.aadhaar }}</td>
-                      <td>{{ item.pan }}</td>
-                      <td>{{ item.passport }}</td>
                       <td>{{ item.company_name }}</td>
                       <td>{{ item.company_mail }}</td>
-                      <td>{{ item.empid }}</td>
-                      <td>{{ item.designation }}</td>
 
                       <!-- Add more columns here based on your deleted_list structure -->
                     </tr>
@@ -111,11 +116,7 @@ data: () => ({
 
     },
     isLoading: false,
-    deletedHeaders: [
-      { text: 'Name', value: 'name' },
-      { text: 'Email', value: 'email' },
-      // Add more header columns here based on your deleted_list structure
-    ],
+
   }),
 methods:{
   async fileselect(event){
@@ -141,7 +142,7 @@ methods:{
           }, 2000);
   },
   downloadCSVTemplate() {
-    const csvContent ="name,email,mob,doj,empid,company_name,company_mail,designation,aadhaar,pan,passport"
+    const csvContent ="name,email,mob,dob,company_name,company_mail,aadhaar"
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
@@ -161,6 +162,34 @@ methods:{
 }
 </script>
 <style scoped>
+
+/* ... (previous styles) ... */
+.note-table {
+  width: 40%;
+  margin: 0 auto; /* Center alignment */
+  border-collapse: collapse;
+  border-spacing: 0;
+  margin-bottom: 20px;
+}
+
+.note-cell {
+  padding: 20px;
+  text-align: left;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+}
+
+/* ... (remaining styles) ... */
+
+/* Mobile responsiveness */
+@media screen and (max-width: 600px) {
+  .note-table {
+    width: 80%; /* Adjust as needed */
+  }
+}
+
+/* ... (remaining styles) ... */
+
 .styled-table {
   width: 100%;
   border-collapse: collapse;
